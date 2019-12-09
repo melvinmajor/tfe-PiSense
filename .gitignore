@@ -1,0 +1,14 @@
+# Git ignore of PiSense
+# Graduation work of Melvin Campos Casares
+# See repository at github.com/melvinmajor/tfe-PiSense
+#=====================================================
+
+# Python virtual environment
+*/.env/*
+*/.mypy_cache/*
+
+# Log and local json file
+*.log*
+bme280data*.json
+bme680data*.json
+sds011data*.json
