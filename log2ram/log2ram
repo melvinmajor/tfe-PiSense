@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Author: Frank Breitling <frank.breitling@gmx.de>
+# Modified by: Melvin Campos Casares <melvin.campos@outlook.be>
+DESC="Moving contents from /var/tmp/log/ to /var/log/"
+
+if [ $(id -u) -ne 0 ]
+then echo "Please run as root"
+     exit
+fi
+
+echo $DESC
+
+exec >>/var/log/log2ram.log 2>&1
+
+date
+cd /var/tmp/
+
+for i in log/*; do
+    basename $i
+    cat $i >>/var/$i
+    >$i
+done

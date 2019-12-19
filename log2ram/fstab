@@ -1,0 +1,7 @@
+proc            /proc           proc    defaults          0       0
+PARTUUID=14421b12-01  /boot           vfat    defaults          0       2
+PARTUUID=14421b12-02  /               ext4    defaults,noatime  0       1
+# a swapfile is not a swap partition, no line here
+#   use  dphys-swapfile swap[on|off]  for that
+tmpfs   /var/tmp                tmpfs   size=10M,nodev,nosuid   0
+tmpfs   /var/cache/samba        tmpfs   size=5M,nodev,nosuid    0

@@ -1,0 +1,13 @@
+[Unit]
+Description=Write log files from ram to disk
+RequiresMountsFor=/
+Before=rsyslog.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/bin/true
+ExecStop=/usr/local/bin/log2ram
+
+[Install]
+WantedBy=multi-user.target
