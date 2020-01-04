@@ -12,3 +12,7 @@
 bme280data*.json
 bme680data*.json
 sds011data*.json
+
+# IDE folders and files
+.idea/*
+
