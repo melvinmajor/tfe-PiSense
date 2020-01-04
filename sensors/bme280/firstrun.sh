@@ -9,5 +9,4 @@ sudo pip install RPI.GPIO adafruit-blinka adafruit-bme280 adafruit-circuitpython
 sudo pip3 install RPI.GPIO adafruit-blinka adafruit-bme280 adafruit-circuitpython-bme280
 sudo pip install --upgrade setuptools
 cd /
-git clone https://github.com/melvinmajor/https://github.com/melvinmajor/tfe-PiSense.git
-PiSense
+git clone https://github.com/melvinmajor/https://github.com/melvinmajor/tfe-PiSense.git PiSense
