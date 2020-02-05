@@ -12,7 +12,7 @@ import argparse
 default_time = (15*60); # minutes calculated in seconds
 
 ''' arguments available to launch the app in a specific way '''
-parser = argparse.ArgumentParser(prog='PiSense BME680', description='BME680 module sensor of PiSense', add_help=True, prefix_chars='-', allow_abbrev=True)
+parser = argparse.ArgumentParser(prog='PiSense BME680', description='BME680 module sensor of PiSense', add_help=True, prefix_chars='-')
 #parser.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
 parser.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
 parser.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.5')
@@ -90,24 +90,32 @@ def get_date_time():
 ## {"datetime": "2019-11-14T10:11:59.378308+01:00", "temperature": 32.3, "gas": 11671, "humidity": 43.9, "pressure": 1017.28}
 def sensor_to_json():
     # dict which will be used by JSON
-    charlie = {'datetime': get_date_time(), # date T time in ISO8601
-            'temperature': float(f'{bme680.temperature:.1f}'), # in Celsius
-            'gas': float(f'{bme680.gas:.2f}'), # in ohm
-            'humidity': float(f'{bme680.humidity:.1f}'), # in percentage
-            'pressure': float(f'{bme680.pressure:.2f}')} # in hectopascal
-    data_json = json.dumps(charlie)
-    logger.info('Records: %s', data_json)
+    if sensor.get_sensor_data():
+        if sensor.data.heat_stable:
+            charlie = {'datetime': get_date_time(), # date T time in ISO8601
+                'temperature': sensor.data.temperature, # in Celsius
+                'gas': '{0},{1}'.format(output, sensor.data.gas_resistance), # in ohm
+                'humidity': sensor.data.humidity, # in percentage (%RH)
+                'pressure': sensor.data.pressure} # in hectopascal
+        data_json = json.dumps(charlie)
+        logger.info('Records: %s', data_json)
+    else:
+        charlie = {'datetime': get_date_time(), # date T time in ISO8601
+                'temperature': sensor.data.temperature, # in Celsius
+                'gas': null,
+                'humidity': sensor.data.humidity, # in percentage (%RH)
+                'pressure': sensor.data.pressure} # in hectopascal
     # write JSON formatted data into specific file
 #   with open('bme680data.json', 'a') as f:
 #       f.write(data_json + "\n")
     return data_json
 
-''' Fail method '''
+'''
+# Fail method
 def fail(msg):
     print(">>> Oops:",msg,file=sys.stderr)
     logger.warn('Oops: %s', msg)
 
-'''
 def post_data():
     logger.info('Send data to server via API')
     try:
