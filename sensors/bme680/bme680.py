@@ -35,10 +35,7 @@ alice.setFormatter(formatter)
 logger.addHandler(alice)
 
 ''' Calibration and initial reading '''
-try:
-    sensor = bme680.BME680(bme680.I2C_ADDR_PRIMARY)
-except IOError:
-    sensor = bme680.BME680(bme680.I2C_ADDR_SECONDARY)
+sensor = bme680.BME680()
 
 # These calibration data can safely be commented out, if desired.
 print('Calibration data:')
@@ -56,13 +53,6 @@ sensor.set_pressure_oversample(bme680.OS_4X)
 sensor.set_temperature_oversample(bme680.OS_8X)
 sensor.set_filter(bme680.FILTER_SIZE_3)
 sensor.set_gas_status(bme680.ENABLE_GAS_MEAS)
-
-print('\n\nInitial reading:')
-for name in dir(sensor.data):
-    value = getattr(sensor.data, name)
-
-    if not name.startswith('_'):
-        print('{}: {}'.format(name, value))
 
 sensor.set_gas_heater_temperature(320)
 sensor.set_gas_heater_duration(150)
@@ -94,7 +84,7 @@ def sensor_to_json():
         if sensor.data.heat_stable:
             charlie = {'datetime': get_date_time(), # date T time in ISO8601
                 'temperature': sensor.data.temperature, # in Celsius
-                'gas': '{0},{1}'.format(output, sensor.data.gas_resistance), # in ohm
+                'gas': sensor.data.gas_resistance, # in ohm
                 'humidity': sensor.data.humidity, # in percentage (%RH)
                 'pressure': sensor.data.pressure} # in hectopascal
         data_json = json.dumps(charlie)

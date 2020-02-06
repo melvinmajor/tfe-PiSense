@@ -3,4 +3,4 @@
 #The bme680 will connect the BME sensor and the RaspBerry Pi.
 
 cd /PiSense/sensors/bme680
-sudo python bme680.py
+sudo python3 bme680.py

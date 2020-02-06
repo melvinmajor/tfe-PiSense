@@ -4,7 +4,7 @@
 
 sudo apt update -y
 sudo apt upgrade -y
-sudo apt install python python-pip -y
+sudo apt install python python3 python-pip python3-pip -y
 
 cd ~/
 git clone https://github.com/pimoroni/bme680
