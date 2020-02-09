@@ -35,7 +35,10 @@ alice.setFormatter(formatter)
 logger.addHandler(alice)
 
 ''' Calibration and initial reading '''
-sensor = bme680.BME680()
+try:
+    sensor = bme680.BME680(bme680.I2C_ADDR_PRIMARY)
+except IOError:
+    sensor = bme680.BME680(bme680.I2C_ADDR_SECONDARY)
 
 # These calibration data can safely be commented out, if desired.
 print('Calibration data:')
@@ -83,22 +86,25 @@ def sensor_to_json():
     if sensor.get_sensor_data():
         if sensor.data.heat_stable:
             charlie = {'datetime': get_date_time(), # date T time in ISO8601
-                'temperature': sensor.data.temperature, # in Celsius
-                'gas': sensor.data.gas_resistance, # in ohm
-                'humidity': sensor.data.humidity, # in percentage (%RH)
-                'pressure': sensor.data.pressure} # in hectopascal
-        data_json = json.dumps(charlie)
-        logger.info('Records: %s', data_json)
+                'temperature': float(f'{sensor.data.temperature:.1f}'), # in Celsius
+                'gas': float(f'{sensor.data.gas_resistance:.2f}'), # in ohm
+                'humidity': float(f'{sensor.data.humidity:.1f}'), # in percentage (%RH)
+                'pressure': float(f'{sensor.data.pressure:.2f}')} # in hectopascal
+            data_json_stable = json.dumps(charlie)
+            logger.info('Records: %s', data_json_stable)
+            return data_json_stable
     else:
         charlie = {'datetime': get_date_time(), # date T time in ISO8601
-                'temperature': sensor.data.temperature, # in Celsius
-                'gas': null,
-                'humidity': sensor.data.humidity, # in percentage (%RH)
-                'pressure': sensor.data.pressure} # in hectopascal
+                'temperature': float(f'{sensor.data.temperature:.1f}'), # in Celsius
+            'gas': None,
+            'humidity': float(f'{sensor.data.humidity:.1f}'), # in percentage (%RH)
+            'pressure': float(f'{sensor.data.pressure:.2f}')} # in hectopascal
+        data_json = json.dumps(charlie)
+        logger.info('Records: %s', data_json)
+        return data_json
     # write JSON formatted data into specific file
 #   with open('bme680data.json', 'a') as f:
 #       f.write(data_json + "\n")
-    return data_json
 
 '''
 # Fail method
