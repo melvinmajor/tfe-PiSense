@@ -3,4 +3,4 @@
 #The bmp280 will connect the BMP sensor and the RaspBerry Pi.
 
 cd /PiSense/sensors/bmp280
-sudo python3 bmp280.py
+sudo python3 bmp280sensor.py
