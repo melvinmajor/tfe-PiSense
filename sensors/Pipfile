@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+"rpi.gpio" = "*"
+adafruit-blinka = "*"
+adafruit-circuitpython-bme280 = "*"
+adafruit-circuitpython-bmp280 = "*"
+bme680 = "*"
+setuptools = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
