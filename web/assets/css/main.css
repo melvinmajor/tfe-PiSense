@@ -16,20 +16,26 @@ body {
   background-size: cover;
 }
 
-#head { text-align: center; }
+#head, #headOrder { text-align: center; }
 #head img {
   max-width: 200px;
   -webkit-filter: drop-shadow(0 0 35px #fff);
   filter: drop-shadow(0 0 35px #fff);
 }
-#head h1 { font-weight: bold; }
+#head h1, #headOrder h1 { font-weight: bold; }
 a {
   color: white;
   text-decoration: none;
   transition: .3s;
 }
 a:hover { color: lightcoral; }
-#dreamnet:hover { color: #fdcc10; }
+#dreamnet { text-decoration: underline; }
+#dreamnet:hover {
+  color: #fdcc10;
+  text-shadow: none;
+}
+#headOrder, #headOrder a { color: darkgray; }
+#headOrder { text-shadow: 0px 2px 2px rgba(255, 255, 255, 0.7); }
 
 .main {
   color: black;
@@ -56,7 +62,10 @@ a:hover { color: lightcoral; }
 }
 
 /* Columns layout */
-.twoColumn, .threeColumn { margin: auto; }
+.twoColumn, .threeColumn {
+  margin: auto;
+  text-align: left;
+}
 .twoColumn { flex-basis: 45%; }
 .threeColumn { flex-basis: 32%; }
 .row {
@@ -166,7 +175,8 @@ footer #creditsMobile p { margin: .5em 0; }
     -webkit-filter: drop-shadow(0 0 15px #fff);
     filter: drop-shadow(0 0 15px #fff);
   }
-  #intro, #sensor { margin: 1em 0; }
+  #headOrder { text-shadow: none; }
+  #box1, #box2 { margin: 1em 0; }
   /* Responsive layout - columns stack on top of each other instead of next to each other */
   @media screen and (max-width: 600px) {
     .twoColumn, .threeColumn { flex-basis: 100%; }

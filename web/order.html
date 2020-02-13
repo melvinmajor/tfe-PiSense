@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>PiSense - Accueil</title>
+  <title>PiSense - Commander</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/main.css" />
   <script src="https://kit.fontawesome.com/9b0b1f33f1.js" crossorigin="anonymous"></script>
@@ -16,53 +16,77 @@
     <img src="images/logo.svg" alt="PiSense logo">
     <nav id="nav">
       <ul>
-        <li><a href="#head" class="active">Accueil</a></li>
-        <li><a href="order.html">Commander</a></li>
+        <li><a href="index.html" class="active">Accueil</a></li>
+        <li><a href="#head">Commander</a></li>
         <li><a href="#">Profil</a></li>
         <li><a href="#">A propos</a></li>
       </ul>
     </nav>
   </header>
-  <div id="head">
-    <img src="images/logo.svg" alt="PiSense logo">
+  <div id="headOrder">
     <h1>PiSense</h1>
     <p><em>Une solution IoT de prise de mesures</em>
       <br><small>Créé par Melvin Campos Casares pour <a href="https://dreamnetbe.net/" id="dreamnet">Dreamnet SPRL</a>.</small></p>
   </div>
   <div class="main">
     <section id="box1" class="main">
-      <h2>Introduction</h2>
-      <hr>
-      <p>Ce projet consiste à vous permettre de vérifier de manière aisée différents types de mesures environnementales.
-      <br>Notre solution à la carte vous permet de récupérer les données suivantes :</p>
-      <ul>
-        <li>Température,</li>
-        <li>Humidité,</li>
-        <li>Pression atmosphérique,</li>
-        <li>Composés organiques volatils totaux,</li>
-        <li>Dioxyde de carbone calculée,</li>
-        <li>Oxyde de silicium.</li>
-      </ul>
-      <p>Que vous soyez intéressé par le suivi de la qualité de l'air, du taux de CO<sup>2</sup> ou encore du taux de SiO, cette solution tout-en-un est faite pour vous.</p>
-      <button type="button" onclick="location.href='#box2';" class="btn btn-light">En savoir plus</button>
-    </section>
-    <section id="box2" class="main">
-      <h2>L'appareil de suivi</h2>
-      <hr>
-      <p>Nous vous proposons un appareil adapté à vos besoins et prêt à l'emploi.
-      <br>Pour ce faire, il suffit de nous préciser ce que vous souhaitez récolter comme données et nous nous chargerons du reste afin de le configurer et l'installer chez vous.</p>
+      <h2>Commander votre <em><strong>PiSense</strong></em></h2>
+      <p>Choisissez le modèle qui vous intéresserait :</p>
       <div class="row">
         <div class="twoColumn">
-          <img src="images/raspberry-pi.png" alt="Raspberry Pi 4" id="raspberryImg">
-          <h3>Raspberry Pi</h3>
-          <p>Notre système se repose sur les Raspberry Pi car elles offrent comme avantage une architecture à faible coût, une miniaturisation remarquable, de bonnes performances et une certaine polyvalence.</p>
-          <p>Concrètement parlant, il s'agit de performances d'un ordinateur entrée de gamme dans une taille de carte de crédit.</p>
+          <h3><strong>PiSense Base (intérieur)</strong></h3>
+          <ul>
+            <li>Modèle standard avec capteur BME280
+              <li>Température, humidité, pression atmosphérique</li></li>
+            <li>Prévu pour être en intérieur : non résistant à la pluie</li>
+            <li>Possibilité d'inclure des capteurs supplémentaires sur demande</li>
+          </ul>
         </div>
         <div class="twoColumn">
-          <img src="images/sensors.png" alt="Les différents capteurs utilisé dans ce projet">
-          <h3>Les capteurs</h3>
-          <p>En fonction de vos choix, un ou plusieurs capteurs seront connecté à la Raspberry afin de prendre les mesures des différentes valeurs (température, humidité, pression atmosphérique, qualité de l'air, taux de CO<sup>2</sup>, taux de SiO).</p>
-          <p>Si vous avez des besoins particuliers, n'hésitez pas à demander et nous nous chargerons de l'implémenter.</p>
+          <h3><strong>PiSense Base (extérieur)</strong></h3>
+          <ul>
+            <li>Modèle standard avec capteur BME280
+            <li>Température, humidité, pression atmosphérique</li></li>
+            <li>Prévu pour être en extérieur : résistant à la pluie</li>
+            <li>Possibilité d'inclure des capteurs supplémentaires sur demande</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="box2" class="main">
+      <h2>Possibilité de modifications sur demande</h2>
+      <p>Le modèle de base ne vous convient pas ?
+        <br>Pas de problème, nous pouvons adapter la solution pour vous !</p>
+      <p>Les modèles proposé sont fourni avec le capteur Bosch BME280, un capteur permettant le suivi de la température, l'humidité et la pression atmosphérique.</p>
+      <p>Sur simple demande de votre part, nous pouvons remplacer ce capteur par le Bosch BMP280 (température et humidité uniquement) ou le Bosch BME680 (température, humidité, taux de CO<sup>2</sup> calculée, composés organiques volatils totaux et pression atmosphérique).</p>
+      <p>Bien entendu, il est possible de rester sur le modèle de base et d'inclure d'autres capteurs comme, notamment, le Inovafit SDS-011 conçu spécifiquement et de façon très précise les composés organiques volatils et de prévenir de tout risque pour la santé de vos employés.</p>
+      <h3>En résumé</h3>
+      <p>Le prix varie en fonction de ce que vous avez besoin et nous pouvons vous faire un devis avant de commander la solution prête à l'emploi.</p>
+      <p>Plusieurs possibilités :</p>
+      <div class="row">
+        <div class="twoColumn">
+          <ul>
+            <li><u><strong><em>Partir sur le modèle de base :</em></strong></u>
+              <ul>
+                <li>Rester sur le suivi de base : <em>température, humidité, pression atmosphérique</em></li>
+                <li>Ajouter le capteur SDS-011 pour détecter de façon précise les composés organiques volatils</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="twoColumn">
+          <ul>
+            <li><u><strong><em>Changer le modèle de base :</em></strong></u>
+              <ul>
+                <li>Capteur BMP280 : <em>température et humidité</em>
+                  <ul>
+                    <li>Ajouter le capteur SDS-011 pour détecter de façon précise les composés organiques volatils</li>
+                  </ul>
+                </li>
+                <li>Capteur BME680 : <em>température, humidité, pression atmosphérique, taux de CO<sup>2</sup> calculée, taux de composés organiques volatils totaux</em></li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
