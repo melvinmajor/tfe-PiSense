@@ -1,0 +1,16 @@
+version: '3.6'
+
+services:
+    web:
+        container_name: nginx
+        hostname: nginx-container
+        build: ./
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - www/:/usr/share/nginx/html
+            - /etc/nginx
+
+volumes:
+    www:
