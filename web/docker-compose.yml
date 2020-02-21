@@ -2,15 +2,20 @@ version: '3.6'
 
 services:
     web:
+        image: nginx-pisense
         container_name: nginx
         hostname: nginx-container
+        tty: true
         build: ./
+        networks:
+            - default
         ports:
             - '80:80'
             - '443:443'
         volumes:
             - www/:/usr/share/nginx/html
             - /etc/nginx
+        command: [nginx, '-g', 'daemon off;']
 
 volumes:
     www:
