@@ -24,8 +24,12 @@ This project is currently not licensed but is subject to change during the devel
 It's made available on GitHub for "documentation" purpose.
 If you want to distribute it and/or use it commercially, please reach me.
 
-## Built With
+## Built With and For
 
-![Python Version](https://img.shields.io/badge/Python-3.7.5+-informational?style=for-the-badge&labelColor=757575&color=78909c&logo=python&logoColor=white)
+![Python Version](https://img.shields.io/badge/Python-3.8+-informational?style=for-the-badge&labelColor=757575&color=78909c&logo=python&logoColor=white)
+
+![Raspberry Pi devices](https://img.shields.io/badge/Raspberry-Pi_devices-informational?style=for-the-badge&color=c51a4a&logo=raspberry-pi&logoColor=white)
+
+![OVH VPS](https://img.shields.io/badge/OVH-VPS-informational?style=for-the-badge&color=123f6d&logo=ovh&logoColor=white) ![Operating system version](https://img.shields.io/badge/Ubuntu-19.10_LTS-informational?style=for-the-badge&color=e95420&logo=ubuntu&logoColor=white)
 
 * [PyCharm Community Edition](https://www.jetbrains.com/pycharm/) - A great Python IDE
