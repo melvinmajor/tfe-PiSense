@@ -60,6 +60,7 @@ a:hover { color: lightcoral; }
   padding: 1em;
   margin: 1em;
 }
+#nginx { max-width: 170px; }
 
 /* Columns layout */
 .twoColumn, .threeColumn {
