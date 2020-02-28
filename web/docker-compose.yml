@@ -10,11 +10,10 @@ services:
         networks:
             - default
         ports:
-            - '80:80'
-            - '443:443'
+            - '0.0.0.0:80:80'
+            - '0.0.0.0:443:443'
         volumes:
-            - www/:/usr/share/nginx/html
-            - /etc/nginx
+            - ./www/:/usr/share/nginx/html
         command: [nginx, '-g', 'daemon off;']
 
 volumes:
