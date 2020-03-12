@@ -16,3 +16,6 @@ sds011data*.json
 # IDE folders and files
 .idea/*
 
+# Folder generated when Let's Encrypt script launched
+data/*
+
