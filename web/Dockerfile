@@ -9,6 +9,7 @@ RUN rm /etc/nginx/nginx.conf
 RUN rm /etc/nginx/conf.d/default.conf
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
+# COPY conf/app.conf /etc/nginx/conf.d/app.conf
 
 # Set up volume environment so that the website can be updated without relaunching Dockerfile
 VOLUME ["/usr/share/nginx/html"]
