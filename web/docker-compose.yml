@@ -2,19 +2,37 @@ version: '3.6'
 
 services:
     web:
-        image: nginx-pisense
-        container_name: nginx
-        hostname: nginx-container
+        image: nginx:latest
+        container_name: web
+        hostname: pisense-nginx
         tty: true
         build: ./
         networks:
-            - default
+            - pisense-network
         ports:
-            - '0.0.0.0:80:80'
-            - '0.0.0.0:443:443'
+            - '80:80'
+            - '443:443'
         volumes:
             - ./www/:/usr/share/nginx/html
-        command: [nginx, '-g', 'daemon off;']
+            - ./conf/nginx.conf:/etc/nginx/nginx.conf
+            - ./conf/default.conf:/etc/nginx/conf.d/default.conf
+            - ./dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+            - /docker-volumes/etc/letsencrypt/live/camposcasares.be/fullchain.pem:/etc/letsencrypt/live/camposcasares.be/fullchain.pem
+            - /docker-volumes/etc/letsencrypt/live/camposcasares.be/privkey.pem:/etc/letsencrypt/live/camposcasares.be/privkey.pem
+            - /docker-volumes/data/letsencrypt:/data/letsencrypt
+        command: ['nginx', '-g', 'daemon off;']
+    db:
+        image: mariadb:latest
+        container_name: mariadb
+        hostname: pisense-mariadb
+        networks:
+            - pisense-network
+        ports:
+            - '3306:3306'
+
+networks:
+    pisense-network:
+        driver: bridge
 
 volumes:
     www:
