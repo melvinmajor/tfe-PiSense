@@ -119,5 +119,4 @@ img.hover-shadow { transition: 0.3s; }
   .row > .column { padding: unset; }
   .column { flex-basis: 100%; }
   .row #imgPiSenseBoxOne, .row #imgPiSenseBoxTwo { max-width: 300px; }
-  #showOnDesktopOnly { display: none; }
 }
