@@ -10,10 +10,9 @@ body {
   margin: 80px auto 0;
   padding: 30px;
   color: white;
-  background-color: #3f8726;
-  background-image: url("../../images/background.jpg");
-  background-repeat: no-repeat;
+  background: url("../../images/background.jpg") no-repeat;
   background-size: cover;
+  transition: background 1.5s linear;
 }
 
 #head, #headOrder { text-align: center; }
@@ -35,7 +34,13 @@ a:hover { color: lightcoral; }
   text-shadow: none;
 }
 #headOrder, #headOrder a { color: darkgray; }
-#headOrder { text-shadow: 0px 2px 2px rgba(255, 255, 255, 0.7); }
+#headOrder { text-shadow: 0 2px 2px rgba(255, 255, 255, 0.7); }
+#shrink { transition: 0.3s ease; }
+#shrink:hover {
+  -webkit-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+}
 
 .main {
   color: black;
@@ -66,6 +71,7 @@ a:hover { color: lightcoral; }
 .twoColumn, .threeColumn {
   margin: auto;
   text-align: left;
+  transition: 500ms ease;
 }
 .twoColumn { flex-basis: 45%; }
 .threeColumn { flex-basis: 32%; }
@@ -79,11 +85,12 @@ a:hover { color: lightcoral; }
   margin: 0 1em;
 }
 .row img {
-  max-width: 250px;
   display: block;
   margin: 1em auto;
   opacity: initial;
 }
+.row #raspberryImg, .row #sensorsImg { max-width: 250px; }
+.row #imgPiSenseBoxOne, .row #imgPiSenseBoxTwo { max-width: 400px; }
 .row h3 { text-align: center; }
 /* Clear floats after the columns */
 .row:after {
@@ -104,7 +111,7 @@ header {
   align-items: center;
 }
 header img {
-  height: 80px;
+  height: 70px;
   margin-left: 40px;
 }
 header * { display: inline; }
@@ -169,7 +176,7 @@ footer #creditsMobile p { margin: .5em 0; }
 @media screen and (max-width: 600px) {
   body {
     min-width: 400px;
-    background-image: none;
+    background: #232323; /* #3f8726 */
   }
   #head img {
     max-width: 125px;
@@ -179,10 +186,8 @@ footer #creditsMobile p { margin: .5em 0; }
   #headOrder { text-shadow: none; }
   #box1, #box2 { margin: 1em 0; }
   /* Responsive layout - columns stack on top of each other instead of next to each other */
-  @media screen and (max-width: 600px) {
-    .twoColumn, .threeColumn { flex-basis: 100%; }
-    .row img { max-width: 200px; }
-  }
+  .twoColumn, .threeColumn { flex-basis: 100%; }
+  .row img { max-width: 200px; }
   /* Menu */
   header {
     min-width: 400px;
@@ -190,8 +195,8 @@ footer #creditsMobile p { margin: .5em 0; }
     position: absolute;
   }
   header img {
-    height: 65px;
-    margin-left: 15px;
+    height: 48px;
+    margin: 5px 5px 5px 15px;
   }
   header ul { padding-inline-start: 0; }
   header li {
@@ -206,6 +211,6 @@ footer #creditsMobile p { margin: .5em 0; }
     display: block;
     font-size: 80%;
   }
-  footer #credits { display: none; }
+  footer #credits, #showOnDesktopOnly { display: none; }
   footer #creditsMobile { display: block; }
 }
