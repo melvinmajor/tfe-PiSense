@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>PiSense - S'enregistrer</title>
+  <link rel="shortcut icon" type="image/png" href="https://www.camposcasares.be/favicon.png"/>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <script src="assets/js/fontawesome.js"></script>
+  <script src="assets/js/jquery-3.4.1.slim.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src='https://www.google.com/recaptcha/api.js?hl=fr'></script>
+</head>
+<body>
+  <header>
+    <img src="images/PiSense_logo.png" alt="PiSense logo">
+    <nav id="nav">
+      <ul>
+        <li><a href="index.html" class="active">Accueil</a></li>
+        <li><a href="order.html">Commander</a></li>
+        <li><a href="userPlatform.html">Profil</a></li>
+        <li><a href="about.html">A propos</a></li>
+        <li><a href="#head" id="showOnMobileOnly">Connexion/Enregistrement</a></li>
+      </ul>
+    </nav>
+    <a class="connectRegister" href="#head" id="showOnDesktopOnly">Connexion/Enregistrement</a>
+  </header>
+  <div id="headOrder">
+    <h1>PiSense</h1>
+    <p><em>Une solution IoT de prise de mesures</em>
+      <br><small>Créé par Melvin Campos Casares pour <a href="https://dreamnetbe.net/" id="dreamnet">Dreamnet SPRL</a>.</small></p>
+  </div>
+  <div class="main rowBoxWithAside">
+    <section id="boxLeft" class="main">
+      <h2>Connexion</h2>
+      <hr>
+      <form>
+        <div class="form-group">
+          <label for="connectInputEmail">Adresse e-mail</label>
+          <input type="email" class="form-control" id="connectInputEmail" aria-describedby="emailHelp">
+          <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre e-mail avec quelqu'un d'autre.</small>
+        </div>
+        <div class="form-group">
+          <label for="connectInputPassword">Mot de passe</label>
+          <input type="password" class="form-control" id="connectInputPassword">
+        </div>
+        <button type="submit" class="btn btn-primary" id="shrink">Se connecter</button>
+      </form>
+    </section>
+    <section id="boxRight" class="main">
+      <h2>Enregistrement</h2>
+      <hr>
+      <p id="registerHelp" class="text-muted"><small>Les éléments indiqués avec une astérisque * sont marqué <u>obligatoire</u></small></p>
+      <form>
+        <div class="form-group">
+          <label for="registerFormEmail">Adresse e-mail *</label>
+          <input type="email" class="form-control" id="registerFormEmail" placeholder="name@example.com" required>
+        </div>
+        <div class="rowColumnForm">
+          <div class="form-group twoColumnForm">
+            <label for="registerFormPassword">Mot de passe *</label>
+            <input type="password" class="form-control" id="registerFormPassword" required>
+          </div>
+          <div class="form-group twoColumnForm">
+            <label for="registerConfirmFormPassword">Confirmation du mot de passe *</label>
+            <input type="password" class="form-control" id="registerConfirmFormPassword" required>
+          </div>
+        </div>
+        <div class="rowColumnForm">
+          <div class="form-group twoColumnForm">
+            <label for="registerFormFirstname">Prénom *</label>
+            <input type="text" class="form-control" id="registerFormFirstname" required>
+          </div>
+          <div class="form-group twoColumnForm">
+            <label for="registerFormName">Nom *</label>
+            <input type="text" class="form-control" id="registerFormName" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="registerFormPhone">Numéro de téléphone</label>
+          <input type="tel" class="form-control" id="registerFormPhone" placeholder="+32123456789" pattern="[+32][0-9]{3}[0-9]{2}[0-9]{2}[0-9]{2}">
+          <small id="phoneHelp" class="form-text text-muted">Respectez bien le format : +32123456789</small>
+        </div>
+        <div class="form-group">
+          <label for="registerFormBirthdate">Date de naissance *</label>
+          <input type="date" class="form-control" id="registerFormBirthdate" required>
+        </div>
+        <div class="rowColumnForm">
+          <div class="twoColumnForm"><div class="g-recaptcha" data-theme="dark" data-sitekey="6LdT5uMUAAAAAAFjzkBuM76r3YByf9VWc9YjbPzk"></div></div>
+          <div class="twoColumnForm"><button type="submit" class="btn btn-primary" id="shrink">S'enregistrer</button></div>
+        </div>
+      </form>
+    </section>
+  </div>
+  <footer>
+    <div id="credits">
+      <div class="row" id="restOfTheFooter">
+        <section class="threeColumn" id="footerMenu">
+          <p>Menu</p>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="order.html">Commander</a></li>
+            <li><a href="register.html">Connexion/Enregistrement</a></li>
+            <li><a href="userPlatform.html">Profil</a></li>
+            <li><a href="about.html">A propos</a></li>
+            <li><a href="https://github.com/melvinmajor/tfe-PiSense" target="_blank">GitHub</a></li>
+          </ul>
+        </section>
+        <section class="threeColumn" id="footerDescription">
+          <p><em><u>Appareil de prise de mesures environnementales :</u></em></p>
+          <p id="descriptionSensorPicksUp">température, humidité, pression atmosphérique, qualité de l'air, composés organiques volatils totaux, dioxyde de carbone, oxyde de silicium</p>
+        </section>
+        <section class="threeColumn" id="footerSocial">
+          <p>Dreamnet est sur Facebook, suivez-nous ou contactez-nous <i class="fas fa-smile-wink" style="color: #ffd54f;"></i></p>
+          <a href="https://www.facebook.com/dreamnetbe/"><i class="fab fa-facebook-square" id="footerSocialIcons"></i></a>
+          <a href="https://m.me/dreamnetbe"><i class="fab fa-facebook-messenger" id="footerSocialIcons"></i></a>
+        </section>
+      </div>
+      <div id="realCredits"><a href="index.html">PiSense</a> © 2020 - <a href="https://dreamnetbe.net/" id="dreamnet">Dreamnet SPRL</a> | environmental measurement device | Design: Melvin Campos Casares</div>
+    </div>
+    <div id="creditsMobile">
+      <p><a href="#">PiSense</a> © 2020 - <a href="https://dreamnetbe.net/" id="dreamnet">Dreamnet SPRL</a></p>
+      <p>Design: Melvin Campos Casares</p>
+    </div>
+  </footer>
+</body>
+</html>

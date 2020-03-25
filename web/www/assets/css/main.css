@@ -58,7 +58,7 @@ a:hover { color: lightcoral; }
   font-size: 125%;
 }
 .main hr { border: 1px dashed darkgray; }
-#box1, #box2 {
+#box1, #box2, #boxLeft, #boxRight {
   border: 1px solid darkgray;
   background-color: rgba(255, 255, 255, 0.85); /* 85% opaque white */
   border-radius: 5px;
@@ -66,34 +66,44 @@ a:hover { color: lightcoral; }
   margin: 1em;
 }
 #nginx { max-width: 170px; }
+#showOnMobileOnly { display: none; }
 
 /* Columns layout */
-.twoColumn, .threeColumn {
+.twoColumn, .threeColumn, #boxLeft, #boxRight, .twoColumnForm {
   margin: auto;
   text-align: left;
   transition: 500ms ease;
 }
-.twoColumn { flex-basis: 45%; }
+.twoColumn, #boxLeft, #boxRight { flex-basis: 45%; }
+.twoColumnForm {
+  flex-basis: 45%;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
 .threeColumn { flex-basis: 32%; }
-.row {
+.row, .rowBoxWithAside, .rowColumnForm {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: baseline;
   align-content: center;
   text-align: center;
-  margin: 0 1em;
 }
-.row img {
+.row, .rowBoxWithAside { margin: 0 1em; }
+.row { align-items: baseline; }
+.rowBoxWithAside {
+  align-items: flex-start;
+  flex-direction: row;
+}
+.row img, .rowBoxWithAside img {
   display: block;
   margin: 1em auto;
   opacity: initial;
 }
 .row #raspberryImg, .row #sensorsImg { max-width: 250px; }
 .row #imgPiSenseBoxOne, .row #imgPiSenseBoxTwo { max-width: 400px; }
-.row h3 { text-align: center; }
+.row h3, .rowBoxWithAside h3 { text-align: center; }
 /* Clear floats after the columns */
-.row:after {
+.row:after, .rowBoxWithAside:after {
   content: "";
   display: table;
   clear: both;
@@ -120,6 +130,17 @@ header li a {
   color: black;
   text-decoration: none;
 }
+.connectRegister {
+  float: right;
+  color: black;
+  text-decoration: none;
+  position: absolute;
+  font-size: 80%;
+  margin-top: 10px;
+  margin-right: 10px;
+  right: 0;
+  top: 0;
+}
 
 /* Footer */
 footer {
@@ -132,7 +153,7 @@ footer {
   left: 0;
   width: 100%;
   margin-top: 1em;
-  padding: 1.5em .5em;
+  padding: 1em .5em;
   font-size: 85%;
   background-color: #454545;
   text-align: center;
@@ -150,7 +171,7 @@ footer #credits #restOfTheFooter ul {
 footer #credits #restOfTheFooter ul li { padding: 0 0 .5em 0; }
 footer #credits section { letter-spacing: 0; }
 #realCredits {
-  margin: 1em 0 0 0;
+  padding: .5em 0;
   text-transform: uppercase;
 }
 #footerDescription {
@@ -212,5 +233,12 @@ footer #creditsMobile p { margin: .5em 0; }
     font-size: 80%;
   }
   footer #credits, #showOnDesktopOnly { display: none; }
-  footer #creditsMobile { display: block; }
+  footer #creditsMobile, #showOnMobileOnly { display: block; }
+}
+/* Responsive part specific for 2 main boxes on the same row */
+@media screen and (max-width: 750px) {
+  #boxLeft, #boxRight { margin: 1em 0; }
+  #boxLeft, #boxRight { flex-basis: 100%; }
+  .rowBoxWithAside img { max-width: 200px; }
+  .rowBoxWithAside { display: block; }
 }
