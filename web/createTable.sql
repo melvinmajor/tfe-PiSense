@@ -6,12 +6,11 @@ DROP TABLE IF EXISTS `Box`;
 /* Need to find how to correctly protect password and if possible with BCrypt */
 CREATE TABLE `User` (
       `userID` int(11) NOT NULL AUTO_INCREMENT,
-      `pseudo` varchar(32) NOT NULL,
+      `mail` varchar(50) NOT NULL DEFAULT '',
       `password` varchar(32) NOT NULL,
       `name` string NOT NULL DEFAULT '',
       `firstname` string NOT NULL DEFAULT '',
       `address` string,
-      `mail` varchar(50) NOT NULL DEFAULT '',
       `phone` varchar(12),
       `birthdate` Date NOT NULL DEFAULT '2019-10-31',
       `dateRegistered` Datetime NOT NULL,
