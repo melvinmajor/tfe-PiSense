@@ -14,8 +14,8 @@ bme680data*.json
 sds011data*.json
 
 # IDE folders and files
+*/.idea/*
 .idea/*
 
 # Sensible files for Nginx/Let's Encrypt
 dhparam-2048.pem
-

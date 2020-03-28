@@ -1,0 +1,21 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}" />
+
+  <script src="{{ url_for('static', filename='assets/js/fontawesome.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/jquery-3.4.1.slim.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+  {% if request.endpoint == 'order' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/lightbox.css') }}" />
+    <script src="{{ url_for('static', filename='assets/js/lightbox.js') }}"></script>
+  {% endif %}
+
+  <title>{ site_name } - { page }</title>
+</head>
