@@ -4,8 +4,15 @@
 #=====================================================
 
 # Python virtual environment
+*.pyc
+__pycache__
 */.env/*
 */.mypy_cache/*
+.cache/
+
+# Database
+app.db
+pisenseapp/tests/*.db
 
 # Log and local json file
 *.log*

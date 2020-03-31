@@ -60,6 +60,7 @@ class Box(db.Model):
         self.pm2 = pm2
         self.pm10 = pm10
 
+
 db.create_all()
 
 
@@ -67,6 +68,7 @@ def init_db():
     # from pisenseapp.models import db, SensorsEnum, User, Box, datetime
     db.drop_all()
     db.create_all()
-    db.session.add(User('toto@hotmail.com', 'P@ssw0rd', 'Babar', 'Tortue', '+32475123456', datetime.datetime.now(), 0, 0, 'none'))
+    db.session.add(User('toto@hotmail.com', 'P@ssw0rd', 'Babar', 'Tortue', '+32475123456', datetime.datetime.now(),
+                        0, 0, SensorsEnum['none']))
     db.session.commit()
     lg.warning('Database initialized!')
