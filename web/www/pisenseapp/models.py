@@ -81,7 +81,7 @@ class User(db.Model):
 # User Schema
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ('name', 'firstname', 'dateRegistered', 'device', 'deviceOutdoor', 'device_id', 'sensors')
+        fields = ('id', 'mail', 'password', 'name', 'firstname', 'phone', 'dateRegistered', 'device', 'deviceOutdoor', 'device_id', 'sensors')
 
 
 # Init Schema

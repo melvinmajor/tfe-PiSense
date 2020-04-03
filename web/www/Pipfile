@@ -12,6 +12,7 @@ pymysql = "*"
 sqlalchemy = "*"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
+jsonify = "*"
 
 [requires]
 python_version = "3.8"

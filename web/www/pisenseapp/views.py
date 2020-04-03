@@ -1,13 +1,12 @@
 from flask import Flask, render_template, request, jsonify
-from .models import db
+import datetime
 
 app = Flask(__name__)
 
 # Config options - Make sure you created a 'config.py' file.
 app.config.from_object('config')
+# To get one variable, tap app.config['MY_VARIABLE']
 
-
-# To get one variable, tape app.config['MY_VARIABLE']
 
 @app.route('/', methods=['GET'])
 @app.route('/index.html', methods=['GET'])
@@ -46,19 +45,67 @@ def errorbis():
                            page="Erreur 50x")
 
 
-@app.route('new-user', methods=['POST'])
+@app.route('/user', methods=['POST'])
 def add_user():
-    mail = request.jsonify['mail']
-    password = request.jsonify['password']
-    firstname = request.jsonify['firstname']
-    name = request.jsonify['name']
-    phone = request.jsonify['phone']
+    id = request.json['id']
+    mail = request.json['mail']
+    password = request.json['password']
+    name = request.json['name']
+    firstname = request.json['firstname']
+    phone = request.json['phone']
+    date_registered = datetime.datetime.now()
+    device = request.json['device']
+    device_outdoor = request.json['device_outdoor']
+    device_id = request.json['device_id']
+    sensors = request.json['sensors']
 
-    new_user = User(mail, password, firstname, name, phone)
+    new_user = User(id, mail, password, name, firstname, phone, date_registered, device, device_outdoor, device_id, sensors)
+
     db.session.add(new_user)
     db.session.commit()
 
     return user_schema.jsonify(new_user)
+
+
+@app.route('/user', methods=['GET'])
+def get_users():
+    all_users = User.query.all()
+    result = users_schema.dump(all_users)
+    return jsonify(result.data)
+
+
+@app.route('/user/<id>', methods=['GET'])
+def get_user(id):
+    user = User.query.get(id)
+    result = users_schema.dump(user)
+    return jsonify(result.data)
+
+
+@app.route('/box', methods=['POST'])
+def add_box_info():
+    id = request.json['id']
+    datetime = request.json['datetime']
+    temperature = request.json['temperature']
+    humidity = request.json['humidity']
+    pressure = request.json['pressure']
+    gas = request.json['gas']
+    pm2 = request.json['pm2']
+    pm10 = request.json['pm10']
+
+    new_box_info = Box(id, datetime, temperature, humidity, pressure, gas, pm2, pm10)
+
+    db.session.add(new_box_info)
+    db.session.commit()
+
+    return box_schema.jsonify(new_box_info)
+
+
+@app.route('/box/<id>', methods=['GET'])
+def get_box(id):
+    box = Box.query.get(id)
+    result = box_schema.dump(box)
+    return jsonify(result.data)
+
 
 if __name__ == "__main__":
     app.run()
