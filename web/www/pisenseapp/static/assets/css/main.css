@@ -65,7 +65,9 @@ a:hover { color: lightcoral; }
   padding: 1em;
   margin: 1em;
 }
-#nginx { max-width: 170px; }
+#nginx, #flask { max-width: 170px; }
+#nginx { margin-right: 25px; }
+#flask { margin-left: 25px; }
 #showOnMobileOnly { display: none; }
 
 /* Columns layout */

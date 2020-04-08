@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import datetime
+import pisenseapp.models
 
 app = Flask(__name__)
 
@@ -33,16 +34,55 @@ def register():
                            page="Connexion/Enregistrement")
 
 
-@app.route('/404.html', methods=['GET'])
-def error():
+# @app.route('/404.html', methods=['GET'])
+# def error():
+#     return render_template('404.html',
+#                            page="Erreur 404")
+#
+#
+# @app.route('/50x.html', methods=['GET'])
+# def errorbis():
+#     return render_template('50x.html',
+#                            page="Erreur 50x")
+
+@app.errorhandler(404)
+def page_not_found(e):
     return render_template('404.html',
-                           page="Erreur 404")
+                           page="Erreur 404"), 404
 
 
-@app.route('/50x.html', methods=['GET'])
-def errorbis():
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html',
+                           page="Erreur 404"), 404
+
+
+@app.errorhandler(500)
+def internal_error(exception):
+    app.logger.exception(exception)
     return render_template('50x.html',
-                           page="Erreur 50x")
+                           page="Erreur 500"), 500
+
+
+@app.errorhandler(502)
+def internal_error(exception):
+    app.logger.exception(exception)
+    return render_template('50x.html',
+                           page="Erreur 502"), 502
+
+
+@app.errorhandler(503)
+def internal_error(exception):
+    app.logger.exception(exception)
+    return render_template('50x.html',
+                           page="Erreur 503"), 503
+
+
+@app.errorhandler(504)
+def internal_error(exception):
+    app.logger.exception(exception)
+    return render_template('50x.html',
+                           page="Erreur 504"), 504
 
 
 @app.route('/user', methods=['POST'])
@@ -59,25 +99,25 @@ def add_user():
     device_id = request.json['device_id']
     sensors = request.json['sensors']
 
-    new_user = User(id, mail, password, name, firstname, phone, date_registered, device, device_outdoor, device_id, sensors)
+    new_user = pisenseapp.models.User(id, mail, password, name, firstname, phone, date_registered, device, device_outdoor, device_id, sensors)
 
-    db.session.add(new_user)
-    db.session.commit()
+    pisenseapp.models.db.session.add(new_user)
+    pisenseapp.models.db.session.commit()
 
-    return user_schema.jsonify(new_user)
+    return pisenseapp.models.user_schema.jsonify(new_user)
 
 
 @app.route('/user', methods=['GET'])
 def get_users():
-    all_users = User.query.all()
-    result = users_schema.dump(all_users)
+    all_users = pisenseapp.models.User.query.all()
+    result = pisenseapp.models.users_schema.dump(all_users)
     return jsonify(result.data)
 
 
 @app.route('/user/<id>', methods=['GET'])
 def get_user(id):
-    user = User.query.get(id)
-    result = users_schema.dump(user)
+    user = pisenseapp.models.User.query.get(id)
+    result = pisenseapp.models.users_schema.dump(user)
     return jsonify(result.data)
 
 
@@ -92,18 +132,18 @@ def add_box_info():
     pm2 = request.json['pm2']
     pm10 = request.json['pm10']
 
-    new_box_info = Box(id, datetime, temperature, humidity, pressure, gas, pm2, pm10)
+    new_box_info = pisenseapp.models.Box(id, datetime, temperature, humidity, pressure, gas, pm2, pm10)
 
-    db.session.add(new_box_info)
-    db.session.commit()
+    pisenseapp.models.db.session.add(new_box_info)
+    pisenseapp.models.db.session.commit()
 
-    return box_schema.jsonify(new_box_info)
+    return pisenseapp.models.box_schema.jsonify(new_box_info)
 
 
 @app.route('/box/<id>', methods=['GET'])
 def get_box(id):
-    box = Box.query.get(id)
-    result = box_schema.dump(box)
+    box = pisenseapp.models.Box.query.get(id)
+    result = pisenseapp.models.box_schema.dump(box)
     return jsonify(result.data)
 
 
