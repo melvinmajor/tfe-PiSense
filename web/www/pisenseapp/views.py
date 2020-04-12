@@ -85,6 +85,7 @@ def internal_error(exception):
                            page="Erreur 504"), 504
 
 
+# API: Create a new user
 @app.route('/user', methods=['POST'])
 def add_user():
     id = request.json['id']
@@ -107,6 +108,7 @@ def add_user():
     return pisenseapp.models.user_schema.jsonify(new_user)
 
 
+# API: See all users
 @app.route('/user', methods=['GET'])
 def get_users():
     all_users = pisenseapp.models.User.query.all()
@@ -114,6 +116,7 @@ def get_users():
     return jsonify(result.data)
 
 
+# API: See specific user based on id
 @app.route('/user/<id>', methods=['GET'])
 def get_user(id):
     user = pisenseapp.models.User.query.get(id)
@@ -121,6 +124,7 @@ def get_user(id):
     return jsonify(result.data)
 
 
+# API: Add new values from environmental sensors
 @app.route('/box', methods=['POST'])
 def add_box_info():
     id = request.json['id']
@@ -140,6 +144,7 @@ def add_box_info():
     return pisenseapp.models.box_schema.jsonify(new_box_info)
 
 
+# API: see values from environmental sensors stored in database from a specific box based on id
 @app.route('/box/<id>', methods=['GET'])
 def get_box(id):
     box = pisenseapp.models.Box.query.get(id)

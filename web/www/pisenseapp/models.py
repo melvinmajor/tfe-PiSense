@@ -99,7 +99,7 @@ def init_db():
     # from pisenseapp.models import db, SensorsEnum, User, Box, datetime
     db.drop_all()
     db.create_all()
-    db.session.add(User('toto@hotmail.com', 'P@ssw0rd', 'Babar', 'Tortue', '+32475123456', datetime.datetime.now(),
+    db.session.add(User(1, 'toto@hotmail.com', 'P@ssw0rd', 'Babar', 'Tortue', '+32475123456', datetime.datetime.now(),
                         0, 0, SensorsEnum['none']))
     db.session.commit()
     lg.warning('Database initialized!')
