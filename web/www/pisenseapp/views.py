@@ -34,6 +34,13 @@ def register():
                            page="Connexion/Enregistrement")
 
 
+@app.route('/platform.html', methods=['GET'])
+def platform():
+    return render_template('platform.html',
+                           page="Plateforme utilisateur",
+                           user_firstname="Melvin", user_name="Campos Casares", user_sensors="BME680, SDS011", user_boxid="1")
+
+
 # @app.route('/404.html', methods=['GET'])
 # def error():
 #     return render_template('404.html',

@@ -1,0 +1,29 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div id="head">
+  <h1>PiSense</h1>
+  <p><em>Une solution IoT de prise de mesures</em>
+    <br><small>Créé par Melvin Campos Casares pour <a href="https://dreamnetbe.net/" id="dreamnet">Dreamnet SPRL</a>.</small></p>
+</div>
+<div class="main">
+  <section id="box1" class="main">
+    <h2>Plateforme</h2>
+    <hr>
+    <p><strong>Bienvenu {{ user_firstname }} {{ user_name }} !</strong></p>
+    <p>D'après votre profil, vous disposez des capteurs suivants : <em>{{ user_sensors }}</em>
+      <br>Votre identificateur PiSense est : <strong>{{ user_boxid }}</strong></p>
+  </section>
+  <section id="box2" class="main">
+    <h2>Graphes</h2>
+    <hr>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="alert-heading">Développement en cours</h4>
+      <div class="progress">
+        <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: 35%"></div>
+      </div>
+    </div>
+  </section>
+</div>
+ {% endblock %}
