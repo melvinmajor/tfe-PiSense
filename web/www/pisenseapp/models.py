@@ -13,7 +13,10 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
 
-# Enum of all sensors available
+""" Enum of all sensors available
+"""
+
+
 class SensorsEnum(enum.Enum):
     none = 0
     bmp280 = 1
@@ -22,7 +25,10 @@ class SensorsEnum(enum.Enum):
     sds011 = 4
 
 
-# Box Class/Model
+""" Box Class/Model
+"""
+
+
 class Box(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     datetime = db.Column(db.DateTime(timezone=True), nullable=False)
@@ -44,28 +50,34 @@ class Box(db.Model):
         self.pm10 = pm10
 
 
-# User Schema
+""" Box Schema
+"""
+
+
 class BoxSchema(ma.Schema):
     class Meta:
         fields = ('id', 'datetime', 'temperature', 'humidity', 'pressure', 'gas', 'pm2', 'pm10')
 
 
-# User Class/Model
+""" User Class/Model
+"""
+
+
 class User(db.Model):
     userID = db.Column(db.Integer, primary_key=True)
-    mail = db.Column(VARCHAR(length=50), nullable=False)
-    password = db.Column(VARCHAR(length=32), nullable=False)
-    name = db.Column(VARCHAR(length=100), nullable=False)
-    firstname = db.Column(VARCHAR(length=100), nullable=False)
-    phone = db.Column(VARCHAR(length=12), nullable=False)
+    mail = db.Column(db.String(length=50), nullable=False)
+    password = db.Column(db.String(length=32), nullable=False)
+    name = db.Column(db.String(length=100), nullable=False)
+    firstname = db.Column(db.String(length=100), nullable=False)
+    phone = db.Column(db.String(length=12), nullable=False)
     dateRegistered = db.Column(db.DateTime(timezone=True), nullable=False)
     device = db.Column(db.Boolean, default=0)
     deviceOutdoor = db.Column(db.Boolean, default=0)
     device_id = db.Column(db.Integer, db.ForeignKey('box.id'))
     sensors = db.Column(db.Enum(SensorsEnum), default=0)
 
-    def __init__(self, userID, mail, password, name, firstname, phone, dateRegistered, device, deviceOutdoor, device_id, sensors):
-        self.userID = userID
+    def __init__(self, mail, password, name, firstname, phone, dateRegistered, device, deviceOutdoor, device_id,
+                 sensors):
         self.mail = mail
         self.password = password
         self.name = name
@@ -78,13 +90,17 @@ class User(db.Model):
         self.sensors = sensors
 
 
-# User Schema
+""" User Schema
+"""
+
+
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'mail', 'password', 'name', 'firstname', 'phone', 'dateRegistered', 'device', 'deviceOutdoor', 'device_id', 'sensors')
+        fields = ('name', 'firstname', 'device', 'deviceOutdoor', 'device_id', 'sensors')
 
 
-# Init Schema
+""" Init Schema
+"""
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
 box_schema = BoxSchema()
@@ -94,12 +110,15 @@ boxes_schema = BoxSchema(many=True)
 db.create_all()
 
 
-# Init DB
+""" Init DB
+"""
+
+
 def init_db():
     # from pisenseapp.models import db, SensorsEnum, User, Box, datetime
     db.drop_all()
     db.create_all()
-    db.session.add(User(1, 'toto@hotmail.com', 'P@ssw0rd', 'Babar', 'Tortue', '+32475123456', datetime.datetime.now(),
-                        0, 0, SensorsEnum['none']))
+    db.session.add(User('toto@hotmail.com', 'P@ssw0rd', 'Babar', 'Tortue', '+32475123456', datetime.datetime.now(),
+                        false, false, 0, SensorsEnum['none']))
     db.session.commit()
     lg.warning('Database initialized!')

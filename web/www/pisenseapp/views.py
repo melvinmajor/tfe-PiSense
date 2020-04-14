@@ -92,10 +92,13 @@ def internal_error(exception):
                            page="Erreur 504"), 504
 
 
-# API: Create a new user
+""" API:
+    Create a new user
+"""
+
+
 @app.route('/user', methods=['POST'])
 def add_user():
-    id = request.json['id']
     mail = request.json['mail']
     password = request.json['password']
     name = request.json['name']
@@ -106,16 +109,38 @@ def add_user():
     device_outdoor = request.json['device_outdoor']
     device_id = request.json['device_id']
     sensors = request.json['sensors']
+    sensors = pisenseapp.models.SensorsEnum[sensors]
 
-    new_user = pisenseapp.models.User(id, mail, password, name, firstname, phone, date_registered, device, device_outdoor, device_id, sensors)
+    existing_user = pisenseapp.models.User.query.filter(
+        (pisenseapp.models.User.mail == mail) |
+        ((pisenseapp.models.User.firstname == firstname) & (pisenseapp.models.User.name == name))
+    ).first()
+
+    # Check if user already exist in database
+    if existing_user:
+        response = jsonify({"message": "User already exists"})
+        response.status_code = 409
+        return response
+
+    new_user = pisenseapp.models.User(mail, password, name, firstname, phone, date_registered, device, device_outdoor,
+                                      device_id, sensors)
 
     pisenseapp.models.db.session.add(new_user)
     pisenseapp.models.db.session.commit()
 
-    return pisenseapp.models.user_schema.jsonify(new_user)
+    new_user.sensors = str(new_user.sensors)
+
+    # Status OK, object created
+    response = jsonify({"message": "Created"})
+    response.status_code = 201
+    return response
 
 
-# API: See all users
+""" API:
+    See all users
+"""
+
+
 @app.route('/user', methods=['GET'])
 def get_users():
     all_users = pisenseapp.models.User.query.all()
@@ -123,15 +148,23 @@ def get_users():
     return jsonify(result.data)
 
 
-# API: See specific user based on id
+""" API:
+    See specific user based on id
+"""
+
+
 @app.route('/user/<id>', methods=['GET'])
-def get_user(id):
-    user = pisenseapp.models.User.query.get(id)
+def get_user(userID):
+    user = pisenseapp.models.User.query.get(userID)
     result = pisenseapp.models.users_schema.dump(user)
     return jsonify(result.data)
 
 
-# API: Add new values from environmental sensors
+""" API:
+    Add new values from environmental sensors
+"""
+
+
 @app.route('/box', methods=['POST'])
 def add_box_info():
     id = request.json['id']
@@ -148,10 +181,17 @@ def add_box_info():
     pisenseapp.models.db.session.add(new_box_info)
     pisenseapp.models.db.session.commit()
 
-    return pisenseapp.models.box_schema.jsonify(new_box_info)
+    # Status OK, object created
+    response = jsonify({"message": "Created"})
+    response.status_code = 201
+    return response
 
 
-# API: see values from environmental sensors stored in database from a specific box based on id
+""" API:
+    see values from environmental sensors stored in database from a specific box based on id
+"""
+
+
 @app.route('/box/<id>', methods=['GET'])
 def get_box(id):
     box = pisenseapp.models.Box.query.get(id)
