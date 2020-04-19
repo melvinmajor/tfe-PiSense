@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 import datetime
 import pisenseapp.models
+from werkzeug.utils import redirect
 
 app = Flask(__name__)
 
@@ -93,22 +94,49 @@ def internal_error(exception):
 
 
 """ API:
+    User connection
+"""
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login_page():
+    error = ''
+    try:
+
+        if request.method == "POST":
+
+            attempted_mail = request.form['mail']
+            attempted_password = request.form['password']
+
+            if attempted_mail == "toto@hotmail.com" and attempted_password == "P@ssw0rd!":
+                return redirect(url_for('platform'))
+
+            else:
+                error = "Invalid credentials. Try Again."
+
+        return render_template("platform.html", error=error)
+
+    except Exception as e:
+        return render_template("register.html", error=error)
+
+
+""" API:
     Create a new user
 """
 
 
-@app.route('/user', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def add_user():
-    mail = request.json['mail']
-    password = request.json['password']
-    name = request.json['name']
-    firstname = request.json['firstname']
-    phone = request.json['phone']
+    mail = request.form['mail']
+    password = request.form['password']
+    name = request.form['name']
+    firstname = request.form['firstname']
+    phone = request.form['phone']
     date_registered = datetime.datetime.now()
-    device = request.json['device']
-    device_outdoor = request.json['device_outdoor']
-    device_id = request.json['device_id']
-    sensors = request.json['sensors']
+    device = request.form['device']
+    device_outdoor = request.form['device_outdoor']
+    device_id = request.form['device_id']
+    sensors = request.form['sensors']
     sensors = pisenseapp.models.SensorsEnum[sensors]
 
     existing_user = pisenseapp.models.User.query.filter(
@@ -131,7 +159,7 @@ def add_user():
     new_user.sensors = str(new_user.sensors)
 
     # Status OK, object created
-    response = jsonify({"message": "Created"})
+    response = jsonify({"message": "User created"})
     response.status_code = 201
     return response
 
