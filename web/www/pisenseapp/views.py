@@ -134,7 +134,15 @@ def add_user():
     phone = request.form['phone']
     date_registered = datetime.datetime.now()
     device = request.form['device']
+    if device == "true":
+        device = True
+    elif device == "false":
+        device = False
     device_outdoor = request.form['device_outdoor']
+    if device_outdoor == "true":
+        device_outdoor = True
+    elif device_outdoor == "false":
+        device_outdoor = False
     device_id = request.form['device_id']
     sensors = request.form['sensors']
     sensors = pisenseapp.models.SensorsEnum[sensors]
