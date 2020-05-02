@@ -17,5 +17,20 @@
     <script src="{{ url_for('static', filename='assets/js/lightbox.js') }}"></script>
   {% endif %}
 
+  {% if request.endpoint == 'platform' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/Chart.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/aqi.css') }}" />
+    <script src="{{ url_for('static', filename='assets/js/Chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/aqi.js') }}"></script>
+  	<style>
+	canvas{
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
+  {% endif %}
+
   <title>PiSense - {{ page }}</title>
 </head>

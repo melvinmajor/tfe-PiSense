@@ -1,0 +1,21 @@
+.aqi-container {
+  border: 2px solid darkgray;
+  border-radius: 10px;
+  width: 180px;
+  margin: 10px;
+  text-align: center;
+  padding: 10px;
+}
+.aqi-label { font-weight: bold; }
+.aqi {
+  font-size: 5em;
+  font-weight: bold;
+}
+.pm-label { font-style: italic; }
+.time-label { text-align: center; }
+.time { font-weight: lighter; }
+
+#airQualityTable {
+  display: block;
+  margin: 250px auto;
+}
