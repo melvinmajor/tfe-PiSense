@@ -1,5 +1,5 @@
 .aqi-container {
-  border: 2px solid darkgray;
+  border: 3px solid rgba(0, 0, 0, .2);
   border-radius: 10px;
   width: 180px;
   margin: 10px;
@@ -15,7 +15,17 @@
 .time-label { text-align: center; }
 .time { font-weight: lighter; }
 
-#airQualityTable {
-  display: block;
-  margin: 250px auto;
+.aqi-legend {
+  font-style: italic;
+  font-size: .8em;
 }
+.foo {
+  float: left;
+  margin: 5px;
+}
+.lime { color: lime; }
+.yellow { color: yellow; }
+.orange { color: orange; }
+.red { color: red; }
+.purple { color: purple; }
+.brown { color: brown; }

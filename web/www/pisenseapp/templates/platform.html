@@ -20,6 +20,9 @@
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <h4 class="alert-heading">Développement en cours</h4>
+      <p>Les données affichées ne sont pas nécessairement des informations correctes.
+        <br>L'indice de qualité de l'air est effectivement une suite de données récupérée à un instant T par le capteur SDS011.
+        <br>Concernant la partie des graphiques, seul un est actuellement présent et les données affichées sont aléatoirement générées.</p>
       <div class="progress">
         <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: 35%"></div>
       </div>
@@ -41,6 +44,17 @@
           <div class='pm-label' id="pm10"></div>
         </div>
       </div>
+
+      <div class="row aqi-legend">
+        <br>
+        <div class="foo fa fa-circle lime"></div>0 à 50, bon
+        <div class="foo fa fa-circle yellow"></div>51 à 100, moyen
+        <div class="foo fa fa-circle orange"></div>101 à 150, mauvais pour les groupes sensibles
+        <div class="foo fa fa-circle red"></div>151 à 200, mauvais
+        <div class="foo fa fa-circle purple"></div>201 à 300, très mauvais
+        <div class="foo fa fa-circle brown"></div>301 à 500, danger !
+      </div>
+
     </div>
     <script>
       getData();
