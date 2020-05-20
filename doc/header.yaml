@@ -11,10 +11,11 @@ margin-left: 2.5cm
 margin-right: 2.5cm
 margin-bottom: 1.5cm
 titlepage: true
-titlepage-rule-color: "ffc107"
+titlepage-rule-color: "5B9BD5"
 titlepage-rule-height: 6
 toc: true
 toc-own-page: true
-logo: "../doc/PiSense-logo.png"
-logo-width: 250
+logo: "PiSense-logo/PiSense-512x512.png"
+logo-width: 150
+titlepage-background: "background.pdf"
 ---
