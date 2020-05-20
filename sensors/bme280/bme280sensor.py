@@ -1,22 +1,23 @@
-import time, datetime
+import time
+import datetime
 import digitalio
 import board
 import busio
 import adafruit_bme280
 import json
-#import requests
+import requests
 import sys
 import logging, logging.handlers
 import argparse
 
 ''' default variables values '''
-#default_api_url = "https://dreamnetbe.net:4000/PiSense/sensor";
-#sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
-default_time = (15*60); # minutes calculated in seconds
+default_api_url = "http://s74.cwb.ovh/json.php";
+sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
+default_time = (10*60); # minutes calculated in seconds
 
 ''' arguments available to launch the app in a specific way '''
 parser = argparse.ArgumentParser(prog='PiSense BME280', description='BME280 module sensor of PiSense', add_help=True, prefix_chars='-', allow_abbrev=True)
-#parser.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
+parser.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
 parser.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
 parser.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.5')
 args = parser.parse_args()
@@ -91,7 +92,6 @@ def fail(msg):
     print(">>> Oops:",msg,file=sys.stderr)
     logger.warn('Oops: %s', msg)
 
-'''
 def post_data():
     logger.info('Send data to server via API')
     try:
@@ -111,7 +111,6 @@ def post_data():
     except requests.exceptions.RequestException as e:
         # catastrophic error, you need to go to jail
         fail('Request error')
-'''
 
 while True:
     try:
@@ -119,7 +118,7 @@ while True:
         utc_offset_sec = time.altzone if time.localtime().tm_isdst else time.timezone
         utc_offset = datetime.timedelta(seconds=-utc_offset_sec)
         data = sensor_to_json()
-#       post_data()
+        post_data()
         time.sleep(args.time)
     except (KeyboardInterrupt, SystemExit):
         logger.info('KeyboardInterrupt/SystemExit caught')
