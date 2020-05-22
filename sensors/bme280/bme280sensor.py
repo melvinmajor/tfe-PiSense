@@ -7,7 +7,8 @@ import adafruit_bme280
 import json
 import requests
 import sys
-import logging, logging.handlers
+import logging
+import logging.handlers
 import argparse
 
 ''' default variables values '''
@@ -81,10 +82,10 @@ def sensor_to_json():
             'humidity': float(f'{bme280.humidity:.1f}'), # in percentage
             'pressure': float(f'{bme280.pressure:.2f}')} # in hectopascal
     #date_json=bob
-    # This part is for debug mode only because when used,
-    # data_json = json.dumps(bob) stop the sending of JSON to API
+    # This part is for debug mode only because when used, it stop the sending of JSON to API
+    # data_json = json.dumps(bob)
 
-    #logger.info('Records: %s', data_json)
+    logger.info('Records: %s', bob)
     # write JSON formatted data into specific file
 #   with open('bme280data.json', 'a') as f:
 #       f.write(data_json + "\n")
