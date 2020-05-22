@@ -1,24 +1,26 @@
-import time, datetime
+import time
+import datetime
 import digitalio
 import board
 import busio
 import adafruit_bme280
 import json
-#import requests
+import requests
 import sys
-import logging, logging.handlers
+import logging
+import logging.handlers
 import argparse
 
 ''' default variables values '''
-#default_api_url = "https://dreamnetbe.net:4000/PiSense/sensor";
-#sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
-default_time = (15*60); # minutes calculated in seconds
+default_api_url = "http://s74.cwb.ovh/json.php";
+sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
+default_time = (10*60); # minutes calculated in seconds
 
 ''' arguments available to launch the app in a specific way '''
 parser = argparse.ArgumentParser(prog='PiSense BME280', description='BME280 module sensor of PiSense', add_help=True, prefix_chars='-', allow_abbrev=True)
-#parser.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
+parser.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
 parser.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
-parser.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.5')
+parser.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.6')
 args = parser.parse_args()
 
 ''' Log configuration '''
@@ -79,24 +81,30 @@ def sensor_to_json():
             'temperature': float(f'{bme280.temperature:.1f}'), # in Celsius
             'humidity': float(f'{bme280.humidity:.1f}'), # in percentage
             'pressure': float(f'{bme280.pressure:.2f}')} # in hectopascal
-    data_json = json.dumps(bob)
-    logger.info('Records: %s', data_json)
+    #date_json=bob
+    # This part is for debug mode only because when used, it stop the sending of JSON to API
+    # data_json = json.dumps(bob)
+
+    logger.info('Records: %s', bob)
     # write JSON formatted data into specific file
 #   with open('bme280data.json', 'a') as f:
 #       f.write(data_json + "\n")
-    return data_json
+    return bob
 
 ''' Fail method '''
 def fail(msg):
     print(">>> Oops:",msg,file=sys.stderr)
     logger.warn('Oops: %s', msg)
 
-'''
-def post_data():
-    logger.info('Send data to server via API')
+def post_data(datas):
+    logger.info('Sending data to server via API...')
     try:
-        r = requests.post(args.url, data=data, timeout=sending_timeout)
-        logger.info('Status code: %s - %s', str(r.status_code), r.json()['message'])
+        #print('debug')
+        #print(datas)
+        #print(args.url)
+        r = requests.post(args.url,data=datas)
+        # To see what the online server answer:        print(r.text)
+        #logger.info('Status code: %s - %s', str(r.status_code), r.json()['message'])
         if r.status_code in range(200,300):
             logger.info('Success')
         else:
@@ -111,7 +119,6 @@ def post_data():
     except requests.exceptions.RequestException as e:
         # catastrophic error, you need to go to jail
         fail('Request error')
-'''
 
 while True:
     try:
@@ -119,7 +126,8 @@ while True:
         utc_offset_sec = time.altzone if time.localtime().tm_isdst else time.timezone
         utc_offset = datetime.timedelta(seconds=-utc_offset_sec)
         data = sensor_to_json()
-#       post_data()
+        
+        post_data(data)
         time.sleep(args.time)
     except (KeyboardInterrupt, SystemExit):
         logger.info('KeyboardInterrupt/SystemExit caught')
