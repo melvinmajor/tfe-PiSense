@@ -159,12 +159,12 @@ def pub_mqtt(jsonrow):
 
 
 ''' JSON part '''
-## {"datetime": "2019-11-14T10:11:59.378308+01:00", "temperature": 22.6, "humidity": 37.3, "pressure": 986.74}
+## {"datetime": "2020-05-24T15:08:05.274635+02:00", "pm25": 2.3, "pm10": 4.9}
 def sensor_to_json():
     # dict which will be used by JSON
     dave = {'datetime': get_date_time(), # date T time in ISO8601
-            'pm25': float(f'{bme280.temperature:.1f}'), # PM2.5
-            'pm10': float(f'{bme280.humidity:.1f}')} # PM10
+            'pm25': values[0], # PM2.5 in µg/m3
+            'pm10': values[1]} # PM10 in µg/m3
     #date_json=dave
     # This part is for debug mode only because when used, it stop the sending of JSON to API
     # data_json = json.dumps(dave)
@@ -213,6 +213,11 @@ if __name__ == "__main__":
     while True:
         try:
             cmd_set_sleep(0)
+            
+            now = datetime.datetime.now() # Get current date and time
+            utc_offset_sec = time.altzone if time.localtime().tm_isdst else time.timezone
+            utc_offset = datetime.timedelta(seconds=-utc_offset_sec)
+
             for t in range(15):
                 values = cmd_query_data();
                 if values is not None and len(values) == 2:
@@ -241,17 +246,11 @@ if __name__ == "__main__":
             if MQTT_HOST != '':
                 pub_mqtt(jsonrow)
             
-            print("Going to sleep for 10 min...")
-            cmd_set_sleep(1)
-            time.sleep(600)
-
-            # NEED TO INTEGRATE CODE UPPER LIKE HERE UNDER !!!!
-            now = datetime.datetime.now() # Get current date and time
-            utc_offset_sec = time.altzone if time.localtime().tm_isdst else time.timezone
-            utc_offset = datetime.timedelta(seconds=-utc_offset_sec)
             data = sensor_to_json()
-        
             post_data(data)
+            #print("Going to sleep for 10 min...")
+            #cmd_set_sleep(1)
+            #time.sleep(600)
             time.sleep(args.time)
 
 
