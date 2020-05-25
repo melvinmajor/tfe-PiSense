@@ -3,6 +3,7 @@
 # "DATASHEET": http://cl.ly/ekot
 # Original code: https://gist.github.com/kadamski/92653913a53baf9dd1a8
 from __future__ import print_function
+from datetime import datetime
 import serial
 import struct
 import sys
@@ -19,6 +20,7 @@ import argparse
 default_api_url = "http://s74.cwb.ovh/json.php";
 sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
 default_time = (10*60); # minutes calculated in seconds
+
 # This part is for SDS011 sensor and simple intranet usage
 DEBUG = 0
 CMD_MODE = 2
@@ -35,7 +37,7 @@ MQTT_HOST = ''
 MQTT_TOPIC = '/weather/particulatematter'
 
 ''' arguments available to launch the app in a specific way '''
-parser = argparse.ArgumentParser(prog='PiSense SDS011', description='SDS011 module sensor of PiSense', add_help=True, prefix_chars='-', allow_abbrev=True)
+parser = argparse.ArgumentParser(prog='PiSense SDS011', description='SDS011 module sensor of PiSense', add_help=True, prefix_chars='-')
 parser.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
 parser.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
 parser.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.6')
@@ -69,7 +71,8 @@ time.sleep(1)
 
 ''' ISO8601 format date and time'''
 def get_date_time():
-    return now.replace(tzinfo=datetime.timezone(offset=utc_offset)).isoformat()
+#    return now.replace(tzinfo=datetime.timezone(offset=utc_offset)).isoformat()
+     return datetime.now().strftime('%Y-%m-%dT%H:%M:%S:%SZ')
 
 ser = serial.Serial()
 ser.port = "/dev/ttyUSB0"
@@ -81,7 +84,7 @@ ser.flushInput()
 byte, data = 0, ""
 
 def dump(d, prefix=''):
-    print(prefix + ' '.join(x.encode('hex') for x in d))
+    logger.info(prefix + ' '.join(x.encode('hex') for x in d))
 
 def construct_command(cmd, data=[]):
     assert len(data) <= 12
@@ -106,7 +109,7 @@ def process_data(d):
 def process_version(d):
     r = struct.unpack('<BBBHBB', d[3:])
     checksum = sum(ord(v) for v in d[2:8])%256
-    print("Y: {}, M: {}, D: {}, ID: {}, CRC={}".format(r[0], r[1], r[2], hex(r[3]), "OK" if (checksum==r[4] and r[5]==0xab) else "NOK"))
+    logger.info("Y: {}, M: {}, D: {}, ID: {}, CRC={}".format(r[0], r[1], r[2], hex(r[3]), "OK" if (checksum==r[4] and r[5]==0xab) else "NOK"))
 
 def read_response():
     byte = 0
@@ -153,7 +156,7 @@ def cmd_set_id(id):
 
 def pub_mqtt(jsonrow):
     cmd = ['mosquitto_pub', '-h', MQTT_HOST, '-t', MQTT_TOPIC, '-s']
-    print('Publishing using:', cmd)
+    logger.info('Publishing using: ', cmd)
     with subprocess.Popen(cmd, shell=False, bufsize=0, stdin=subprocess.PIPE).stdin as f:
         json.dump(jsonrow, f)
 
@@ -162,7 +165,8 @@ def pub_mqtt(jsonrow):
 ## {"datetime": "2020-05-24T15:08:05.274635+02:00", "pm25": 2.3, "pm10": 4.9}
 def sensor_to_json():
     # dict which will be used by JSON
-    dave = {'datetime': get_date_time(), # date T time in ISO8601
+
+    dave = {'datetime': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), # date T time in ISO8601
             'pm25': values[0], # PM2.5 in µg/m3
             'pm10': values[1]} # PM10 in µg/m3
     #date_json=dave
@@ -177,7 +181,7 @@ def sensor_to_json():
 
 ''' Fail method '''
 def fail(msg):
-    print(">>> Oops:",msg,file=sys.stderr)
+    print(">>> Oops: ",msg,file=sys.stderr)
     logger.warn('Oops: %s', msg)
 
 def post_data(datas):
@@ -207,7 +211,10 @@ def post_data(datas):
 
 if __name__ == "__main__":
     cmd_set_sleep(0)
+    #print('1')
+    cmd_set_mode(1)
     cmd_firmware_ver()
+    #print('2')
     cmd_set_working_period(PERIOD_CONTINUOUS)
     cmd_set_mode(MODE_QUERY);
     while True:
@@ -249,7 +256,7 @@ if __name__ == "__main__":
             data = sensor_to_json()
             post_data(data)
             #print("Going to sleep for 10 min...")
-            #cmd_set_sleep(1)
+            cmd_set_sleep(1)
             #time.sleep(600)
             time.sleep(args.time)
 
@@ -257,3 +264,4 @@ if __name__ == "__main__":
         except (KeyboardInterrupt, SystemExit):
             logger.info('KeyboardInterrupt/SystemExit caught')
             sys.exit()
+
