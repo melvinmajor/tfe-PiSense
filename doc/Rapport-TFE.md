@@ -119,9 +119,67 @@ J'ai rapidement pu remarquer les limites de cet environnement de développement 
 
 #### Sécurité
 
-![Rapport des headers de sécurité](SSL_Labs+Security_headers/securityheaders-camposcasares.be.png)
+##### Certificat Let's Encrypt (HTTPS)
+
+Concernant la sécurité, le certificat HTTPS a été mis en place.
+Let's Encrypt a été utilisé, avec `certbot` afin d'automatiser son renouvellement.
+
+Let's Encrypt est une autorité de certification gratuite, automatisée et ouverte, exploitée pour le bénéfice du public. C'est un service fourni par l’Internet Security Research Group (ISRG).
+Leur optique étant de créer un Web plus sûr et respectueux de la vie privée, ils offrent les certificats numériques pour activer le protocole de sécurité HTTPS (SSL/TLS) pour les sites web, gratuitement.
+
+On peut remarquer sa mise en place sur le serveur web via le rapport de sécurité réalisé auprès de Qualys :
 
 ![Rapport de sécurité SSL](SSL_Labs+Security_headers/SSL_Labs-camposcasares.be.png)
+
+##### En-tête de sécurité
+
+De plus, des security headers ont été mis en place afin d'assurer une protection supplémentaire de la plateforme web.
+En protégeant les en-têtes de sécurité HTTP/HTTPS, les attaques et les vulnérabilités de sécurité sont atténuées.
+
+Les en-têtes de sécurité HTTP est la réponse au navigateur lorsqu'il effectue une requête.
+Certains de ces en-têtes contiennent de méta data de contenu tels que le code de statut, la méthode utilisée par la requête (GET/POST...), l'adresse URL de la requête, le contenu d'encodage et le contrôle de la cache.
+Cela définit donc notamment comment le navigateur web doit réagir en affichant le contenu de la page web demandée.
+
+Voici le rapport d'analyse des en-têtes de sécurité de la plateforme :
+
+![Rapport des security headers](SSL_Labs+Security_headers/securityheaders-camposcasares.be.png)
+
+###### Content Security Policy (CSP)
+
+Cette stratégie permet de prévenir des attaques telles que le script de site croisé (XSS) et d'autres attaques d'injection de code en définissant les sources de contenu approuvées et en permettant au navigateur de les charger.
+
+Dans la configuration du serveur NGINX, cela concerne `Content-Security-Policy`.
+
+###### Filtre de script de site croisé (X XSS-Protection)
+
+L’en-tête est conçu pour activer le filtre de script de site croisé (XSS) intégré dans les navigateurs web modernes.
+Il est généralement activé par défaut, mais le spécifier est toujours préférable.
+
+Dans la configuration du serveur NGINX, cela concerne `add_header X-XSS-Protection "1; mode=block" always;`
+
+###### HTTP Transport de sécurité stricte (HSTS)
+
+Il permet de restreindre les navigateurs web pour accéder au serveur web uniquement via le protocole de sécurité HTTPS.
+Cela garantit que la connexion ne peut pas être établie via une connexion HTTP non sécurisée et ainsi prévenir de susceptibles attaques.
+
+Dans la configuration du serveur NGINX, cela concerne `Strict-Transport-Security`.
+
+###### Protection de clics
+
+En utilisant `X-Frame-Options`, une protection contre les clics est établie et les iframes ne peuvent pas être chargé sur le site web.
+
+###### Blocage de détection de réponse éloignée
+
+`X-Content-Type-Options` permet de prévenir la détection de réponse éloignée déclarée.
+Cela permet de réduire le risque de téléchargements de type "drive-by" (= téléchargement de contenu autorisé sans tenir compte des conséquences (exécutable contrefait, application non reconnue/signée...)) et ainsi traiter le contenu de la bonne façon.
+
+###### Référence de politique HTTP
+
+`Referrer-Policy` contrôle la quantité d'informations de référence qui doit être incluse dans les demandes.
+
+Sur le serveur NGINX, `strict-origin-when-cross-origin` a été défini.
+Concrètement, l'origine est envoyée (le chemin et la chaîne de requête) lors de l'exécution d'une demande de même origine.
+L'origine n'est envoyée que lorsque le niveau de sécurité du protocole reste le même lors de l'exécution d'une demande d'origine croisée (HTTPS → HTTPS), et n'envoie aucun en-tête à un système moins sécurisé (HTTPS → HTTP).
 
 #### Changement vers Python Flask
 
