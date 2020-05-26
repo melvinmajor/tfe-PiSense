@@ -2,17 +2,17 @@
 subtitle: Rapport de travail de fin d'études - EPHEC
 date: Juin 2020
 keywords: [TFE, graduation, work, PiSense, IoT, sensors, dev, report, TFE, graduation, rapport, EPHEC, 3TI]
-header-left: Système modulable de prises de mesures environnementales sur Raspberry Pi avec affichage
+header-left: Système modulable de prises de mesures environnementales avec affichage
 footer-left: Rapport de TFE
 footer-center: EPHEC 2019/2020
 toc-title: Rapport de travail de fin d'études
 ---
 
-# Rapport de travail de fin d'études
+# Système modulable de prises de mesures environnementales sur Raspberry Pi avec système d’affichage
 
-_**Titre :**_ Système modulable de prises de mesures environnementales sur Raspberry Pi avec système d’affichage
-
-_**Nom temporaire prévu pour sa commercialisation :**_ PiSense
+> _**Titre du travail de fin d'études :**_ Système modulable de prises de mesures environnementales sur Raspberry Pi avec système d’affichage
+>
+> _**Nom temporaire prévu pour sa commercialisation :**_ PiSense
 
 ## Introduction
 
@@ -28,8 +28,8 @@ Une autre mettait en avant la nécessité de suivre l’évolution de la présen
 
 **En combinant les besoins et intérêts, les prémices de ce travail sont nées et de nouvelles questions venaient en tête :**
 
-* _serait-il possible d’imaginer une solution de petite taille à ces demandes ?_
-* _Et si cette solution pouvait être générique afin d’être ouvert a tous ?_
+* _Serait-il possible d’imaginer une solution de petite taille et répondant aux demandes ?_
+* _Est-ce que cette solution peut être générique afin d’être ouvert a tous ?_
 
 De plus, avec les récents évènements liés au COVID-19, une réflexion approfondie a été réalisée concernant la mesure de la qualité de l’air suite à la publication de recherches spécifique au coronavirus.
 
@@ -86,6 +86,8 @@ Malheureusement, au vu des problèmes rencontrés liés au confinement, les éch
 En termes de sécurité, il va de soi que l'environnement web doit être sécurisé par un certificat SSL et une protection liée aux données des utilisateurs.
 Dreamnet SRL conseille l'utilisation du certificat Let's Encrypt, étant un certificat gratuit et renouvelé de façon régulière.
 L'augmentation de la sécurité par le biais de _Security Headers_ à implémenter sur la plateforme web est également une méthode intéressante à inclure.
+
+> Concernant la sécurité mise en place sur la plateforme web, les éléments mis en place sont expliqué dans le point consacré à cet effet dans la section _Développement du projet > Site internet > Sécurité_.
 
 Le moyen de communication de la Raspberry doit être le plus générique possible afin que même si une personne externe vient à récolter les informations, aucune information personnelle liée à l'utilisateur ne puisse être récupérée à son insu.
 
@@ -241,7 +243,7 @@ Avec les changements occasionnés au niveau du site internet, seule la table Box
 Avec cette période exceptionnelle que nous rencontrons cette année via la présence de mesures strictes de confinement afin de contrer le coronavirus, cela a eu un impact non négligeable sur l'avancée de ce TFE.
 
 En effet, avec le stage en télétravail, les quelques semaines de stages suspendus qui sont à rattraper et la distanciation sociale, j'ai dû réadapter à plusieurs reprises mon planning de travail.
-Vivant seul, j'ai ressenti la distanciation sociale de façon conséquente.
+Vivant seul, j'ai ressenti la distanciation sociale de façon conséquente et ait perdu mon rythme de travail, entre autres, dû à un manque de motivation lié à la solitude ressentie.
 
 De plus, je n'ai eu que très peu d'échanges avec les clients concernant mon TFE faisant que le développement n'a pu être avancé principalement que sur base des notes prises lors d'entrevues avant les mesures prises par le gouvernement.
 
@@ -278,7 +280,17 @@ Un formulaire pourrait être mis en place avec système de processus de paiement
 
 ## Conclusion
 
-// TODO
+Ce sujet de TFE m'a énormément appris.
+J'ai eu l'occasion de pouvoir m'améliorer dans le langage de programmation Python, mieux comprendre certaines utilisations au niveau des modules et librairies, mais également de comprendre les différences entre Python 2.x et Python 3.x.
+En effet, parmi les différents capteurs utilisés dans le cadre de ce projet, le capteur de détection de fines particules ne disposant pas de librairies spécifique et ayant une communication en série, il ne m'était pas possible de travailler avec ce capteur en Python 3.x tout comme les autres capteurs.
+
+Certains choix technologiques décidés au départ lors de l'écriture du cahier de charges se sont avérés rendre le travail complexe et lors de l'avancement du développement, je me suis rapidement rendu compte des incompatibilités sur certains aspects.
+Cela a occasionné un retard qui était nécessaire à rattraper pour mener à bien ce projet.
+
+La situation particulière que nous avons vécue en ce début d'année 2020, avec la présence du confinement lié à la pandémie du COVID-19, a rendu difficile l'avancement du travail de fin d'études comme expliqué précédemment dans les problèmes rencontrés.
+
+Le cahier de charges a dû être revu avec le client afin de rester réalisable et s'assurer des bons choix technologiques.
+La communication avec les clients s'est avérée être plus difficile durant cette période de pandémie, mais des arrangements ont pu être trouvés afin de pouvoir discuter du projet sans être livré intégralement à soi.
 
 \pagebreak
 
