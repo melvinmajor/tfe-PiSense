@@ -167,8 +167,8 @@ def sensor_to_json():
     # dict which will be used by JSON
 
     dave = {'datetime': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), # date T time in ISO8601
-            'pm25': values[0], # PM2.5 in µg/m3
-            'pm10': values[1]} # PM10 in µg/m3
+            'PM2': values[0], # PM2.5 in µg/m3
+            'PM10': values[1]} # PM10 in µg/m3
     #date_json=dave
     # This part is for debug mode only because when used, it stop the sending of JSON to API
     # data_json = json.dumps(dave)
