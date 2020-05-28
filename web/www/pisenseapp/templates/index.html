@@ -1,0 +1,56 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div id="head">
+  <img src="/static/images/PiSense_logo.png" alt="PiSense logo">
+  <h1>PiSense</h1>
+  <p><em>Une solution IoT de prise de mesures</em>
+    <br><small>Créé par Melvin Campos Casares pour <a href="https://dreamnetbe.net/" id="dreamnet">Dreamnet SRL</a>.</small></p>
+</div>
+<div class="main">
+  <section id="box1" class="main">
+    <h2>Introduction</h2>
+    <hr>
+    <p>Ce projet consiste à vous permettre de vérifier de manière aisée différents types de mesures environnementales.
+    <br>Notre solution à la carte vous permet de récupérer les données suivantes :</p>
+    <ul>
+      <li>Température,</li>
+      <li>Humidité,</li>
+      <li>Pression atmosphérique,</li>
+      <li>Qualité de l'air (PM2.5 et PM10),</li>
+      <li>Composés organiques volatils totaux,</li>
+      <li>Dioxyde de carbone calculée.</li>
+    </ul>
+    <p>Que vous soyez intéressé par le suivi de la qualité de l'air, du taux de CO<sup>2</sup> ou encore du taux de SiO, cette solution tout-en-un est faite pour vous.</p>
+    <button type="button" onclick="location.href='#box2';" id="shrink" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Vous en apprendrez un peu plus sur l'appareil de suivi.">En savoir plus</button>
+  </section>
+  <section id="box2" class="main">
+    <h2>L'appareil de suivi</h2>
+    <hr>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="alert-heading">Développement en cours</h4>
+      <p>Ce projet devrait être opérationnel pour l'été 2020.</p>
+      <div class="progress">
+        <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%"></div>
+      </div>
+    </div>
+    <p>Nous vous proposons un appareil adapté à vos besoins et prêt à l'emploi.
+    <br>Pour ce faire, il suffit de nous préciser ce que vous souhaitez récolter comme données et nous nous chargerons du reste afin de le configurer et l'installer chez vous.</p>
+    <div class="row">
+      <div class="twoColumn">
+        <img src="/static/images/raspberry-pi.png" alt="Raspberry Pi 4" id="raspberryImg">
+        <h3>Raspberry Pi</h3>
+        <p>Notre système se repose sur les Raspberry Pi car elles offrent comme avantage une architecture à faible coût, une miniaturisation remarquable, de bonnes performances et une certaine polyvalence.</p>
+        <p>Concrètement parlant, il s'agit de performances d'un ordinateur entrée de gamme dans une taille de carte de crédit.</p>
+      </div>
+      <div class="twoColumn">
+        <img src="/static/images/sensors.png" alt="Les différents capteurs utilisé dans ce projet" id="sensorsImg">
+        <h3>Les capteurs</h3>
+        <p>En fonction de vos choix, un ou plusieurs capteurs seront connecté à la Raspberry afin de prendre les mesures des différentes valeurs (température, humidité, pression atmosphérique, qualité de l'air, taux de CO<sup>2</sup>, taux de SiO).</p>
+        <p>Si vous avez des besoins particuliers, n'hésitez pas à demander et nous nous chargerons de l'implémenter.</p>
+      </div>
+    </div>
+  </section>
+</div>
+ {% endblock %}

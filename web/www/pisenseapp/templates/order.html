@@ -1,0 +1,94 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div id="headOrder">
+  <h1>PiSense</h1>
+  <p><em>Une solution IoT de prise de mesures</em>
+    <br><small>Créé par Melvin Campos Casares pour <a href="https://dreamnetbe.net/" id="dreamnet">Dreamnet SRL</a>.</small></p>
+</div>
+<div class="main">
+  <section id="box1" class="main">
+    <h2>Commander votre <em><strong>PiSense</strong></em></h2>
+    <hr>
+    <p>Nous avons modélisé un boîtier conçu sur mesure pour contenir notre produit.
+      <br>Cette modélisation 3D permet de contenir un Raspberry Pi, le capteur de qualité d’air <em>(SDS-011)</em> ainsi qu’un capteur au choix à l’extérieur <em>(BMP280, BME280, BME680)</em>.</p>
+      <p class="text-info" id="showOnDesktopOnly">N'hésitez pas à cliquer sur les images ci-dessous pour voir le rendu digitalisé.</p>
+    <div class="row">
+      <div class="column"><img src="/static/images/PiSense-box1.png" id="imgPiSenseBoxOne" onclick="openModal();currentSlide(1)" class="hover-shadow" alt="Vue coté Raspberry de la modélisation 3D du boîtier PiSense"></div>
+      <div class="column"><img src="/static/images/PiSense-box2.png" id="imgPiSenseBoxTwo" onclick="openModal();currentSlide(2)" class="hover-shadow" alt="Vue coté capteurs de la modélisation 3D du boîtier PiSense"></div>
+    </div>
+
+     <div id="myModal" class="modal">
+      <span class="close cursor" onclick="closeModal()">&times;</span>
+      <div class="modal-content">
+        <div class="mySlides">
+          <div class="numbertext">1 / 2 - Modélisation 3D du boîtier PiSense</div>
+          <img src="/static/images/PiSense-box1.png" style="width:100%">
+        </div>
+        <div class="mySlides">
+          <div class="numbertext">2 / 2 - Modélisation 3D du boîtier PiSense</div>
+          <img src="/static/images/PiSense-box2.png" style="width:100%">
+        </div>
+        <!-- Next/previous controls -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <!-- Caption text -->
+        <div class="caption-container">
+          <p id="caption"></p>
+        </div>
+      </div>
+    </div>
+    <p>Choisissez le modèle qui vous intéresserait :</p>
+    <div class="row">
+      <div class="twoColumn">
+        <h3><strong>PiSense Base</strong> <span class="badge badge-dark">Intérieur</span></h3>
+        <ul>
+          <li>Modèle standard avec capteur BME280
+            <li>Température, humidité, pression atmosphérique</li></li>
+          <li>Prévu pour être en intérieur : non résistant à la pluie</li>
+          <li>Possibilité d'inclure des capteurs supplémentaires sur demande</li>
+        </ul>
+      </div>
+      <div class="twoColumn">
+        <h3><strong>PiSense Base</strong> <span class="badge badge-dark">Extérieur</span></h3>
+        <ul>
+          <li>Modèle standard avec capteur BME280
+          <li>Température, humidité, pression atmosphérique</li></li>
+          <li>Prévu pour être en extérieur : résistant à la pluie</li>
+          <li>Possibilité d'inclure des capteurs supplémentaires sur demande</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section id="box2" class="main">
+    <h2>Possibilité de modifications sur demande</h2>
+    <hr>
+    <p>Le modèle de base ne vous convient pas ?
+      <br>Pas de problème, nous pouvons adapter la solution pour vous !</p>
+    <p>Les modèles proposé sont fourni avec le capteur Bosch BME280, un capteur permettant le suivi de la température, l'humidité et la pression atmosphérique.</p>
+    <p>Sur simple demande de votre part, nous pouvons remplacer ce capteur par le Bosch BMP280 (température et humidité uniquement) ou le Bosch BME680 (température, humidité, taux de CO<sup>2</sup> calculée, composés organiques volatils totaux et pression atmosphérique).</p>
+    <p>Bien entendu, il est possible de rester sur le modèle de base et d'inclure d'autres capteurs comme, notamment, le Inovafit SDS-011 conçu spécifiquement et de façon très précise les composés organiques volatils et de prévenir de tout risque pour la santé de vos employés.</p>
+    <br>
+    <h3>En résumé</h3>
+    <p class="text-info">Le prix varie en fonction de ce que vous avez besoin et nous pouvons vous faire un devis avant de commander la solution prête à l'emploi.</p>
+    <p>Plusieurs possibilités :</p>
+    <div class="row">
+      <div class="twoColumn">
+        <ul>
+          <li><u><strong><em>Partir sur le modèle de base :</em></strong></u>
+            <ul><li>Rester sur le suivi de base : <em>température, humidité, pression atmosphérique</em></li>
+              <li>Ajouter le capteur SDS-011 pour déterminer la qualité de l'air</li>
+            </ul></li></ul>
+      </div>
+      <div class="twoColumn">
+        <ul>
+          <li><u><strong><em>Changer le modèle de base :</em></strong></u>
+            <ul><li>Capteur BMP280 : <em>température et humidité</em><ul><li>Ajouter le capteur SDS-011 pour déterminer la qualité de l'air</li>
+            </ul></li>
+              <li>Capteur BME680 : <em>température, humidité, pression atmosphérique, taux de CO<sup>2</sup> calculée, taux de composés organiques volatils totaux</em></li>
+            </ul></li></ul>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div id="headOrder">
+  <h1>PiSense</h1>
+  <p><em>Une solution IoT de prise de mesures</em>
+    <br><small>Créé par Melvin Campos Casares pour <a href="https://dreamnetbe.net/" id="dreamnet">Dreamnet SRL</a>.</small></p>
+</div>
+<div class="main">
+  <section id="box1" class="main">
+    <h2>A propos</h2>
+    <hr>
+    <p>PiSense n'est pas qu'un appareil de prise de mesures environnementales, il s'agit d'une solution complète qui vous est proposée.</p>
+    <p>Les capteurs permettent de récupérer une multitude d'informations comprenant la température, l'humidité, la pression atmosphérique, les composés organiques volatils totaux et le dioxyde de carbone calculé.
+      <br>Bien entendu, si vous avez un besoin particulier, nous pouvons faire en sorte que l'appareil puisse récolter le type de gaz en question avec le capteur adéquat.</p>
+    <br>
+    <h3>Cette solution est en 3 parties</h3>
+    <ul>
+      <li><strong>Une structure en ligne</strong><ul>
+        <li>Un site web vous donnant accès à différentes informations récoltées et affiché.</li></ul></li>
+      <br>
+      <li><strong>Un moyen d'échange des données</strong>
+        <ul>
+          <li>Une interface de programmation <em>(souvent appelé API)</em> servant à la communication entre l'appareil de suivi et la structure en ligne,</li>
+          <li>Une base de données servant au stockage des informations servant à être réutilisé.</li>
+        </ul></li>
+      <br>
+      <li><strong>L'appareil de suivi</strong><ul>
+        <li>L'appareil et ses capteurs, récoltant des informations précieuses lié à l'environnement l'entourant.</li></ul></li>
+    </ul>
+    <br>
+    <p class="text-info">Tout ceci à été créé par un étudiant en dernière année de bachelier en Technologie de l'Informatique à l'EPHEC pour répondre aux besoins d'une entreprise.</p>
+    <p><strong>Intéressé(e) pour découvrir la face cachée de PiSense ?</strong>
+      <br>N'hésitez pas, venez découvrir le code de programmation disponible sur GitHub en cliquant sur le bouton ci-dessous !</p>
+    <a href="https://github.com/melvinmajor/tfe-PiSense" target="_blank"><button type="button" class="btn btn-dark" id="shrink" data-toggle="tooltip" data-placement="right" title="Vous découvrirez le code derrière ce projet.">GitHub</button></a>
+  </section>
+</div>
+{% endblock %}
