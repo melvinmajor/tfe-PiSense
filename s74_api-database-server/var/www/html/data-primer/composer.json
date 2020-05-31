@@ -1,0 +1,11 @@
+{
+    "require": {
+        "atk4/data": "*",
+        "psy/psysh": "^0.7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    }
+}
