@@ -1,5 +1,5 @@
 ---
-subtitle: Rapport de travail de fin d'études - EPHEC
+subtitle: Travail de fin d'études présenté en vue de l'obtention du diplôme de bachelier en Informatique et Systèmes orientation Technologie de l’informatique
 date: Juin 2020
 keywords: [TFE, graduation, work, PiSense, IoT, sensors, dev, report, TFE, graduation, rapport, EPHEC, 3TI]
 header-left: Système modulable de prises de mesures environnementales avec affichage
@@ -8,11 +8,36 @@ footer-center: EPHEC 2019/2020
 toc-title: Rapport de travail de fin d'études
 ---
 
+
 # Système modulable de prises de mesures environnementales sur Raspberry Pi avec système d’affichage
 
 > _**Titre du travail de fin d'études :**_ Système modulable de prises de mesures environnementales sur Raspberry Pi avec système d’affichage
 >
 > _**Nom temporaire prévu pour sa commercialisation :**_ PiSense
+
+**Préface**
+
+Je souhaite tout d'abord remercier Dreamnet SRL et leurs contacts, car sans eux, ce projet n'aurait sans doute pas existé.
+Leur soutien à été d'une grande aide malgré les circonstances atténuantes lié au COVID-19.
+
+Je remercie également mon rapporteur de stage, le professeur Arnaud Dewulf, pour les multiples échanges que nous avons eus et qui m'a permis de me conforter dans le choix de certains capteurs et de particularités à tenir en compte au niveau de l'aspect électronique de ce travail de fin d'études.
+
+Je remercie également le client venant du professeur Arnaud Dewulf qui m'a permis d'avoir une réflexion poussée sur LoRaWAN et Zigbee.
+Cela m'a permis de tenir en compte de possibles ouvertures en termes de moyen de communication.
+De plus, il m'a permis de rediriger mes choix de capteurs afin de rendre ce travail le plus générique possible avec possibilité de personnalisation.
+Malheureusement, au vu des circonstances mondiales rencontrées, nos échanges n'ont finalement pas donné de suite.
+
+**Mesures liées au Coronavirus**
+
+Suite aux mesures liées au Coronavirus, un impact non négligeable a eu lieu envers l'avancement du TFE.
+En effet, il a été nécessaire de réadapter les échanges avec les deux clients et n'ai plus eu de retour concernant l'un d'eux.
+De plus, avec les mesures gouvernementales prises et vivant seul, la distanciation sociale s'est fait ressentir de façon conséquente impliquant une perte de motivation.
+Quelques soucis de santé ont également été rencontrés durant cette période, faisant qu'un retard au niveau du développement de ce projet s'est installé ; retard dont j'ai mis un point d'honneur à récupérer au mieux.
+
+En concertation avec le client principal, Dreamnet SRL, le développement s'est vu être adapté.
+L'optique principale étant d'avoir l'appareil de suivi environnemental opérationnel (pouvant communiquer avec une API et inscrire les données au sein d'une base de données), l'aspect web s'est vu être altéré afin de montrer la possibilité de communication sans pour autant avoir une gestion d'inscription et connexion utilisateur.
+
+\pagebreak
 
 ## Introduction
 
@@ -35,6 +60,14 @@ De plus, avec les récents évènements liés au COVID-19, une réflexion approf
 
 Vous découvrirez dans ce rapport la façon dont ce travail a été développé ainsi que certaines analyses réalisées.
 
+### Analyse du projet
+
+Un schéma d'analyse et un schéma du réseau physique ont été réalisés afin d'offrir une vue d'ensemble rapide sur la solution mise en place.
+
+![Schéma d'analyse du TFE](Lucidchart/schema-analyse.png)
+
+![Schéma physique du réseau](Lucidchart/schema-physique.png)
+
 \pagebreak
 
 ## Informations générales de ce projet
@@ -51,6 +84,15 @@ Cela permettra au client de prévenir de tout risque lié à une présence de l�
 Permettre l’optimisation de l’environnement du personnel.
 Des études ont prouvé qu’une pièce à bonne température ambiante et avec une bonne qualité d’air permet d’aider à la concentration et améliorer l’état de santé ainsi que la productivité de l’être humain.
 
+De multiples articles ont été publiés, tant venant de chercheurs que de journalistes se basant sur les différentes études réalisées.
+Pour ne citer que quelques sources, en voici deux expliquant de façon synthétique l'intérêt de suivre les données environnementales du lieu de travail et de l'optimiser :
+
+* <https://www.francetvinfo.fr/replay-radio/c-est-mon-boulot/la-chaleur-a-des-effets-negatifs-sur-la-productivite_3486911.html>
+* <https://www.forbes.fr/management/bonheur-au-travail-le-corps-ce-grand-oublie/>
+
+De plus, il semblerait que dans le milieu professionnel, la pollution atmosphérique est un facteur aggravant pour les pathologies respiratoires.
+Un article allant dans ce sens, en mettant en corrélation la propagation facilitée du COVID-19 dans ce type d'environnement, a été publié par Le Soir et est disponible à l'adresse suivante : <https://www.rtbf.be/info/societe/detail_le-coronavirus-pourrait-rester-plusieurs-heures-dans-l-air-a-cause-de-la-pollution-atmospherique?id=10464049>
+
 Dans le cas des retours du professeur, il s’agirait de prévenir d’un éventuel danger dans un milieu de travail à risque.
 
 ### Besoins et contraintes
@@ -64,7 +106,7 @@ Concrètement parlant, il est demandé de mettre en place une solution IoT munie
 
 Un moyen d’accès aisé aux informations est à mettre en place.
 Le prix d’achat des composants pour créer l’appareil doit être le moins coûteux possible.
-De ce fait, une analyse des différents composants disponible sur le marché et de leur précision à été réalisée lors de l'élaboration du cahier de charges et de l'analyse technique afin de retenir uniquement les composants ayant un bon rapport précision/prix.
+De ce fait, une analyse des différents composants disponibles sur le marché et de leur précision a été réalisée lors de l'élaboration du cahier de charges et de l'analyse technique afin de retenir uniquement les composants ayant un bon rapport précision/prix.
 
 Concernant les nécessités du client disposant d’une carrière, une solution entièrement sans fil est à envisager.
 L’utilisation d’une batterie d’une certaine capacité pourrait s’avérer pratique à moins que le client dispose d’une prise 220V non loin de la zone où il souhaite mettre en place l’appareil.
@@ -87,7 +129,7 @@ En termes de sécurité, il va de soi que l'environnement web doit être sécuri
 Dreamnet SRL conseille l'utilisation du certificat Let's Encrypt, étant un certificat gratuit et renouvelé de façon régulière.
 L'augmentation de la sécurité par le biais de _Security Headers_ à implémenter sur la plateforme web est également une méthode intéressante à inclure.
 
-> Concernant la sécurité mise en place sur la plateforme web, les éléments mis en place sont expliqué dans le point consacré à cet effet dans la section _Développement du projet > Site internet > Sécurité_.
+> Concernant la sécurité mise en place sur la plateforme web, les éléments mis en place sont expliqués dans le point consacré à cet effet dans la section _Développement du projet > Site internet > Sécurité_.
 
 Le moyen de communication de la Raspberry doit être le plus générique possible afin que même si une personne externe vient à récolter les informations, aucune information personnelle liée à l'utilisateur ne puisse être récupérée à son insu.
 
@@ -100,7 +142,7 @@ La méthodologie suivie s'apparente donc aux méthodologies Agile et plus préci
 
 Avec la période compliquée que nous avons subi, certaines contraintes ont été rencontrées, forçant de changer la manière de s'organiser ainsi que de la mise en place des réunions.
 
-Le développement à débuté sur la partie IoT avec la Raspberry Pi pour ensuite laisser place à la mise en place d'un site internet _"maquette"_.
+Le développement à débuté sur la partie IoT avec la Raspberry Pi pour ensuite laisser place au développement d'un site internet _"maquette"_.
 
 ### Raspberry Pi
 
@@ -216,45 +258,50 @@ Cette formation m'a permis de mieux visualiser les concepts théoriques derrièr
 Malheureusement, en avançant dans la construction de l'API, j'ai été face à quelques problèmes de compréhension afin de mettre en place correctement les éléments nécessaires pour finaliser le site web avec Python Flask.
 Arrivé début mai, j'ai dès lors pris contact avec Dreamnet SRL afin de changer un peu les attentes du projet et convenir d'un arrangement.
 
-Une partie du cahier de charges original concernant le site web est donc relégué à un développement ultérieur, la partie échange de communication entre la Raspberry Pi et le site web étant la priorité.
+Une partie du cahier de charges original concernant le site web est donc reléguée à un développement ultérieur, la partie échange de communication entre la Raspberry Pi et le site web étant la priorité.
 
-Le langage final choisi est PHP et la conversion entre ce qui à déjà été réalisé sous Python Flask et le nouvel environnement sous PHP n'a pas occasionné un retard plus conséquent que celui déjà préexistant.
+Le langage final choisi est PHP avec Agile Toolkit et la conversion entre ce qui a déjà été réalisé sous Python Flask et le nouvel environnement sous PHP n'a pas occasionné un retard plus conséquent que celui déjà préexistant.
 
 ### Base de données
 
-Lors du choix de technologies, il était décidé de partir sur MariaDB car jugé plus intéressant en termes de fonctionnalités, stabilité et de la licence Open SQL Server en comparaison de MySQL.
-Malheureusement, au vu de certaines incompatibilités rencontrées avec MariaDB lors de l'implémentation de l'environnement web, SQLite a été le choix final.
+Lors du choix de technologies, il était décidé de partir sur MariaDB, car jugé plus intéressant en termes de fonctionnalités, stabilité et de la licence Open SQL Server en comparaison de MySQL.
+Au vu de certaines incompatibilités rencontrées avec MariaDB lors de l'implémentation de l'environnement web sous Python Flask, SQLite a été le choix de prototypage retenu, mais MariaDB est bel et bien la solution retenue et déployée grâce au changement de structure utilisée lors de la mise en place de l'API.
 
 Concrètement parlant, la base de données comporte 2 tables :
 
-* User
+* User :
   Elle contient toutes les informations liées à l'utilisateur. Nous y trouverons son nom et prénom, adresse e-mail, mot de passe (qui sera protégé), date d'inscription et s'il est en possession d'un appareil de suivi ainsi que de quel(s) capteur(s).
-* Box
+* Box :
   Elle contient les informations liées à la Raspberry Pi et les capteurs. Nous y trouverons les différentes informations environnementales tout comme l'ID de l'appareil ainsi que l'horodatage de la prise de mesure.
 
-Avec les changements occasionnés au niveau du site internet, seule la table Box sera utilisée.
+> À noter que la présence des données des capteurs dans la table Box est un choix réfléchi et à pour but de simplifier les requêtes réalisées auprès de l'API et la base de données afin de rendre l'inscription et la récupération des informations plus rapide et efficace.
+
+Avec les changements occasionnés au niveau du site internet ainsi que les réadaptations nécessaires au niveau du développement dû aux circonstances liées au COVID-19, seule la table Box sera utilisée même si la table User est fonctionnelle et utilisable pour le développement ultérieur par le client.
 
 \pagebreak
 
 ## Problèmes rencontrés
 
-### Confinement
+### Confinement (COVID-19)
 
 Avec cette période exceptionnelle que nous rencontrons cette année via la présence de mesures strictes de confinement afin de contrer le coronavirus, cela a eu un impact non négligeable sur l'avancée de ce TFE.
 
-En effet, avec le stage en télétravail, les quelques semaines de stages suspendus qui sont à rattraper et la distanciation sociale, j'ai dû réadapter à plusieurs reprises mon planning de travail.
-Vivant seul, j'ai ressenti la distanciation sociale de façon conséquente et ait perdu mon rythme de travail, entre autres, dû à un manque de motivation lié à la solitude ressentie.
+En effet, avec le stage en télétravail, les quelques semaines de stage suspendus qui sont à rattraper et la distanciation sociale, j'ai dû réadapter à plusieurs reprises mon planning de travail.
+Vivant seul, j'ai ressenti la distanciation sociale de façon conséquente et ait perdu mon rythme de travail, entre autres, dû à un manque de motivation lié à la solitude ressentie et quelques soucis de santé rencontrée.
 
-De plus, je n'ai eu que très peu d'échanges avec les clients concernant mon TFE faisant que le développement n'a pu être avancé principalement que sur base des notes prises lors d'entrevues avant les mesures prises par le gouvernement.
+De plus, je n'ai eu que peu d'échanges avec les clients concernant mon TFE faisant que le développement n'a pu être avancé principalement que sur base des notes prises lors d'entrevues avant les mesures prises par le gouvernement.
+Dreamnet SRL a répondu présent lors de nos échanges par mail malgré une réponse parfois lente dû à une surcharge de travail lié aux urgences clientèle, mais je n'ai eu aucune nouvelle du second client.
 
 ### Incompatibilité entre les technologies choisies
 
 Au début du projet, sur base des demandes du client et d'une analyse amenant à l'élaboration d'un cahier de charges, certains choix de technologies m'avaient semblé évidents.
 C'était sans compter la complexité de mise en place du framework React.JS au niveau de l'environnement web.
 
-Une première réadaptation des choix technologiques à été faite en quittant le framework React.JS au profit du framework Flask.
+Une première réadaptation des choix technologiques a été faite en quittant le framework React.JS au profit du framework Flask.
 
 Malheureusement, des soucis de connexion entre Python Flask et la base de données MariaDB se sont présentés très rapidement, nécessitant le changement vers SQLite qui lui, ne pose aucun problème d'interaction par le biais du module SQLAlchemy utilisé par Flask pour interagir avec une base de données.
+
+Au vu de la réadaptation du développement de l'API, SQLite s'est avéré être efficace lors du prototypage, mais MariaDB a finalement été mis en place avec l'API PHP sous framework Agile Toolkit, respectant ainsi l'intérêt premier au niveau du choix technologique de la base de données.
 
 \pagebreak
 
@@ -273,7 +320,7 @@ De cette manière, l'utilisateur n'aurait plus à devoir fournir les information
 
 ### Système de commande complète en ligne
 
-À l'heure actuelle, la prise en charge des commandes se réalise exclusivement que par un échange de mail et/ou par appel téléphonique.
+À l'heure actuelle, la prise en charge des commandes se réalise exclusivement que par prise de contact via échange mail et/ou par appel téléphonique avec Dreamnet SRL.
 Un formulaire pourrait être mis en place avec système de processus de paiement par carte bancaire afin d'automatiser la commande.
 
 \pagebreak
@@ -291,6 +338,10 @@ La situation particulière que nous avons vécue en ce début d'année 2020, ave
 
 Le cahier de charges a dû être revu avec le client afin de rester réalisable et s'assurer des bons choix technologiques.
 La communication avec les clients s'est avérée être plus difficile durant cette période de pandémie, mais des arrangements ont pu être trouvés afin de pouvoir discuter du projet sans être livré intégralement à soi.
+
+En termes de développement, la partie concernant l'appareil de suivi environnemental est intégralement fonctionnelle.
+L'API et la base de données sont également fonctionnels et l'appareil de suivi interagit sans problème avec.
+L'environnement web présente les possibilités d'interaction utilisateur envisageable (visibilité des graphes), mais aucune gestion de notification sur base d'alertes personnalisées ou de création de compte utilisateur/connexion utilisateur n'est gérée malgré que la structure soit existante au niveau de l'API et de la base de données, comme convenu avec le client.
 
 \pagebreak
 
@@ -321,6 +372,9 @@ _**Partie web :**_
 * _Documentation Bootstrap_, Bootstrap, <https://getbootstrap.com/docs/4.5/getting-started/introduction/>
 * _Code Snipetts | CSS-Tricks_, CSS-tricks, <https://css-tricks.com/snippets/>
 * _CSS Almanac | CSS-Tricks_, CSS-tricks, <https://css-tricks.com/almanac/>
+* _ChartJS_, ChartJS, <https://www.chartjs.org/>
+* _Agile Toolkit_, <https://agiletoolkit.org/>
+* _Agile UI Documentation_, <https://agile-ui.readthedocs.io/en/latest/>
 
 _**Partie Base de données :**_
 
@@ -331,8 +385,14 @@ _**Partie API :**_
 
 * _Adoptez les API REST pour vos projets web_, Openclassrooms, <https://openclassrooms.com/fr/courses/6573181-adoptez-les-api-rest-pour-vos-projets-web>
 * _ChartJS_, ChartJS, <https://www.chartjs.org/>
+* _Agile Toolkit_, <https://agiletoolkit.org/>
+* _Agile UI Documentation_, <https://agile-ui.readthedocs.io/en/latest/>
+* _ATK Data - Data Access Framework for high-latency databases (Cloud SQL/NoSQL)_, repoistory GitHub appartenant à ATK4, <https://github.com/atk4/data/>
 
 _**Autres sources :**_
 
 * _docker-compose_, Docker, <https://docs.docker.com/compose/>
 * _Use volumes_, Docker, <https://docs.docker.com/storage/volumes/>
+* _La chaleur a des effets négatifs sur la productivité_, France TV Info, <https://www.francetvinfo.fr/replay-radio/c-est-mon-boulot/la-chaleur-a-des-effets-negatifs-sur-la-productivite_3486911.html>
+* _Le bonheur au travail : le corps, ce grand oublié_, Forbes, <https://www.forbes.fr/management/bonheur-au-travail-le-corps-ce-grand-oublie/>
+* _Pollution et propagation fulgurante du coronavirus, les particules fines montrées du doigt_, Le Soir, <https://www.rtbf.be/info/societe/detail_le-coronavirus-pourrait-rester-plusieurs-heures-dans-l-air-a-cause-de-la-pollution-atmospherique?id=10464049>
