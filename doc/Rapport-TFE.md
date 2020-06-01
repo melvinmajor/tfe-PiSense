@@ -37,6 +37,8 @@ Quelques soucis de santé ont également été rencontrés durant cette période
 En concertation avec le client principal, Dreamnet SRL, le développement s'est vu être adapté.
 L'optique principale étant d'avoir l'appareil de suivi environnemental opérationnel (pouvant communiquer avec une API et inscrire les données au sein d'une base de données), l'aspect web s'est vu être altéré afin de montrer la possibilité de communication sans pour autant avoir une gestion d'inscription et connexion utilisateur.
 
+Au vu des règles en vigueur lors du confinement, les colis jugés non prioritaires se sont vu être retardés, occasionnant ainsi un retard considérable pour la réception du capteur SDS011 permettant la mesure de l'indice de qualité de l'air.
+
 \pagebreak
 
 ## Introduction
@@ -63,6 +65,8 @@ Vous découvrirez dans ce rapport la façon dont ce travail a été développé 
 ### Analyse du projet
 
 Un schéma d'analyse et un schéma du réseau physique ont été réalisés afin d'offrir une vue d'ensemble rapide sur la solution mise en place.
+
+Vous les découvrirez aux pages suivantes.
 
 ![Schéma d'analyse du TFE](Lucidchart/schema-analyse.png)
 
@@ -152,9 +156,62 @@ Plusieurs éléments ont été développés :
 * Système de connexion à distance sécurisée par interface graphique via VNC Viewer (Raspberry Pi servant de serveur),
 * Protection à la connexion par interface console par protocole SSH,
 * Intégration d'un service permettant l'allongement de la durée de vie de la carte microSD,
+* Développement d'un service permettant le refroidissement du processeur de la Raspberry Pi 4 via un ventilateur connecté sur le module GPIO intégré (la Raspberry Pi 4 est réputée pour avoir un processeur qui chauffe),
 * Développement des différents capteurs.
 
 Concernant les capteurs, tout a été développé avec le langage de programmation Python, l'intégration d'un service de logs avec rotation et suppression automatique de l'historique ancien de plus de 30 jours.
+
+#### Capteurs
+
+La réception des capteurs s'étant faite en plusieurs parties (3 fournisseurs différents pour 4 capteurs), 3 des 4 capteurs ont été reçus avant le confinement.
+Le dernier capteur, le SDS011 permettant la mesure de l'indice de la qualité de l'air par le biais des normes PM2.5 et PM10, a été livré pratiquement 2 mois après avoir effectué la commande.
+
+Voici les différents capteurs commandé et intégré dans ce projet (ils sont tous fonctionnels) :
+
+* _**Bosch BMP280**_ (modèle basé sur la librairie Adafruit) : prise de mesures de la température et humidité.
+* _**Bosch BME280**_ (modèle basé sur la librairie Adafruit) : prise de mesures de la température, humidité et pression atmosphérique.
+* _**Bosch BME680**_ (modèle de Pimoroni) : prise de mesures de la température, humidité, pression atmosphérique et calcul des taux de CO2 et composés organiques volatils totaux.
+* _**Nova SDS011**_ : prise de mesures de l'air par le biais d'un laser et détection des particules fines d'après les normes de diamètre aérodynamique PM2.5 (< 2,5 µm) et PM10 (< 10 µm).
+
+> À titre de comparaison, le diamètre aérodynamique d'un cheveu humain est de 50 à 70 µm.
+
+En effet, mise à part le capteur BME680 en provenance du Royaume-Uni et commandé directement auprès de Pimoroni, les autres capteurs étaient tous en provenance de Chine.
+Adafruit proposait de les commander directement de chez eux, mais le coût étant relativement conséquent, j'ai jugé bon de réduire les frais du TFE et commander les premiers capteurs dès la confirmation du sujet de TFE.
+
+#### Log, menu d'aide du script, etc.
+
+En termes de dépassement, l'implémentation d'un système de rotation des logs interne à la Raspberry Pi a été mise en place.
+Concrètement parlant, toutes les informations jugées pertinentes (données formatées en JSON et prêt pour l'envoi vers l'API, réponse de réussite ou d'erreur lors de l'envoi vers l'API, etc.) sont stockées dans un fichier ayant la dénomination suivante : `NomDuCapteur.log.Année-Mois-Jour` _(exemple : bme680.log.2020-06-01)_
+
+De plus, un menu d'aide a été intégré pour chacun des capteurs permettant de démarrer le script avec la déclaration personnalisée de l'URL du serveur API, du temps entre chaque prise de mesures et la version du script présent sur l'appareil.
+
+_**Voici le menu d'aide du capteur BME280 :**_
+
+`mcc@RasbperryPi4: $ sudo python3 bme280/bme280sensor.py --help`
+
+```fish
+usage: PiSense BME280 [-h] [-u URL] [-t TIME] [-v]
+
+BME280 module sensor of PiSense
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -u URL, --url URL     URL of the API
+  -t TIME, --time TIME  Time, in seconds, between each record taken
+  -v, --version         PiSense BME280 program version
+```
+
+#### Photos de l'appareil
+
+Voici, aux pages suivantes, des photos de la Raspberry Pi 4 dans un boitier en aluminium, sous différents angles et avec les capteurs branché.
+
+![Raspberry Pi 4 avec les capteurs BME280, BME680 et SDS011 branché](Pictures/RPi4+caseV2+all-sensors.jpg)
+
+![Raspberry Pi 4 avec un boitier en aluminium](Pictures/RPi4+caseV2.jpg)
+
+![Raspberry Pi 4, vu de haut, avec les capteurs BME280 et BME680 branché](Pictures/RPi4+caseV2+BME280-BME680.jpg)
+
+\pagebreak
 
 ### Site internet
 
@@ -225,7 +282,7 @@ Sur le serveur NGINX, `strict-origin-when-cross-origin` a été défini.
 Concrètement, l'origine est envoyée (le chemin et la chaîne de requête) lors de l'exécution d'une demande de même origine.
 L'origine n'est envoyée que lorsque le niveau de sécurité du protocole reste le même lors de l'exécution d'une demande d'origine croisée (HTTPS → HTTPS), et n'envoie aucun en-tête à un système moins sécurisé (HTTPS → HTTP).
 
-#### Changement vers Python Flask
+#### Changement du serveur web vers Python Flask
 
 Fin mars, j'ai entrepris la conversion complète du site internet pour travailler sur le framework Flask prévu pour Python.
 
@@ -253,7 +310,7 @@ La documentation fournie sur le site internet officiel de Flask est relativement
 Dans le cadre de ce projet, j'ai suivi la formation en ligne "Adoptez les API REST pour vos projets web" sur OpenClassrooms.
 Cette formation m'a permis de mieux visualiser les concepts théoriques derrière les API et ainsi orienter la programmation de ce dernier.
 
-#### Changement vers PHP
+###### Changement de l'API vers PHP Agile Toolkit framework
 
 Malheureusement, en avançant dans la construction de l'API, j'ai été face à quelques problèmes de compréhension afin de mettre en place correctement les éléments nécessaires pour finaliser le site web avec Python Flask.
 Arrivé début mai, j'ai dès lors pris contact avec Dreamnet SRL afin de changer un peu les attentes du projet et convenir d'un arrangement.
@@ -262,6 +319,18 @@ Une partie du cahier de charges original concernant le site web est donc relégu
 
 Le langage final choisi est PHP avec Agile Toolkit et la conversion entre ce qui a déjà été réalisé sous Python Flask et le nouvel environnement sous PHP n'a pas occasionné un retard plus conséquent que celui déjà préexistant.
 
+#### Impression d'écran de l'interface web
+
+Voici l'interface utilisateur disponible en ligne.
+Il présente de façon claire et détaillée les mesures prises des 30 derniers jours.
+L'utilisateur peut parcourir avec sa souris les mesures prises à chaque instant s'il souhaite plus de détails.
+
+![Impression d'écran de l'interface web avec les graphes](Pictures/web-platform.jpg)
+
+![Impression d'écran de la page d'accueil sur un appareil mobile](Pictures/web-platformMobile.jpg)
+
+\pagebreak
+
 ### Base de données
 
 Lors du choix de technologies, il était décidé de partir sur MariaDB, car jugé plus intéressant en termes de fonctionnalités, stabilité et de la licence Open SQL Server en comparaison de MySQL.
@@ -269,9 +338,9 @@ Au vu de certaines incompatibilités rencontrées avec MariaDB lors de l'implém
 
 Concrètement parlant, la base de données comporte 2 tables :
 
-* User :
+* _**User**_ :
   Elle contient toutes les informations liées à l'utilisateur. Nous y trouverons son nom et prénom, adresse e-mail, mot de passe (qui sera protégé), date d'inscription et s'il est en possession d'un appareil de suivi ainsi que de quel(s) capteur(s).
-* Box :
+* _**Box**_ :
   Elle contient les informations liées à la Raspberry Pi et les capteurs. Nous y trouverons les différentes informations environnementales tout comme l'ID de l'appareil ainsi que l'horodatage de la prise de mesure.
 
 > À noter que la présence des données des capteurs dans la table Box est un choix réfléchi et à pour but de simplifier les requêtes réalisées auprès de l'API et la base de données afin de rendre l'inscription et la récupération des informations plus rapide et efficace.
@@ -291,6 +360,8 @@ Vivant seul, j'ai ressenti la distanciation sociale de façon conséquente et ai
 
 De plus, je n'ai eu que peu d'échanges avec les clients concernant mon TFE faisant que le développement n'a pu être avancé principalement que sur base des notes prises lors d'entrevues avant les mesures prises par le gouvernement.
 Dreamnet SRL a répondu présent lors de nos échanges par mail malgré une réponse parfois lente dû à une surcharge de travail lié aux urgences clientèle, mais je n'ai eu aucune nouvelle du second client.
+
+Au vu des règles en vigueur lors du confinement, les colis jugés non prioritaires se sont vu être retardés, occasionnant ainsi un retard considérable pour la réception du capteur SDS011 permettant la mesure de l'indice de qualité de l'air.
 
 ### Incompatibilité entre les technologies choisies
 
@@ -322,6 +393,15 @@ De cette manière, l'utilisateur n'aurait plus à devoir fournir les information
 
 À l'heure actuelle, la prise en charge des commandes se réalise exclusivement que par prise de contact via échange mail et/ou par appel téléphonique avec Dreamnet SRL.
 Un formulaire pourrait être mis en place avec système de processus de paiement par carte bancaire afin d'automatiser la commande.
+
+### Utilisation de la modélisation 3D d'un boitier adapté au projet
+
+Une modélisation 3D d'un boitier permettant l'installation d'une Raspberry Pi avec le capteur Nova SDS011 ainsi qu'un second capteur au choix parmi BMP280/BME280/BME680 a été réalisé.
+
+Théoriquement, les mesures devraient être correctes et la modélisation utilisable pour sa production.
+Néanmoins, il serait intéressant de vérifier cela en pratique, réaliser les modifications éventuelles à apporter et ainsi profiter d'une solution entièrement personnalisée pour sa commercialisation.
+
+![Modélisation 3D d'un boitier prévu pour l'appareil de prises de mesures envrionnementales](Pictures/3D-box.png)
 
 \pagebreak
 
