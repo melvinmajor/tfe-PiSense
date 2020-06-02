@@ -105,10 +105,7 @@ Dans le cas des retours du professeur, il s’agirait de prévenir d’un évent
 
 Il est demandé de mettre en place une solution IoT munie de capteurs « à la carte » ainsi que de différents moyens de communication au choix pour l’utilisateur final.
 
-**Ce choix permettra au client de définir ce dont il a besoin :**
-
-* Wi-Fi,
-* Ethernet.
+Ce choix permettra au client de définir ce dont il a besoin : Wi-Fi ou Ethernet.
 
 Un moyen d’accès aisé aux informations est à mettre en place.
 Le prix d’achat des composants pour créer l’appareil doit être le moins coûteux possible.
@@ -129,6 +126,8 @@ Malheureusement, au vu des problèmes rencontrés liés au confinement, les éch
 * La possibilité d’une solution entièrement sans fil,
 * Résistance aux intempéries si l’appareil est mis en extérieur (résistance à la pluie).
 
+\pagebreak
+
 ## Analyse de sécurité
 
 En termes de sécurité, il va de soi que l'environnement web doit être sécurisé par un certificat SSL et une protection liée aux données des utilisateurs.
@@ -138,6 +137,8 @@ L'augmentation de la sécurité par le biais de _Security Headers_ à implément
 > Concernant la sécurité mise en place sur la plateforme web, les éléments mis en place sont expliqués dans le point consacré à cet effet dans la section _Développement du projet > Site internet > Sécurité_.
 
 Le moyen de communication de la Raspberry doit être le plus générique possible afin que même si une personne externe vient à récolter les informations, aucune information personnelle liée à l'utilisateur ne puisse être récupérée à son insu.
+
+\pagebreak
 
 ## Développement du projet
 
@@ -475,6 +476,7 @@ _**Autres sources :**_
 
 * _docker-compose_, Docker, <https://docs.docker.com/compose/>
 * _Use volumes_, Docker, <https://docs.docker.com/storage/volumes/>
+* _Content Security Policy (CSP) Quick Reference Guide_, Foundeo Inc., <https://content-security-policy.com/>
 * _La chaleur a des effets négatifs sur la productivité_, France TV Info, <https://www.francetvinfo.fr/replay-radio/c-est-mon-boulot/la-chaleur-a-des-effets-negatifs-sur-la-productivite_3486911.html>
 * _Le bonheur au travail : le corps, ce grand oublié_, Forbes, <https://www.forbes.fr/management/bonheur-au-travail-le-corps-ce-grand-oublie/>
 * _Pollution et propagation fulgurante du coronavirus, les particules fines montrées du doigt_, Le Soir, <https://www.rtbf.be/info/societe/detail_le-coronavirus-pourrait-rester-plusieurs-heures-dans-l-air-a-cause-de-la-pollution-atmospherique?id=10464049>
