@@ -4,8 +4,15 @@
 #=====================================================
 
 # Python virtual environment
+*.pyc
+__pycache__
 */.env/*
 */.mypy_cache/*
+.cache/
+
+# Database
+app.db
+pisenseapp/tests/*.db
 
 # Log and local json file
 *.log*
@@ -14,8 +21,8 @@ bme680data*.json
 sds011data*.json
 
 # IDE folders and files
+*/.idea/*
 .idea/*
 
 # Sensible files for Nginx/Let's Encrypt
 dhparam-2048.pem
-

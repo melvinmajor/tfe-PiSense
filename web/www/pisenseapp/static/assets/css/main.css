@@ -65,7 +65,9 @@ a:hover { color: lightcoral; }
   padding: 1em;
   margin: 1em;
 }
-#nginx { max-width: 170px; }
+#nginx, #flask { max-width: 170px; }
+#nginx { margin-right: 25px; }
+#flask { margin-left: 25px; }
 #showOnMobileOnly { display: none; }
 
 /* Columns layout */
@@ -194,6 +196,16 @@ footer #creditsMobile {
 }
 footer #creditsMobile p { margin: .5em 0; }
 
+/* Chart.JS integration */
+.centered {
+    margin: auto;
+}
+.graph {
+  width: 1100px;
+  max-width: 1100px;
+  height: 575px;
+}
+
 /* Responsive part */
 @media screen and (max-width: 600px) {
   body {
@@ -242,4 +254,18 @@ footer #creditsMobile p { margin: .5em 0; }
   #boxLeft, #boxRight { flex-basis: 100%; }
   .rowBoxWithAside img { max-width: 200px; }
   .rowBoxWithAside { display: block; }
+}
+
+/* Chart.JS responsive */
+@media screen and (max-width: 1000px) {
+.graph {
+  width: 600px;
+  max-width: 700px;
+  height: 300px;
+}
+@media screen and (max-width: 600px) {
+.graph {
+  width: 475px;
+  max-width: 600px;
+  height: 250px;
 }
