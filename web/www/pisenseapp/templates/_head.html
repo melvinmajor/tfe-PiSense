@@ -32,5 +32,9 @@
 	</style>
   {% endif %}
 
+  {% if request.endpoint == 'register' %}
+    <script src='https://www.google.com/recaptcha/api.js?hl=fr'></script>
+  {% endif %}
+
   <title>PiSense - {{ page }}</title>
 </head>

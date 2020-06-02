@@ -39,7 +39,7 @@ def register():
 def platform():
     return render_template('platform.html',
                            page="Plateforme utilisateur",
-                           user_firstname="Melvin", user_name="Campos Casares", user_sensors="BME680, SDS011", user_boxid="1")
+                           user_firstname="Melvin", user_name="Campos Casares", user_sensors="BME680, SDS011", user_boxid="0")
 
 
 # @app.route('/404.html', methods=['GET'])
