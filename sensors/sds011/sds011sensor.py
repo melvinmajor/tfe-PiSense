@@ -1,7 +1,7 @@
 #!/usr/bin/python -u
 # coding=utf-8
 # "DATASHEET": http://cl.ly/ekot
-# Original code: https://gist.github.com/kadamski/92653913a53baf9dd1a8
+# Original code (used as library for this development as it's the only working code): https://gist.github.com/kadamski/92653913a53baf9dd1a8
 from __future__ import print_function
 from datetime import datetime
 import serial
@@ -17,7 +17,7 @@ import logging.handlers
 import argparse
 
 ''' default variables values '''
-default_api_url = "http://s74.cwb.ovh/json.php";
+default_api_url = "https://s74.cwb.ovh/json.php";
 sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
 default_time = (10*60); # minutes calculated in seconds
 

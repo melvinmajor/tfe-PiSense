@@ -9,7 +9,7 @@ import logging.handlers
 import argparse
 
 ''' default variables values '''
-default_api_url = "http://s74.cwb.ovh/json.php";
+default_api_url = "https://s74.cwb.ovh/json.php";
 sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
 default_time = (10*60); # minutes calculated in seconds
 
