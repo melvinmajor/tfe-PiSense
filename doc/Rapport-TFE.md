@@ -22,7 +22,7 @@ Leur soutien à été d'une grande aide malgré les circonstances atténuantes l
 
 Je remercie également mon rapporteur de stage, le professeur Arnaud Dewulf, pour les multiples échanges que nous avons eus et qui m'a permis de me conforter dans le choix de certains capteurs et de particularités à tenir en compte au niveau de l'aspect électronique de ce travail de fin d'études.
 
-Je remercie également le client venant du professeur Arnaud Dewulf qui m'a permis d'avoir une réflexion poussée sur LoRaWAN et Zigbee.
+Je remercie également le client venant du professeur Arnaud Dewulf qui m'a orienté vers une réflexion poussée sur LoRaWAN et Zigbee.
 Cela m'a permis de tenir en compte de possibles ouvertures en termes de moyen de communication.
 De plus, il m'a permis de rediriger mes choix de capteurs afin de rendre ce travail le plus générique possible avec possibilité de personnalisation.
 Malheureusement, au vu des circonstances mondiales rencontrées, nos échanges n'ont finalement pas donné de suite.
@@ -31,13 +31,13 @@ Malheureusement, au vu des circonstances mondiales rencontrées, nos échanges n
 
 Suite aux mesures liées au Coronavirus, un impact non négligeable a eu lieu envers l'avancement du TFE.
 En effet, il a été nécessaire de réadapter les échanges avec les deux clients et n'ai plus eu de retour concernant l'un d'eux.
-De plus, avec les mesures gouvernementales prises et vivant seul, la distanciation sociale s'est fait ressentir de façon conséquente impliquant une perte de motivation.
-Quelques soucis de santé ont également été rencontrés durant cette période, faisant qu'un retard au niveau du développement de ce projet s'est installé ; retard dont j'ai mis un point d'honneur à récupérer au mieux.
+De plus, avec les mesures gouvernementales prises et vivant seul, la distanciation sociale s'est faite ressentir de façon conséquente, impliquant une perte de motivation.
+Quelques soucis de santé ont également été rencontrés durant cette période, faisant qu'un retard au niveau du développement de ce projet s'est installé ; retard dont j'ai mis un point d'honneur à récupérer.
 
-En concertation avec le client principal, Dreamnet SRL, le développement s'est vu être adapté.
-L'optique principale étant d'avoir l'appareil de suivi environnemental opérationnel (pouvant communiquer avec une API et inscrire les données au sein d'une base de données), l'aspect web s'est vu être altéré afin de montrer la possibilité de communication sans pour autant avoir une gestion d'inscription et connexion utilisateur.
+En concertation avec le client principal, Dreamnet SRL, le développement s'est vu adapté.
+L'optique principale étant d'avoir l'appareil de suivi environnemental opérationnel (pouvant communiquer avec une API et inscrire les données au sein d'une base de données), l'aspect web s'est vu altéré afin de montrer la possibilité de communication, sans pour autant avoir une gestion d'inscription et connexion utilisateur.
 
-Au vu des règles en vigueur lors du confinement, les colis jugés non prioritaires se sont vu être retardés, occasionnant ainsi un retard considérable pour la réception du capteur SDS011 permettant la mesure de l'indice de qualité de l'air.
+Vu les règles en vigueur lors du confinement, les colis jugés non prioritaires ont été retardés, occasionnant ainsi un retard considérable pour la réception du capteur SDS011 permettant la mesure de l'indice de qualité de l'air.
 
 \pagebreak
 
@@ -47,18 +47,18 @@ Nous vivons dans un monde en perpétuelle évolution où la technologie prend un
 Les appareils connectés passent peu à peu d’une idée de conception à un produit se trouvant dans chaque foyer.
 Malheureusement, il est rare de trouver à l’heure actuelle une solution tout-en-un permettant de suivre les informations environnementales directement depuis une interface web simple et efficace.
 
-Dans un désir de suivre les informations environnementales de mon espace de vie, j'ai pris contact avec plusieurs entreprises afin de voir le potentiel derrière ce projet.
+Dans un désir de suivre les informations environnementales de mon espace de vie, j'ai pris contact avec plusieurs entreprises, afin de voir le potentiel derrière ce projet.
 
 Suite à des échanges avec plusieurs clients potentiels, ce travail de fin d’études s’est peu à peu dessiné.
 Une entreprise mettait en avant l’intérêt d’obtenir des données liées à la température, l’humidité et la qualité de l’air afin d’améliorer la productivité de leurs employés.
-Une autre mettait en avant la nécessité de suivre l’évolution de la présence d’un gaz spécifique dans un lieu donné afin de prévenir d’un danger pouvant s’avérer mortel.
+Une autre mettait en avant la nécessité de suivre l’évolution de la présence d’un gaz spécifique dans un lieu donné, afin de prévenir d’un danger pouvant s’avérer mortel.
 
 **En combinant les besoins et intérêts, les prémices de ce travail sont nées et de nouvelles questions venaient en tête :**
 
 * _Serait-il possible d’imaginer une solution de petite taille et répondant aux demandes ?_
 * _Est-ce que cette solution peut être générique afin d’être ouvert a tous ?_
 
-De plus, avec les récents évènements liés au COVID-19, une réflexion approfondie a été réalisée concernant la mesure de la qualité de l’air suite à la publication de recherches spécifique au coronavirus.
+De plus, avec les récents évènements liés au COVID-19, une réflexion approfondie a été réalisée concernant la mesure de la qualité de l’air suite à la publication de recherches spécifiques au coronavirus.
 
 Vous découvrirez dans ce rapport la façon dont ce travail a été développé ainsi que certaines analyses réalisées.
 
@@ -78,15 +78,15 @@ Vous les découvrirez aux pages suivantes.
 
 ### Contexte et présentation
 
-Dans le cadre d’une demande professionnelle demandée par la société Dreamnet SRL, un système IoT permettant le suivi de la température, de l’humidité et du taux de CO2 au sein d’une pièce est requis afin de répondre à un projet futur répondant à de nouveaux besoins.
+Dans le cadre d’une requête professionnelle demandée par la société Dreamnet SRL, un système IoT permettant le suivi de la température, de l’humidité et du taux de CO2 au sein d’une pièce est requis afin de répondre à un projet futur faisant face à de nouveaux besoins.
 
 Sur base de premiers retours avec le professeur A. Dewulf, un intérêt est également présent pour détecter de l’Oxyde de Silicium auprès d’un client disposant d’une carrière.
-Cela permettra au client de prévenir de tout risque lié à une présence de l’Oxyde de Silicium à un taux trop élevé.
+Cela permettra au client de prévenir de tous risques lié à une présence de l’Oxyde de Silicium à un taux trop élevé.
 
 ### But
 
 Permettre l’optimisation de l’environnement du personnel.
-Des études ont prouvé qu’une pièce à bonne température ambiante et avec une bonne qualité d’air permet d’aider à la concentration et améliorer l’état de santé ainsi que la productivité de l’être humain.
+Des études ont prouvé qu’une pièce à bonne température ambiante et avec une qualité d’air adéquate permet d’aider à la concentration et à améliorer l’état de santé ainsi que la productivité de l’être humain.
 
 De multiples articles ont été publiés, tant venant de chercheurs que de journalistes se basant sur les différentes études réalisées.
 Pour ne citer que quelques sources, en voici deux expliquant de façon synthétique l'intérêt de suivre les données environnementales du lieu de travail et de l'optimiser :
@@ -95,13 +95,15 @@ Pour ne citer que quelques sources, en voici deux expliquant de façon synthéti
 * <https://www.forbes.fr/management/bonheur-au-travail-le-corps-ce-grand-oublie/>
 
 De plus, il semblerait que dans le milieu professionnel, la pollution atmosphérique est un facteur aggravant pour les pathologies respiratoires.
-Un article allant dans ce sens, en mettant en corrélation la propagation facilitée du COVID-19 dans ce type d'environnement, a été publié par Le Soir et est disponible à l'adresse suivante : <https://www.rtbf.be/info/societe/detail_le-coronavirus-pourrait-rester-plusieurs-heures-dans-l-air-a-cause-de-la-pollution-atmospherique?id=10464049>
+Un article allant dans ce sens, mettant en corrélation la propagation facilitée du COVID-19 dans ce type d'environnement, a été publié par Le Soir et est disponible à l'adresse suivante :
+
+* <https://www.rtbf.be/info/societe/detail_le-coronavirus-pourrait-rester-plusieurs-heures-dans-l-air-a-cause-de-la-pollution-atmospherique?id=10464049>
 
 Dans le cas des retours du professeur, il s’agirait de prévenir d’un éventuel danger dans un milieu de travail à risque.
 
 ### Besoins et contraintes
 
-Concrètement parlant, il est demandé de mettre en place une solution IoT munie de capteurs « à la carte » ainsi que de différents moyens de communication au choix pour l’utilisateur final.
+Il est demandé de mettre en place une solution IoT munie de capteurs « à la carte » ainsi que de différents moyens de communication au choix pour l’utilisateur final.
 
 **Ce choix permettra au client de définir ce dont il a besoin :**
 
@@ -166,7 +168,7 @@ Concernant les capteurs, tout a été développé avec le langage de programmati
 La réception des capteurs s'étant faite en plusieurs parties (3 fournisseurs différents pour 4 capteurs), 3 des 4 capteurs ont été reçus avant le confinement.
 Le dernier capteur, le SDS011 permettant la mesure de l'indice de la qualité de l'air par le biais des normes PM2.5 et PM10, a été livré pratiquement 2 mois après avoir effectué la commande.
 
-Voici les différents capteurs commandé et intégré dans ce projet (ils sont tous fonctionnels) :
+Voici les différents capteurs commandés et intégrés dans ce projet (ils sont tous fonctionnels) :
 
 * _**Bosch BMP280**_ (modèle basé sur la librairie Adafruit) : prise de mesures de la température et humidité.
 * _**Bosch BME280**_ (modèle basé sur la librairie Adafruit) : prise de mesures de la température, humidité et pression atmosphérique.
@@ -178,10 +180,10 @@ Voici les différents capteurs commandé et intégré dans ce projet (ils sont t
 En effet, mise à part le capteur BME680 en provenance du Royaume-Uni et commandé directement auprès de Pimoroni, les autres capteurs étaient tous en provenance de Chine.
 Adafruit proposait de les commander directement de chez eux, mais le coût étant relativement conséquent, j'ai jugé bon de réduire les frais du TFE et commander les premiers capteurs dès la confirmation du sujet de TFE.
 
-#### Log, menu d'aide du script, etc.
+#### Journalisation d'événements, menu d'aide du script, etc.
 
-En termes de dépassement, l'implémentation d'un système de rotation des logs interne à la Raspberry Pi a été mise en place.
-Concrètement parlant, toutes les informations jugées pertinentes (données formatées en JSON et prêt pour l'envoi vers l'API, réponse de réussite ou d'erreur lors de l'envoi vers l'API, etc.) sont stockées dans un fichier ayant la dénomination suivante : `NomDuCapteur.log.Année-Mois-Jour` _(exemple : bme680.log.2020-06-01)_
+En termes de dépassement, l'implémentation d'un système de rotation des fichiers "logs" propre à la Raspberry Pi avec suppression automatisée des fichiers datant de plus de 30 jours a été mise en place.
+Toutes les informations jugées pertinentes _(données formatées en JSON et prêt pour l'envoi vers l'API, réponse de réussite ou d'erreur lors de l'envoi vers l'API, etc.)_ sont stockées dans un fichier de journalisation d'événements ayant la dénomination suivante : `NomDuCapteur.log.Année-Mois-Jour` _(exemple : bme680.log.2020-06-01)_.
 
 De plus, un menu d'aide a été intégré pour chacun des capteurs permettant de démarrer le script avec la déclaration personnalisée de l'URL du serveur API, du temps entre chaque prise de mesures et la version du script présent sur l'appareil.
 
@@ -237,7 +239,7 @@ On peut remarquer sa mise en place sur le serveur web via le rapport de sécurit
 De plus, des security headers ont été mis en place afin d'assurer une protection supplémentaire de la plateforme web.
 En protégeant les en-têtes de sécurité HTTP/HTTPS, les attaques et les vulnérabilités de sécurité sont atténuées.
 
-Les en-têtes de sécurité HTTP est la réponse au navigateur lorsqu'il effectue une requête.
+Les en-têtes de sécurité HTTP sont la réponse au navigateur, lorsqu'il effectue une requête.
 Certains de ces en-têtes contiennent de méta data de contenu tels que le code de statut, la méthode utilisée par la requête (GET/POST...), l'adresse URL de la requête, le contenu d'encodage et le contrôle de la cache.
 Cela définit donc notamment comment le navigateur web doit réagir en affichant le contenu de la page web demandée.
 
@@ -247,27 +249,27 @@ Voici le rapport d'analyse des en-têtes de sécurité de la plateforme :
 
 ###### Content Security Policy (CSP)
 
-Cette stratégie permet de prévenir des attaques telles que le script de site croisé (XSS) et d'autres attaques d'injection de code en définissant les sources de contenu approuvées et en permettant au navigateur de les charger.
+Cette stratégie permet de prévenir des attaques, telles que le script de site croisé (XSS) et d'autres attaques d'injection de code en définissant les sources de contenu approuvées et en permettant au navigateur de les charger.
 
-Dans la configuration du serveur NGINX, cela concerne `Content-Security-Policy`.
+Dans la configuration du serveur NGINX, cela concerne : `Content-Security-Policy`.
 
 ###### Filtre de script de site croisé (X XSS-Protection)
 
 L’en-tête est conçu pour activer le filtre de script de site croisé (XSS) intégré dans les navigateurs web modernes.
 Il est généralement activé par défaut, mais le spécifier est toujours préférable.
 
-Dans la configuration du serveur NGINX, cela concerne `add_header X-XSS-Protection "1; mode=block" always;`
+Dans la configuration du serveur NGINX, cela concerne : `add_header X-XSS-Protection "1; mode=block" always;`
 
 ###### HTTP Transport de sécurité stricte (HSTS)
 
 Il permet de restreindre les navigateurs web pour accéder au serveur web uniquement via le protocole de sécurité HTTPS.
 Cela garantit que la connexion ne peut pas être établie via une connexion HTTP non sécurisée et ainsi prévenir de susceptibles attaques.
 
-Dans la configuration du serveur NGINX, cela concerne `Strict-Transport-Security`.
+Dans la configuration du serveur NGINX, cela concerne : `Strict-Transport-Security`.
 
 ###### Protection de clics
 
-En utilisant `X-Frame-Options`, une protection contre les clics est établie et les iframes ne peuvent pas être chargé sur le site web.
+En utilisant `X-Frame-Options`, une protection contre les clics est établie et les iframes ne peuvent pas être chargées sur le site web.
 
 ###### Blocage de détection de réponse éloignée
 
@@ -276,7 +278,7 @@ Cela permet de réduire le risque de téléchargements de type "drive-by" (= té
 
 ###### Référence de politique HTTP
 
-`Referrer-Policy` contrôle la quantité d'informations de référence qui doit être incluse dans les demandes.
+`Referrer-Policy` contrôle la quantité d'informations de référence, qui doit être incluse dans les demandes.
 
 Sur le serveur NGINX, `strict-origin-when-cross-origin` a été défini.
 Concrètement, l'origine est envoyée (le chemin et la chaîne de requête) lors de l'exécution d'une demande de même origine.
