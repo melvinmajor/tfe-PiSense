@@ -1,0 +1,21 @@
+---
+title: Système modulable de prises de mesures environnementales sur Raspberry Pi avec système d’affichage
+author: 
+    - Melvin Campos Casares
+lang: fr
+papersize: a4
+fontsize: 11pt
+whitespace: small
+margin-top: 1.5cm
+margin-left: 2.5cm
+margin-right: 2.5cm
+margin-bottom: 1.5cm
+titlepage: true
+titlepage-rule-color: "5B9BD5"
+titlepage-rule-height: 6
+toc: true
+toc-own-page: true
+logo: "PiSense-logo/PiSense-512x512.png"
+logo-width: 150
+titlepage-background: "background.pdf"
+---
