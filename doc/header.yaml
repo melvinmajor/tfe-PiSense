@@ -13,8 +13,6 @@ margin-bottom: 1.5cm
 titlepage: true
 titlepage-rule-color: "5B9BD5"
 titlepage-rule-height: 6
-toc: true
-toc-own-page: true
 logo: "PiSense-logo/PiSense-512x512.png"
 logo-width: 150
 titlepage-background: "background.pdf"

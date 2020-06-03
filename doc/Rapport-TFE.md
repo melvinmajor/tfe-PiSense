@@ -5,6 +5,8 @@ keywords: [TFE, graduation, work, PiSense, IoT, sensors, dev, report, TFE, gradu
 header-left: Système modulable de prises de mesures environnementales avec affichage
 footer-left: Rapport de TFE
 footer-center: EPHEC 2019/2020
+toc: true
+toc-own-page: true
 toc-title: Rapport de travail de fin d'études
 ---
 
@@ -14,6 +16,10 @@ toc-title: Rapport de travail de fin d'études
 > _**Titre du travail de fin d'études :**_ Système modulable de prises de mesures environnementales sur Raspberry Pi avec système d’affichage
 >
 > _**Nom temporaire prévu pour sa commercialisation :**_ PiSense
+>
+> _**Repository GitHub :**_ <https://github.com/melvinmajor/tfe-PiSense>
+>
+> _**Environnement web déployé :**_ <https://www.camposcasares.be>
 
 **Préface**
 
