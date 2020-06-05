@@ -59,10 +59,10 @@ def page_not_found(e):
                            page="Erreur 404"), 404
 
 
-@app.errorhandler(404)
+@app.errorhandler(405)
 def page_not_found(e):
-    return render_template('404.html',
-                           page="Erreur 404"), 404
+    return render_template('405.html',
+                           page="Erreur 405"), 405
 
 
 @app.errorhandler(500)
