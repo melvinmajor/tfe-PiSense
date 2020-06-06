@@ -69,6 +69,10 @@ a:hover { color: lightcoral; }
 #nginx { margin-right: 25px; }
 #flask { margin-left: 25px; }
 #showOnMobileOnly { display: none; }
+#error {
+  color: darkred;
+  font-weight: bold;
+}
 
 /* Columns layout */
 .twoColumn, .threeColumn, #boxLeft, #boxRight, .twoColumnForm {

@@ -108,6 +108,7 @@ def internal_error(exception):
 @app.route('/login', methods=["GET", "POST"])
 def login_page():
     error = ''
+    server_error = "Une erreur est survenue, veuillez entrer à nouveau vos informations de connexion."
     try:
 
         if request.method == "POST":
@@ -115,16 +116,18 @@ def login_page():
             attempted_mail = request.form['mail']
             attempted_password = request.form['password']
 
+            # Test to check if the comparison is working, need to link that with s74.cwb.ovh user database
             if attempted_mail == "toto@hotmail.com" and attempted_password == "P@ssw0rd!":
                 return redirect(url_for('platform'))
 
             else:
-                error = "Invalid credentials. Try Again."
+                error = "Les informations d'identification sont invalides, veuillez réessayer."
 
-        return render_template("platform.html", error=error)
+        # return render_template("platform.html", error=error)
+        return render_template("register.html", error=error)
 
     except Exception as e:
-        return render_template("register.html", error=error)
+        return render_template("register.html", error=server_error)
 
 
 """ API:
