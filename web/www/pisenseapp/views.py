@@ -53,6 +53,13 @@ def platform():
 #     return render_template('50x.html',
 #                            page="Erreur 50x")
 
+
+@app.errorhandler(403)
+def page_not_found(e):
+    return render_template('403.html',
+                           page="Erreur 403"), 403
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html',
