@@ -56,47 +56,47 @@ def platform():
 
 @app.errorhandler(403)
 def page_not_found(e):
-    return render_template('403.html',
+    return render_template('error/403.html',
                            page="Erreur 403"), 403
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html',
+    return render_template('error/404.html',
                            page="Erreur 404"), 404
 
 
 @app.errorhandler(405)
 def page_not_found(e):
-    return render_template('405.html',
+    return render_template('error/405.html',
                            page="Erreur 405"), 405
 
 
 @app.errorhandler(500)
 def internal_error(exception):
     app.logger.exception(exception)
-    return render_template('50x.html',
+    return render_template('error/50x.html',
                            page="Erreur 500"), 500
 
 
 @app.errorhandler(502)
 def internal_error(exception):
     app.logger.exception(exception)
-    return render_template('50x.html',
+    return render_template('error/50x.html',
                            page="Erreur 502"), 502
 
 
 @app.errorhandler(503)
 def internal_error(exception):
     app.logger.exception(exception)
-    return render_template('50x.html',
+    return render_template('error/50x.html',
                            page="Erreur 503"), 503
 
 
 @app.errorhandler(504)
 def internal_error(exception):
     app.logger.exception(exception)
-    return render_template('50x.html',
+    return render_template('error/50x.html',
                            page="Erreur 504"), 504
 
 
