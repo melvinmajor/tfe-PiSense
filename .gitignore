@@ -13,9 +13,11 @@ __pycache__
 # Database
 app.db
 pisenseapp/tests/*.db
+s74_api-database-server/atk4-website*.zip
 
 # Log and local json file
 *.log*
+bmp280data*.json
 bme280data*.json
 bme680data*.json
 sds011data*.json
@@ -26,3 +28,7 @@ sds011data*.json
 
 # Sensible files for Nginx/Let's Encrypt
 dhparam-2048.pem
+
+# Other unnecessary files
+cloc-codeCount.png
+tmp.txt
