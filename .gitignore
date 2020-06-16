@@ -32,3 +32,4 @@ dhparam-2048.pem
 # Other unnecessary files
 cloc-codeCount.png
 tmp.txt
+videos/
