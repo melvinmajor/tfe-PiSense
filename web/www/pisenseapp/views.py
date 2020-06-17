@@ -119,15 +119,16 @@ def login_page():
             # Test to check if the comparison is working, need to link that with s74.cwb.ovh user database
             if attempted_mail == "toto@hotmail.com" and attempted_password == "P@ssw0rd!":
                 return redirect(url_for('platform'))
-
+            elif attempted_mail == "" and attempted_password == "":
+                error = server_error
             else:
                 error = "Les informations d'identification sont invalides, veuillez réessayer."
 
         # return render_template("platform.html", error=error)
-        return render_template("register.html", error=error)
+        return render_template("register.html", page="Connexion/Enregistrement", error=error)
 
     except Exception as e:
-        return render_template("register.html", error=server_error)
+        return render_template("register.html", page="Connexion/Enregistrement", error=server_error)
 
 
 """ API:
