@@ -1,0 +1,31 @@
+camposcasares.be {
+    root * /var/www/camposcasares.be
+    file_server
+    @403 {
+        expression {http.error.status_code} == 403
+    }
+    handle_errors {
+        rewrite @403 /403.html
+        file_server
+    }
+    @404 {
+        expression {http.error.status_code} == 404
+    }
+    handle_errors {
+        rewrite @404 /404.html
+        file_server
+    }
+    @405 {
+        expression {http.error.status_code} == 405
+    }
+    handle_errors {
+        rewrite @405 /405.html
+        file_server
+    }
+
+    encode gzip
+    header Strict-Transport-Security "max-age=0; includeSubDomains"
+}
+www.camposcasares.be {
+    redir * https://camposcasares.be{path}
+}
