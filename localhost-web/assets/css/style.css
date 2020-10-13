@@ -6,9 +6,42 @@ body {
     vertical-align: middle;
     line-height: 1;
     -webkit-text-size-adjust: none;
-    max-width: 1500px;
+    max-width: auto; /* 1500px */
     margin: 80px auto 0;
     padding: 30px;
+}
+
+h1 {
+    color: #454545;
+    font-size: 150%;
+    font-weight: bold;
+    text-align: center;
+}
+
+h2 {
+    color: #787878;
+    font-size: 125%;
+}
+
+blockquote {
+    background: #f9f9f9;
+    border-left: 5px solid #ccc;
+    border-radius: 5px;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    quotes: "\201C""\201D";
+}
+blockquote:before {
+    color: #ccc;
+    content: open-quote;
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
+}
+blockquote p {
+    display: inline;
+    border-radius: 5px;
 }
 
 .container {
@@ -16,6 +49,38 @@ body {
     margin-right: auto;
     max-width: 460px;
 }
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    margin: 0 1em;
+    align-items: baseline;
+}
+
+.row img {
+    display: block;
+    margin: 1em auto;
+    opacity: initial;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Columns layout */
+.twoColumn, .threeColumn {
+    margin: auto;
+    text-align: left;
+    transition: 750ms ease;
+}
+.twoColumn { flex-basis: 45%; }
+.threeColumn { flex-basis: 32%; }
 
 .aqi-container {
     border: 3px solid;
@@ -32,18 +97,8 @@ body {
     font-weight: bold;
 }
 
-.pm-label {
-    font-style: italic;
-}
+.pm-label { font-style: italic; }
 
-.time {
-    text-align: center;
-}
+.time { text-align: center; }
 
-h2 {
-  text-align: center;
-}
-#airQualityTable {
-  display: block;
-  margin: 250px auto;
-}
+#airQualityTable { margin: 250px auto; }

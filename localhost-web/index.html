@@ -12,30 +12,34 @@
   </head>
   <body>
     <div class="container">
-      <h1>AQI</h1>
+      <h1>Indice de qualité de l'air (AQI)</h1>
       <p class='time' id="time"></p>
-      <div class='aqi-container' id="containerPm25">
+      <div class='row'>
+        <div class='aqi-container twoColumn' id="containerPm25">
           <div class='aqi-label'>AQI (PM2.5)</div>
           <div class='aqi' id="aqiPm25"></div>
           <div class='pm-label' id="pm25"></div>
-      </div>
-      <div class='aqi-container' id="containerPm10">
+        </div>
+        <div class='aqi-container twoColumn' id="containerPm10">
           <div class='aqi-label'>AQI (PM10)</div>
           <div class='aqi' id="aqiPm10"></div>
           <div class='pm-label' id="pm10"></div>
+        </div>
       </div>
     </div>
     <div class="container">
       <!-- <img src="assets/images/air-quality-index.png" id="airQualityTable"> -->
-      <div class="row aqi-legend" id="aqiLegend">
-        <br>
-        <div class="foo fa fa-circle lime"></div>0 à 50, bon
-        <div class="foo fa fa-circle yellow"></div>51 à 100, moyen
-        <div class="foo fa fa-circle orange"></div>101 à 150, mauvais pour les groupes sensibles
-        <div class="foo fa fa-circle red"></div>151 à 200, mauvais
-        <div class="foo fa fa-circle purple"></div>201 à 300, très mauvais
-        <div class="foo fa fa-circle brown"></div>301 à 500, danger !
-      </div>
+      <blockquote>Légende :
+        <div class="row aqi-legend" id="aqiLegend">
+          <br>
+          <div class="foo fa fa-circle lime"></div>0 à 50, bon
+          <div class="foo fa fa-circle yellow"></div>51 à 100, moyen
+          <div class="foo fa fa-circle orange"></div>101 à 150, mauvais pour les groupes sensibles
+          <div class="foo fa fa-circle red"></div>151 à 200, mauvais
+          <div class="foo fa fa-circle purple"></div>201 à 300, très mauvais
+          <div class="foo fa fa-circle brown"></div>301 à 500, danger !
+        </div>
+      </blockquote>
     </div>
   </body>
   <script type="text/javascript">
