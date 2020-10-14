@@ -4,38 +4,56 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AQI</title>
-    <script src="assets/js/env.js"></script>
+    <script src="assets/js/environment.js"></script>
     <script src="assets/js/aqi.js"></script>
     <script src='assets/js/fontawesome.js'></script>
     <link rel='stylesheet' href='assets/css/style.css'>
-    <link rel='stylesheet' href='assets/css/env.css'>
+    <link rel='stylesheet' href='assets/css/environment.css'>
     <link rel='stylesheet' href='assets/css/aqi.css'>
     <link rel='stylesheet' href='assets/css/bootstrap.min.css'>
   </head>
   <body>
-    <h1>Informations environnementales récolté par PiSense</h1>
+    <div class="intro">
+      <h1>PiSense</h1>
+      <p>Système de prise d'informations environnementales via Raspberry Pi</p>
+    </div>
     <div class="container">
       <h2>Environnement</h2>
       <p class='time' id="envTime"></p>
-      <div class='row'>
+      <div class='flex-row-container'>
         <div class='env-container threeColumn' id="containerTemperature">
           <div class='env-label'>Température</div>
           <div class='env' id="temperature"></div>
+          <div class='temperature-label' id="temperatureLabel"></div>
         </div>
         <div class='env-container threeColumn' id="containerHumidity">
           <div class='env-label'>Humidité</div>
           <div class='env' id="humidity"></div>
         </div>
         <div class='env-container threeColumn' id="containerPressure">
-          <div class='env-label'>Pression</div>
+          <div class='env-label'>Pression atmosphérique</div>
           <div class='env' id="pressure"></div>
+          <div class='pressure-label' id="pressureLabel"></div>
         </div>
       </div>
+      <blockquote>Légende de la température (en °C) :
+        <div class="flex-row-container temperature-legend" id="temperatureLegend">
+          <br>
+          <div class="foo fa fa-circle black"></div>-10 et -, trés froid
+          <div class="foo fa fa-circle blue"></div>-10 à 0, gel
+          <div class="foo fa fa-circle lightblue"></div>0 à 15, frais/doux
+          <div class="foo fa fa-circle green"></div>15 à 20, bon
+          <div class="foo fa fa-circle lime"></div>20 à 25, chaud
+          <div class="foo fa fa-circle yellow"></div>25 à 30, très chaud
+          <div class="foo fa fa-circle orange"></div>30 à 35, trop chaud
+          <div class="foo fa fa-circle red"></div>35 et +, danger !
+        </div>
+      </blockquote>
     </div>
     <div class="container">
       <h2>Indice de qualité de l'air (AQI)</h2>
       <p class='time' id="aqiTime"></p>
-      <div class='row'>
+      <div class='flex-row-container'>
         <div class='aqi-container twoColumn' id="containerPm25">
           <div class='aqi-label'>AQI (PM2.5)</div>
           <div class='aqi' id="aqiPm25"></div>
@@ -47,11 +65,9 @@
           <div class='pm-label' id="pm10"></div>
         </div>
       </div>
-    </div>
-    <div class="container">
       <!-- <img src="assets/images/air-quality-index.png" id="airQualityTable"> -->
-      <blockquote>Légende :
-        <div class="row aqi-legend" id="aqiLegend">
+      <blockquote>Légende de la qualité de l'air :
+        <div class="flex-row-container aqi-legend" id="aqiLegend">
           <br>
           <div class="foo fa fa-circle lime"></div>0 à 50, bon
           <div class="foo fa fa-circle yellow"></div>51 à 100, moyen

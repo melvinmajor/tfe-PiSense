@@ -7,7 +7,7 @@
 }
 .aqi-label { font-weight: bold; }
 .aqi {
-  font-size: 5em;
+  font-size: min(max(2em, 4vw), 3.5em);
   font-weight: bold;
 }
 .pm-label { font-style: italic; }
@@ -28,4 +28,5 @@
 .red { color: red; }
 .purple { color: purple; }
 .brown { color: brown; }
+
 #aqiLegend { clear: both; }

@@ -26,7 +26,7 @@ function updateHtml(data) {
   document.getElementById("containerPm25").style.background = colorsPm25.bg;
   document.getElementById("containerPm25").style.color = colorsPm25.text
   document.getElementById("containerPm10").style.background = colorsPm10.bg;
-  document.getElementById("containerPm10").style.color = colorsPm10.text
+  document.getElementById("containerPm10").style.color = colorsPm10.text;
 }
 
 function getColor(aqi) {
@@ -49,7 +49,7 @@ function getColor(aqi) {
     default:
       color = "Lime";
   }
-  return {bg: color, text: (aqi > 200) ? "white" : "black"};
+  return {bg: color, text: (aqi > 200 || color === "red") ? "white" : "black"};
 }
 
 function calcAQIpm25(pm25) {

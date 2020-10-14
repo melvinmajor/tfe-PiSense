@@ -6,7 +6,7 @@ body {
     vertical-align: middle;
     line-height: 1;
     -webkit-text-size-adjust: none;
-    max-width: auto; /* 1500px */
+    min-width: 800px;
     margin: 80px auto 0;
     padding: 30px;
 }
@@ -15,7 +15,6 @@ h1 {
     color: #454545;
     font-size: 150%;
     font-weight: bold;
-    text-align: center;
 }
 
 h2 {
@@ -44,15 +43,24 @@ blockquote p {
     border-radius: 5px;
 }
 
+.intro { text-align: center; }
+
 .container {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 460px;
+    border-radius: 10px;
+    border: 5px solid #d2d2d2;
+    background: rgb(246,246,246);
+    background: -moz-radial-gradient(circle, rgba(246,246,246,1) 0%, rgba(230,230,230,1) 75%, rgba(220,220,220,1) 100%);
+    background: -webkit-radial-gradient(circle, rgba(246,246,246,1) 0%, rgba(230,230,230,1) 75%, rgba(220,220,220,1) 100%);
+    background: radial-gradient(circle, rgba(246,246,246,1) 0%, rgba(230,230,230,1) 75%, rgba(220,220,220,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f6f6f6",endColorstr="#dcdcdc",GradientType=1);
+    margin: 20px 0;
+    padding: 10px 0 0;
 }
 
-.row {
+.flex-row-container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     align-content: center;
     text-align: center;
@@ -60,7 +68,7 @@ blockquote p {
     align-items: baseline;
 }
 
-.row img {
+.flex-row-container img {
     display: block;
     margin: 1em auto;
     opacity: initial;
@@ -78,6 +86,8 @@ blockquote p {
     margin: auto;
     text-align: left;
     transition: 750ms ease;
+    flex-grow: 1;
+    flex-shrink: 1;
 }
 .twoColumn { flex-basis: 45%; }
 .threeColumn { flex-basis: 30%; }
