@@ -80,7 +80,9 @@
     </div>
   </body>
   <script type="text/javascript">
-    getData();
-    setInterval(getData, 60000);
+    getDataEnvironment();
+    getDataAqi();
+    setInterval(getDataEnvironment, 60000);
+    setInterval(getDataAqi, 60000);
   </script>
 </html>

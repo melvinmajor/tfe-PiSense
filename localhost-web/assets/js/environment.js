@@ -1,15 +1,15 @@
-function getData() {
+function getDataEnvironment() {
   fetch("assets/environment.json").then(response => {
     response.json().then(data => {
       //console.log(data);
-      updateHtml(data[data.length-1]);
+      updateHtmlEnvironment(data[data.length-1]);
     })
   }).catch(err => {
     console.log(err);
   })
 }
 
-function updateHtml(data) {
+function updateHtmlEnvironment(data) {
   let datetime = data.datetime;
   let temperature = data.temperature;
   let gas = data.gas;

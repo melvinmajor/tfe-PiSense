@@ -1,15 +1,15 @@
-function getData() {
+function getDataAqi() {
   fetch("assets/aqi.json").then(response => {
     response.json().then(data => {
       //console.log(data);
-      updateHtml(data[data.length-1]);
+      updateHtmlAqi(data[data.length-1]);
     })
   }).catch(err => {
     console.log(err);
   })
 }
 
-function updateHtml(data) {
+function updateHtmlAqi(data) {
   let aqiPm25 = calcAQIpm25(data.pm25);
   let aqiPm10 = calcAQIpm10(data.pm10);
 
@@ -21,15 +21,15 @@ function updateHtml(data) {
   document.getElementById("pm10").innerHTML = "(PM10: " + data.pm10 + " µg/m³)";
 
   //set colors
-  colorsPm25 = getColor(aqiPm25);
-  colorsPm10 = getColor(aqiPm10);
+  colorsPm25 = getColorAqi(aqiPm25);
+  colorsPm10 = getColorAqi(aqiPm10);
   document.getElementById("containerPm25").style.background = colorsPm25.bg;
   document.getElementById("containerPm25").style.color = colorsPm25.text
   document.getElementById("containerPm10").style.background = colorsPm10.bg;
   document.getElementById("containerPm10").style.color = colorsPm10.text;
 }
 
-function getColor(aqi) {
+function getColorAqi(aqi) {
   switch (true) {
     case (aqi >= 50 && aqi < 100):
       color = "yellow";
