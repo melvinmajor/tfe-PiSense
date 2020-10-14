@@ -1,19 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AQI</title>
+    <script src="assets/js/env.js"></script>
     <script src="assets/js/aqi.js"></script>
     <script src='assets/js/fontawesome.js'></script>
     <link rel='stylesheet' href='assets/css/style.css'>
+    <link rel='stylesheet' href='assets/css/env.css'>
     <link rel='stylesheet' href='assets/css/aqi.css'>
     <link rel='stylesheet' href='assets/css/bootstrap.min.css'>
   </head>
   <body>
+    <h1>Informations environnementales récolté par PiSense</h1>
     <div class="container">
-      <h1>Indice de qualité de l'air (AQI)</h1>
-      <p class='time' id="time"></p>
+      <h2>Environnement</h2>
+      <p class='time' id="envTime"></p>
+      <div class='row'>
+        <div class='env-container threeColumn' id="containerTemperature">
+          <div class='env-label'>Température</div>
+          <div class='env' id="temperature"></div>
+        </div>
+        <div class='env-container threeColumn' id="containerHumidity">
+          <div class='env-label'>Humidité</div>
+          <div class='env' id="humidity"></div>
+        </div>
+        <div class='env-container threeColumn' id="containerPressure">
+          <div class='env-label'>Pression</div>
+          <div class='env' id="pressure"></div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h2>Indice de qualité de l'air (AQI)</h2>
+      <p class='time' id="aqiTime"></p>
       <div class='row'>
         <div class='aqi-container twoColumn' id="containerPm25">
           <div class='aqi-label'>AQI (PM2.5)</div>

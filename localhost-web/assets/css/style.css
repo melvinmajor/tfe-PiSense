@@ -80,9 +80,9 @@ blockquote p {
     transition: 750ms ease;
 }
 .twoColumn { flex-basis: 45%; }
-.threeColumn { flex-basis: 32%; }
+.threeColumn { flex-basis: 30%; }
 
-.aqi-container {
+.aqi-container, .env-container {
     border: 3px solid;
     border-radius: 10px;
     width: 180px;
@@ -92,12 +92,12 @@ blockquote p {
     padding: 10px;
 }
 
-.aqi {
+.aqi, .env {
     font-size: 5em;
     font-weight: bold;
 }
 
-.pm-label { font-style: italic; }
+.pm-label, .env-label { font-style: italic; }
 
 .time { text-align: center; }
 
