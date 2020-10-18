@@ -12,10 +12,10 @@ import textwrap
 ''' default variables values '''
 default_api_url = "https://s74.cwb.ovh/json.php";
 sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
-default_time = (1*60); # minutes calculated in seconds
+default_time = (5*60); # minutes calculated in seconds
 localhost_usage = True;
 api_usage = False;
-JSON_FILE = '/var/www/html/assets/environment.json'
+JSON_FILE = '/var/www/html/assets/environment.json';
 
 ''' arguments available to launch the app in a specific way '''
 feature = argparse.ArgumentParser(prog='PiSense BME680', add_help=True, prefix_chars='-', formatter_class=argparse.RawTextHelpFormatter, description=textwrap.dedent('''\
@@ -88,6 +88,9 @@ logger.info('Start record of BME680 sensor')
 logger.info('Altitude will not be shown nor used.')
 print('-------------------')
 
+# The sensor will need a moment to gather initial readings
+time.sleep(2)
+
 def str2bool(v):
     if isinstance(v, bool):
         return v
@@ -127,9 +130,10 @@ def sensor_to_json():
         # This part is for debug mode only because when used, it stop the sending of JSON to API
         # data_json = json.dumps(charlie)
         logger.info('Records: %s', charlie)
+
     # write JSON formatted data into specific file
-#   with open('bme680data.json', 'a') as f:
-#       f.write(data_json + "\n")
+    # with open('bme680data.json', 'a') as f:
+    #     f.write(data_json + "\n")
 
 # Fail method
 def fail(msg):
@@ -174,8 +178,7 @@ def local_data(datas):
     except IOError as e:
         fail('IOError while trying to open and write JSON file')
 
-
-    # Open stored data
+# Open stored data
 #    try:
 #        with open(JSON_FILE) as json_data:
 #            data = json.load(json_data)
@@ -198,6 +201,7 @@ while True:
         now = datetime.datetime.now() # Get current date and time
         utc_offset_sec = time.altzone if time.localtime().tm_isdst else time.timezone
         utc_offset = datetime.timedelta(seconds=-utc_offset_sec)
+        
         data = sensor_to_json()
         # Check if API parameter is used in order to use both localhost and API version or not
         if(localhost_usage == True):
@@ -208,6 +212,7 @@ while True:
         else:
             fail("Please use `python3 bme680sensor.py` or `python3 bme680sensor.py -lh -api` in order to choose between localhost or API version...")
         time.sleep(args.time)
+
     except (KeyboardInterrupt, SystemExit):
         logger.info('KeyboardInterrupt/SystemExit caught')
         sys.exit()
