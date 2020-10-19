@@ -2,8 +2,14 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AQI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta name="description" content="Système modulable de prises de mesures environnementales sur Raspberry Pi.">
+    <meta name="keywords" content="Raspberry Pi, mesures environnementales">
+    <meta name="author" content="Melvin Campos Casares, Dreamnet SRL">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#75c828"/>
+    <title>PiSense</title>
+    <link rel="shortcut icon" type="image/png" href="assets/images/favicon.png"/>
     <script src="assets/js/environment.js"></script>
     <script src="assets/js/aqi.js"></script>
     <script src='assets/js/fontawesome.js'></script>
@@ -14,6 +20,7 @@
   </head>
   <body>
     <div class="intro">
+      <img src="assets/images/PiSense_logo.png" alt="PiSense logo" class="intro-logo">
       <h1>PiSense</h1>
       <p>Système de prise d'informations environnementales via Raspberry Pi</p>
     </div>
@@ -36,6 +43,7 @@
           <div class='pressure-label' id="pressureLabel"></div>
         </div>
       </div>
+      <p id="gas"></p>
       <blockquote>Légende de la température (en °C) :
         <div class="flex-row-container temperature-legend" id="temperatureLegend">
           <br>
@@ -78,6 +86,11 @@
         </div>
       </blockquote>
     </div>
+    <footer>
+      <div id="credits">
+        <a href="index.html">PiSense</a> © 2020 - <a href="https://dreamnetbe.net/" id="dreamnet">Dreamnet SRL</a> | Design: Melvin Campos Casares
+      </div>
+    </footer>
   </body>
   <script type="text/javascript">
     getDataEnvironment();

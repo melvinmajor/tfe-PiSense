@@ -31,4 +31,9 @@
 .orange { color: orange; }
 .red { color: red; }
 
+#gas {
+    font-weight: bold;
+    font-style: italic;
+}
+
 #temperatureLegend { clear: both; }
