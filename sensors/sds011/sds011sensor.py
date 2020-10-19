@@ -15,11 +15,15 @@ import requests
 import logging
 import logging.handlers
 import argparse
+import textwrap
 
 ''' default variables values '''
 default_api_url = "https://s74.cwb.ovh/json.php";
 sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
-default_time = (10*60); # minutes calculated in seconds
+default_time = (15*60); # minutes calculated in seconds
+localhost_usage = True;
+api_usage = False;
+JSON_FILE = '/var/www/html/assets/aqi.json';
 
 # This part is for SDS011 sensor and simple intranet usage
 DEBUG = 0
@@ -37,18 +41,30 @@ MQTT_HOST = ''
 MQTT_TOPIC = '/weather/particulatematter'
 
 ''' arguments available to launch the app in a specific way '''
-parser = argparse.ArgumentParser(prog='PiSense SDS011', description='SDS011 module sensor of PiSense', add_help=True, prefix_chars='-')
-parser.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
-parser.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
-parser.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.6')
-args = parser.parse_args()
+feature = argparse.ArgumentParser(prog='PiSense SDS011', add_help=True, prefix_chars='-', formatter_class=argparse.RawTextHelpFormatter, description=textwrap.dedent('''\
+    PiSense - SDS011 module
+    -----------------------
+    This script is meant to be used with the Nova SDS011 sensor.
+    AQI values will be taken and sent throughout an API or directly written in a localhost website.
+    The AQI values are: PM2.5 and PM10.
+    '''))
+feature.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
+feature.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
+feature.add_argument('-a', '--api', help='Sets API usage in activated state. Use this if you want to use API version (localhost will still run)', action='store_true', default=api_usage, required=False)
+feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.8')
+args = feature.parse_args()
+
+if args.api:
+    api_usage = True;
+else:
+    api_usage = False;
 
 ''' Log configuration '''
 logger = logging.getLogger('sds011')
 logger.setLevel(logging.INFO)
 LOG_ROTATE = 'midnight'
 # create a file handler and timed rotating
-handler = logging.handlers.TimedRotatingFileHandler('sds011.log', when=LOG_ROTATE, backupCount=30, utc=False)
+handler = logging.handlers.TimedRotatingFileHandler('sds011.log', when=LOG_ROTATE, backupCount=7, utc=False) # 7 days backup
 handler.setLevel(logging.INFO)
 # create a logging format
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
@@ -67,7 +83,18 @@ logger.info('Start record of SDS011 sensor')
 print('-------------------')
 
 # The sensor will need a moment to gather initial readings
-time.sleep(1)
+time.sleep(2)
+
+''' Method which may be used to check if parameter used has a value that can be considered as boolean '''
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
 
 ''' ISO8601 format date and time'''
 def get_date_time():
@@ -172,20 +199,21 @@ def sensor_to_json():
     #date_json=dave
     # This part is for debug mode only because when used, it stop the sending of JSON to API
     # data_json = json.dumps(dave)
-
     logger.info('Records: %s', dave)
+
     # write JSON formatted data into specific file
-#   with open('bme280data.json', 'a') as f:
-#       f.write(data_json + "\n")
+    # with open('bme280data.json', 'a') as f:
+    #    f.write(data_json + "\n")
     return dave
 
 ''' Fail method '''
 def fail(msg):
     print(">>> Oops: ",msg,file=sys.stderr)
-    logger.warn('Oops: %s', msg)
+    logger.warning('Oops: %s', msg)
 
 def post_data(datas):
     logger.info('Sending data to server via API...')
+    sensor_to_json()
     try:
         #print('debug')
         #print(datas)
@@ -208,6 +236,28 @@ def post_data(datas):
         # catastrophic error, you need to go to jail
         fail('Request error')
 
+local_data(datas):
+    logger.info('Writing data to localhost webserver...')
+    sensor_to_json()
+    # open stored data
+    try:
+        with open(JSON_FILE) as json_data:
+            data = json.load(json_data)
+    except IOError as e:
+        data = []
+        fail('IOError while trying to open JSON file')
+    # check if length is more than 100 and delete first element
+    if len(data) > 100:
+        data.pop(0)
+    # append new values
+    jsonrow = {'pm25': values[0], 'pm10': values[1], 'time': get_date_time()} # time.strftime("%d.%m.%Y %H:%M:%S")
+    data.append(jsonrow)
+    # save it
+    with open(JSON_FILE, 'w') as outfile:
+        json.dump(data, outfile)
+        logger.info('Data recorded successfully')
+    if MQTT_HOST != '':
+        pub_mqtt(jsonrow)
 
 if __name__ == "__main__":
     cmd_set_sleep(0)
@@ -231,37 +281,21 @@ if __name__ == "__main__":
                   print("PM2.5: ", values[0], ", PM10: ", values[1])
                   time.sleep(2)
 
-            # open stored data
-            try:
-                with open(JSON_FILE) as json_data:
-                    data = json.load(json_data)
-            except IOError as e:
-                data = []
-
-            # check if length is more than 100 and delete first element
-            if len(data) > 100:
-                data.pop(0)
-
-            # append new values
-            jsonrow = {'pm25': values[0], 'pm10': values[1], 'time': time.strftime("%d.%m.%Y %H:%M:%S")}
-            data.append(jsonrow)
-
-            # save it
-            with open(JSON_FILE, 'w') as outfile:
-                json.dump(data, outfile)
-
-            if MQTT_HOST != '':
-                pub_mqtt(jsonrow)
-            
             data = sensor_to_json()
-            post_data(data)
-            #print("Going to sleep for 10 min...")
-            cmd_set_sleep(1)
-            #time.sleep(600)
-            time.sleep(args.time)
+            # Check if API parameter is used in order to use both localhost and API version or not
+            if(api_usage == True):
+                local_data(data)
+                post_data(data)
+            elif(localhost_usage == True):
+                local_data(data)
+            else:
+                fail("Please use `python3 sds011sensor.py` or `python3 sds011sensor.py --api` in order to choose between localhost or API + localhost version...")
 
+            #print("Going to sleep for 15 min...")
+            cmd_set_sleep(1)
+            #time.sleep(900)
+            time.sleep(args.time)
 
         except (KeyboardInterrupt, SystemExit):
             logger.info('KeyboardInterrupt/SystemExit caught')
             sys.exit()
-

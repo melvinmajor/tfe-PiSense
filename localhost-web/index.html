@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta name="description" content="Système modulable de prises de mesures environnementales sur Raspberry Pi.">
+    <meta name="keywords" content="Raspberry Pi, mesures environnementales">
+    <meta name="author" content="Melvin Campos Casares, Dreamnet SRL">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#75c828"/>
+    <title>PiSense</title>
+    <link rel="shortcut icon" type="image/png" href="assets/images/favicon.webp"/>
+    <script src="assets/js/environment.js"></script>
+    <script src="assets/js/aqi.js"></script>
+    <script src='assets/js/fontawesome.js'></script>
+    <link rel='stylesheet' href='assets/css/style.css'>
+    <link rel='stylesheet' href='assets/css/environment.css'>
+    <link rel='stylesheet' href='assets/css/aqi.css'>
+    <link rel='stylesheet' href='assets/css/bootstrap.min.css'>
+  </head>
+  <body>
+    <div class="intro">
+      <img src="assets/images/PiSense_logo.webp" alt="PiSense logo" class="intro-logo">
+      <h1>PiSense</h1>
+      <p>Système de prise d'informations environnementales via Raspberry Pi</p>
+    </div>
+    <div class="container">
+      <h2>Environnement</h2>
+      <p class='time' id="envTime"></p>
+      <div class='flex-row-container'>
+        <div class='env-container threeColumn' id="containerTemperature">
+          <div class='env-label'>Température</div>
+          <div class='env' id="temperature"></div>
+          <div class='temperature-label' id="temperatureLabel"></div>
+        </div>
+        <div class='env-container threeColumn' id="containerHumidity">
+          <div class='env-label'>Humidité</div>
+          <div class='env' id="humidity"></div>
+        </div>
+        <div class='env-container threeColumn' id="containerPressure">
+          <div class='env-label'>Pression atmosphérique</div>
+          <div class='env' id="pressure"></div>
+          <div class='pressure-label' id="pressureLabel"></div>
+        </div>
+      </div>
+      <p id="gas"></p>
+      <blockquote>Légende de la température (en °C) :
+        <div class="flex-row-container temperature-legend" id="temperatureLegend">
+          <br>
+          <div class="foo fa fa-circle black"></div>-10 et -, trés froid
+          <div class="foo fa fa-circle blue"></div>-10 à 0, gel
+          <div class="foo fa fa-circle lightblue"></div>0 à 15, frais/doux
+          <div class="foo fa fa-circle green"></div>15 à 20, bon
+          <div class="foo fa fa-circle lime"></div>20 à 25, chaud
+          <div class="foo fa fa-circle yellow"></div>25 à 30, très chaud
+          <div class="foo fa fa-circle orange"></div>30 à 35, trop chaud
+          <div class="foo fa fa-circle red"></div>35 et +, danger !
+        </div>
+      </blockquote>
+    </div>
+    <div class="container">
+      <h2>Indice de qualité de l'air (AQI)</h2>
+      <p class='time' id="aqiTime"></p>
+      <div class='flex-row-container'>
+        <div class='aqi-container twoColumn' id="containerPm25">
+          <div class='aqi-label'>AQI (PM2.5)</div>
+          <div class='aqi' id="aqiPm25"></div>
+          <div class='pm-label' id="pm25"></div>
+        </div>
+        <div class='aqi-container twoColumn' id="containerPm10">
+          <div class='aqi-label'>AQI (PM10)</div>
+          <div class='aqi' id="aqiPm10"></div>
+          <div class='pm-label' id="pm10"></div>
+        </div>
+      </div>
+      <!-- <img src="assets/images/air-quality-index.webp" id="airQualityTable"> -->
+      <blockquote>Légende de la qualité de l'air :
+        <div class="flex-row-container aqi-legend" id="aqiLegend">
+          <br>
+          <div class="foo fa fa-circle lime"></div>0 à 50, bon
+          <div class="foo fa fa-circle yellow"></div>51 à 100, moyen
+          <div class="foo fa fa-circle orange"></div>101 à 150, mauvais pour les groupes sensibles
+          <div class="foo fa fa-circle red"></div>151 à 200, mauvais
+          <div class="foo fa fa-circle purple"></div>201 à 300, très mauvais
+          <div class="foo fa fa-circle brown"></div>301 à 500, danger !
+        </div>
+      </blockquote>
+    </div>
+    <footer>
+      <div id="credits">
+        <a href="index.html">PiSense</a> © 2020 - <a href="https://dreamnetbe.net/" id="dreamnet">Dreamnet SRL</a> | Design: Melvin Campos Casares
+      </div>
+    </footer>
+  </body>
+  <script type="text/javascript">
+    getDataEnvironment();
+    getDataAqi();
+    setInterval(getDataEnvironment, 60000);
+    setInterval(getDataAqi, 60000);
+  </script>
+</html>
