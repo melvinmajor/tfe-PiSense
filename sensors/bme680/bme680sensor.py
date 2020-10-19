@@ -12,7 +12,7 @@ import textwrap
 ''' default variables values '''
 default_api_url = "https://s74.cwb.ovh/json.php";
 sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
-default_time = (5*60); # minutes calculated in seconds
+default_time = (10*60); # minutes calculated in seconds
 localhost_usage = True;
 api_usage = False;
 JSON_FILE = '/var/www/html/assets/environment.json';
@@ -27,9 +27,14 @@ feature = argparse.ArgumentParser(prog='PiSense BME680', add_help=True, prefix_c
         '''))
 feature.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
 feature.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
-feature.add_argument('-a', '--api', help='Sets API usage in activated state. Use this if you want to use API version.', action='store_true', default=api_usage, required=False)
-feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.7')
+feature.add_argument('-a', '--api', help='Sets API usage in activated state. Use this if you want to use API version (localhost will still run)', action='store_true', default=api_usage, required=False)
+feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.8')
 args = feature.parse_args()
+
+if args.api:
+    api_usage = True;
+else:
+    api_usage = False;
 
 ''' Log configuration '''
 logger = logging.getLogger('bme680')
@@ -91,6 +96,7 @@ print('-------------------')
 # The sensor will need a moment to gather initial readings
 time.sleep(2)
 
+''' Method which may be used to check if parameter used has a value that can be considered as boolean '''
 def str2bool(v):
     if isinstance(v, bool):
         return v
@@ -138,7 +144,7 @@ def sensor_to_json():
 # Fail method
 def fail(msg):
     print(">>> Oops:",msg,file=sys.stderr)
-    logger.warn('Oops: %s', msg)
+    logger.warning('Oops: %s', msg)
 
 def post_data(datas):
     logger.info('Sending data to server via API...')
@@ -178,23 +184,6 @@ def local_data(datas):
     except IOError as e:
         fail('IOError while trying to open and write JSON file')
 
-# Open stored data
-#    try:
-#        with open(JSON_FILE) as json_data:
-#            data = json.load(json_data)
-#    except IOError as e:
-#        data = []
-#        fail('IOError while trying to open and load JSON file')
-    # Check if length is more than 100 and delete first element
-#    if len(data) > 100:
-#        data.pop(0)
-    # Save data
-#    try:
-#        with open(JSON_FILE, 'w') as outfile:
-#            json.dumps(data, outfile)
-#            logger.info('Records: %s', data)
-#    except IOError as e:
-#        fail('IOError while trying to save data into JSON file')
 
 while True:
     try:
@@ -204,13 +193,13 @@ while True:
         
         data = sensor_to_json()
         # Check if API parameter is used in order to use both localhost and API version or not
-        if(localhost_usage == True):
-            local_data(data)
-        elif(api_usage == True):
+        if(api_usage == True):
             local_data(data)
             post_data(data)
+        elif(localhost_usage == True):
+            local_data(data)
         else:
-            fail("Please use `python3 bme680sensor.py` or `python3 bme680sensor.py -lh -api` in order to choose between localhost or API version...")
+            fail("Please use `python3 bme680sensor.py` or `python3 bme680sensor.py --api` in order to choose between localhost only or API + localhost version...")
         time.sleep(args.time)
 
     except (KeyboardInterrupt, SystemExit):
