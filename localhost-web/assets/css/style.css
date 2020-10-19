@@ -9,7 +9,7 @@ body {
     min-width: 800px;
     margin: 80px auto 0;
     padding: 0 30px 30px;
-    background: url("../images/background.jpg") no-repeat;
+    background: url("../images/background.webp") no-repeat;
     background-size: cover;
 }
 
