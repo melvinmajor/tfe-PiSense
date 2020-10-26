@@ -36,7 +36,6 @@ CMD_WORKING_PERIOD = 8
 MODE_ACTIVE = 0
 MODE_QUERY = 1
 PERIOD_CONTINUOUS = 0
-JSON_FILE = '/var/www/html/aqi.json'
 MQTT_HOST = ''
 MQTT_TOPIC = '/weather/particulatematter'
 
@@ -239,25 +238,19 @@ def post_data(datas):
 def local_data(datas):
     logger.info('Writing data to localhost webserver...')
     sensor_to_json()
-    # open stored data
-    try:
-        with open(JSON_FILE) as json_data:
-            data = json.load(json_data)
-    except IOError as e:
-        data = []
-        fail('IOError while trying to open JSON file')
-    # check if length is more than 100 and delete first element
-    if len(data) > 100:
-        data.pop(0)
-    # append new values
-    jsonrow = {'pm25': values[0], 'pm10': values[1], 'time': get_date_time()} # time.strftime("%d.%m.%Y %H:%M:%S")
-    data.append(jsonrow)
+    # convert dictionary into string
+    dave = json.dumps(data)
+    dave = "[" + dave + "]"
     # save it
-    with open(JSON_FILE, 'w') as outfile:
-        json.dump(data, outfile)
-        logger.info('Data recorded successfully')
-    if MQTT_HOST != '':
-        pub_mqtt(jsonrow)
+    try:
+        with open(JSON_FILE, 'w') as outfile:
+            #json.dump(data, outfile)
+            outfile.write(dave)
+            logger.info('Data recorded successfully')
+        if MQTT_HOST != '':
+            pub_mqtt(jsonrow)
+    except IOError as e:
+        fail('IOError while trying to open and write JSON file')
 
 if __name__ == "__main__":
     cmd_set_sleep(0)
