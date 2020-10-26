@@ -236,7 +236,7 @@ def post_data(datas):
         # catastrophic error, you need to go to jail
         fail('Request error')
 
-local_data(datas):
+def local_data(datas):
     logger.info('Writing data to localhost webserver...')
     sensor_to_json()
     # open stored data
