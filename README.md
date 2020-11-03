@@ -1,6 +1,8 @@
-> # TFE - PiSense
+> # PiSense
 >
-> Graduation work, 3rd Bachelor at EPHEC Louvain-la-Neuve
+> Originally: graduation work, 3rd Bachelor at EPHEC Louvain-la-Neuve
+>
+> Development pursued after the defense (project was well seen by the jury). 
 
 <img src="doc/PiSense-logo/PiSense_logo.svg" alt="PiSense logo" width="150px" style="display: block; margin: 0 auto;">
 
