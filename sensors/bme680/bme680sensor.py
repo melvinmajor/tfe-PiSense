@@ -28,13 +28,8 @@ feature = argparse.ArgumentParser(prog='PiSense BME680', add_help=True, prefix_c
 feature.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
 feature.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
 feature.add_argument('-a', '--api', help='Sets API usage in activated state. Use this if you want to use API version (localhost will still run)', action='store_true', default=api_usage, required=False)
-feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.8')
+feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.8.2')
 args = feature.parse_args()
-
-if args.api:
-    api_usage = True;
-else:
-    api_usage = False;
 
 ''' Log configuration '''
 logger = logging.getLogger('bme680')
@@ -91,6 +86,23 @@ print('==================')
 print('Altitude is calculated based on pressure information.')
 logger.info('Start record of BME680 sensor')
 logger.info('Altitude will not be shown nor used.')
+print('-------------------')
+
+if args.api:
+    api_usage = True;
+    logger.info('User asked to use API!')
+else:
+    api_usage = False;
+    logger.info('Running localhost only version')
+
+if args.url:
+    default_api_url = args.url
+    logger.info('API URL set up: %s', args.url)
+
+if args.time:
+    default_time = args.time
+    logger.info('Time between records set up: %s seconds', args.time)
+
 print('-------------------')
 
 # The sensor will need a moment to gather initial readings
