@@ -1,4 +1,11 @@
 import requests
+try:
+    import configparser
+except:
+    from six.moves import configparser
+
+config = configparser.ConfigParser()
+config.read('../sensors/config.ini')
 
 # notify
 def notification(eventName, key, data, value, pisense):
@@ -10,13 +17,16 @@ def notification(eventName, key, data, value, pisense):
     report["value3"] = pisense
     requests.post(url, data=report)
 
-print("What's the EventName of the IFTTT webhook?")
-eventName = input()
-print("What's the key linked to the IFTTT webhook?")
-key = input()
+#print("What's the EventName of the IFTTT webhook?")
+#eventName = input()
+eventName = config['notification']['eventName']
+#print("What's the key linked to the IFTTT webhook?")
+#key = input()
+key = config['notification']['key']
 print("Choose the type of data:")
 a = input()
 print("Choose the value of the data:")
 b = input()
-c = "PiSense alert"
+#c = "PiSense alert"
+c = config['notification']['pisense_alert_notification']
 notification(eventName, key, a, b, c)
