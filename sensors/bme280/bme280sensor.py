@@ -11,14 +11,26 @@ import logging
 import logging.handlers
 import argparse
 import textwrap
+try:
+    import configparser
+except:
+    from six.moves import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 ''' default variables values '''
-default_api_url = "https://s74.cwb.ovh/json.php";
-sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
-default_time = (10*60); # minutes calculated in seconds
-localhost_usage = True;
-api_usage = False;
-JSON_FILE = '/var/www/html/assets/environment.json';
+default_api_url = config['default']['default_api_url']
+sending_timeout = config['default']['sending_timeout'] # timeout used to wait a certain amount of time before returning the get/post of API
+default_time = config['default']['environment_default_time']
+localhost_usage = True
+api_usage = False
+JSON_FILE = '/var/www/html/assets/environment.json'
+# Variables for rich notification
+EVENT_NAME = config['notification']['eventName']
+KEY = config['notification']['key']
+PISENSE_ALERT_NOTIFICATION = config['notification']['pisense_alert_notification']
+TEMPERATURE_CHECKUP = 10.0
 
 ''' arguments available to launch the app in a specific way '''
 feature = argparse.ArgumentParser(prog='PiSense BME280', add_help=True, prefix_chars='-', allow_abbrev=True, formatter_class=argparse.RawTextHelpFormatter, description=textwrap.dedent('''\
@@ -31,7 +43,7 @@ feature = argparse.ArgumentParser(prog='PiSense BME280', add_help=True, prefix_c
 feature.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
 feature.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
 feature.add_argument('-a', '--api', help='Sets API usage in activated state. Use this if you want to use API version (localhost will still run)', action='store_true', default=api_usage, required=False)
-feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.8.2')
+feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.9.0')
 args = feature.parse_args()
 
 ''' Log configuration '''
@@ -173,12 +185,23 @@ def local_data(datas):
     except IOError as e:
         fail('IOError while trying to open and write JSON file')
 
+def notification(dataType, info):
+    base_url = 'https://maker.ifttt.com/trigger/{}/with/key/{}'
+    url = base_url.format(EVENT_NAME, KEY)
+    report = {}
+    report["value1"] = dataType
+    report["value2"] = str(info) + "°C"
+    report["value3"] = PISENSE_ALERT_NOTIFICATION
+    requests.post(url, data=report)
+
 
 while True:
     try:
         now = datetime.datetime.now() # Get current date and time
         utc_offset_sec = time.altzone if time.localtime().tm_isdst else time.timezone
         utc_offset = datetime.timedelta(seconds=-utc_offset_sec)
+
+        temperature = float(f'{bme280.temperature:.1f}')
 
         data = sensor_to_json()
         # Check if API parameter is used in order to use both localhost and API version or not
@@ -189,6 +212,13 @@ while True:
             local_data(data)
         else:
             fail("Please use `python3 bme280sensor.py` or `python3 bme280sensor.py --api` in order to choose between localhost or API + localhost version...")
+        
+        if(temperature <= TEMPERATURE_CHECKUP):
+            dataType = "temperature"
+            info = temperature
+            notification(dataType, info)
+            logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, temperature)
+        
         time.sleep(args.time)
 
     except (KeyboardInterrupt, SystemExit):
