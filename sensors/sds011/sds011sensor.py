@@ -16,14 +16,33 @@ import logging
 import logging.handlers
 import argparse
 import textwrap
+try:
+    import configparser
+except:
+    from six.moves import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 ''' default variables values '''
-default_api_url = "https://s74.cwb.ovh/json.php";
-sending_timeout = 2; # timeout used to wait a certain amount of time before returning the get/post of API
-default_time = (15*60); # minutes calculated in seconds
-localhost_usage = True;
-api_usage = False;
-JSON_FILE = '/var/www/html/assets/aqi.json';
+default_api_url = config['default']['default_api_url']
+sending_timeout = int(config['default']['sending_timeout']) # timeout used to wait a certain amount of time before returning the get/post of API
+default_time = int(config['aqi']['default_time'])
+localhost_usage = config.getboolean('default', 'localhost_usage')
+api_usage = config.getboolean('default', 'api_usage')
+JSON_FILE = config['aqi']['json_file']
+# Variables for rich notification
+EVENT_NAME = config['notification']['eventName']
+KEY = config['notification']['key']
+PISENSE_ALERT_NOTIFICATION = config['notification']['pisense_alert_notification']
+PM25_SENSITIVE_CHECKUP = 55.4
+PM25_UNHEALTHY_CHECKUP = 150.4
+PM25_VERYUNHEALTHY_CHECKUP = 250.4
+PM25_HAZARDOUS_CHECKUP = 350.4
+PM10_SENSITIVE_CHECKUP = 254
+PM10_UNHEALTHY_CHECKUP = 354
+PM10_VERYUNHEALTHY_CHECKUP = 424
+PM10_HAZARDOUS_CHECKUP = 504
 
 # This part is for SDS011 sensor and simple intranet usage
 DEBUG = 0
@@ -50,7 +69,7 @@ feature = argparse.ArgumentParser(prog='PiSense SDS011', add_help=True, prefix_c
 feature.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
 feature.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
 feature.add_argument('-a', '--api', help='Sets API usage in activated state. Use this if you want to use API version (localhost will still run)', action='store_true', default=api_usage, required=False)
-feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.8.2')
+feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.9.1')
 args = feature.parse_args()
 
 ''' Log configuration '''
@@ -203,14 +222,13 @@ def pub_mqtt(jsonrow):
 ## {"datetime": "2020-05-24T15:08:05.274635+02:00", "pm25": 2.3, "pm10": 4.9}
 def sensor_to_json():
     # dict which will be used by JSON
-
     dave = {'datetime': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), # date T time in ISO8601
             'PM2': values[0], # PM2.5 in µg/m3
             'PM10': values[1]} # PM10 in µg/m3
     #date_json=dave
     # This part is for debug mode only because when used, it stop the sending of JSON to API
     # data_json = json.dumps(dave)
-    logger.info('Records: %s', dave)
+    # logger.info('Records: %s', dave)
 
     # write JSON formatted data into specific file
     # with open('bme280data.json', 'a') as f:
@@ -264,6 +282,16 @@ def local_data(datas):
     except IOError as e:
         fail('IOError while trying to open and write JSON file')
 
+def notification(dataType, info):
+    base_url = 'https://maker.ifttt.com/trigger/{}/with/key/{}'
+    url = base_url.format(EVENT_NAME, KEY)
+    report = {}
+    report["value1"] = dataType
+    report["value2"] = str(info)
+    report["value3"] = PISENSE_ALERT_NOTIFICATION
+    requests.post(url, data=report)
+
+
 if __name__ == "__main__":
     cmd_set_sleep(0)
     #print('1')
@@ -299,8 +327,55 @@ if __name__ == "__main__":
             #print("Going to sleep for 15 min...")
             cmd_set_sleep(1)
             #time.sleep(900)
+
+            pm25 = values[0] # PM2.5 in µg/m3
+            pm10 = values[1] # PM10 in µg/m3
+
+            if(pm25 >= PM25_SENSITIVE_CHECKUP and pm25 < PM25_UNHEALTHY_CHECKUP):
+                dataType = "AQI PM2.5"
+                info = "unhealthy for sensitive groups"
+                notification(dataType, info)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+            elif(pm25 >= PM25_UNHEALTHY_CHECKUP and pm25 < PM25_VERYUNHEALTHY_CHECKUP):
+                dataType = "AQI PM2.5"
+                info = "unhealthy!"
+                notification(dataType, info)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+            elif(pm25 >= PM25_VERYUNHEALTHY_CHECKUP and pm25 < PM25_HAZARDOUS_CHECKUP):
+                dataType = "AQI PM2.5"
+                info = "very unhealthy"
+                notification(dataType, info)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+            elif(pm25 >= PM25_HAZARDOUS_CHECKUP):
+                dataType = "AQI PM2.5"
+                info = "hazardous/severely polluted"
+                notification(dataType, info)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+
+            if(pm10 >= PM10_SENSITIVE_CHECKUP and pm10 < PM10_UNHEALTHY_CHECKUP):
+                dataType = "AQI PM2.5"
+                info = "unhealthy for sensitive groups"
+                notification(dataType, info)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+            elif(pm10 >= PM10_UNHEALTHY_CHECKUP and pm10 < PM10_VERYUNHEALTHY_CHECKUP):
+                dataType = "AQI PM2.5"
+                info = "unhealthy"
+                notification(dataType, info)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+            elif(pm10 >= PM10_VERYUNHEALTHY_CHECKUP and pm10 < PM10_HAZARDOUS_CHECKUP):
+                dataType = "AQI PM2.5"
+                info = "very unhealthy"
+                notification(dataType, info)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+            elif(pm10 >= PM10_HAZARDOUS_CHECKUP):
+                dataType = "AQI PM2.5"
+                info = "hazardous/severely polluted"
+                notification(dataType, info)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+
             time.sleep(args.time)
 
         except (KeyboardInterrupt, SystemExit):
             logger.info('KeyboardInterrupt/SystemExit caught')
             sys.exit()
+
