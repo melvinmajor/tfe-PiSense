@@ -29,6 +29,9 @@ sds011data*.json
 # Sensible files for Nginx/Let's Encrypt
 dhparam-2048.pem
 
+# Config file (as they will store personal information
+*/config.ini
+
 # Other unnecessary files
 cloc-codeCount.png
 tmp.txt
