@@ -21,16 +21,17 @@ config.read('config.ini')
 
 ''' default variables values '''
 default_api_url = config['default']['default_api_url']
-sending_timeout = config['default']['sending_timeout'] # timeout used to wait a certain amount of time before returning the get/post of API
-default_time = config['default']['environment_default_time']
-localhost_usage = True
-api_usage = False
-JSON_FILE = '/var/www/html/assets/environment.json'
+sending_timeout = int(config['default']['sending_timeout']) # timeout used to wait a certain amount of time before returning the get/post of API
+default_time = int(config['environment']['default_time'])
+localhost_usage = config.getboolean('default', 'localhost_usage')
+api_usage = config.getboolean('default', 'api_usage')
+JSON_FILE = config['environment']['json_file']
 # Variables for rich notification
 EVENT_NAME = config['notification']['eventName']
 KEY = config['notification']['key']
 PISENSE_ALERT_NOTIFICATION = config['notification']['pisense_alert_notification']
-TEMPERATURE_CHECKUP = 10.0
+LOW_TEMPERATURE_CHECKUP = config.getfloat('environment', 'low_temperature')
+HIGH_TEMPERATURE_CHECKUP = config.getfloat('environment', 'high_temperature')
 
 ''' arguments available to launch the app in a specific way '''
 feature = argparse.ArgumentParser(prog='PiSense BMP280', add_help=True, prefix_chars='-', allow_abbrev=True, formatter_class=argparse.RawTextHelpFormatter, description=textwrap.dedent('''\
@@ -43,7 +44,7 @@ feature = argparse.ArgumentParser(prog='PiSense BMP280', add_help=True, prefix_c
 feature.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
 feature.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
 feature.add_argument('-a', '--api', help='Sets API usage in activated state. Use this if you want to use API version (localhost will still run)', action='store_true', default=api_usage, required=False)
-feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.9.0')
+feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.9.1')
 args = feature.parse_args()
 
 ''' Log configuration '''
@@ -193,8 +194,6 @@ while True:
         utc_offset_sec = time.altzone if time.localtime().tm_isdst else time.timezone
         utc_offset = datetime.timedelta(seconds=-utc_offset_sec)
         
-        temperature = float(f'{bmp280.temperature:.1f}')
-
         data = sensor_to_json()
         # Check if API parameter is used in order to use both localhost and API version or not
         if(api_usage == True):
@@ -205,12 +204,19 @@ while True:
         else:
             fail("Please use `python3 bmp280sensor.py` or `python3 bmp280sensor.py --api` in order to choose between localhost or API + localhost version...")
         
-        if(temperature <= TEMPERATURE_CHECKUP):
-            dataType = "temperature"
+        temperature = float(f'{bmp280.temperature:.1f}')
+
+        if(temperature <= LOW_TEMPERATURE_CHECKUP):
+            dataType = 'low temperature'
             info = temperature
             notification(dataType, info)
             logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, temperature)
-        
+        elif(temperature >= HIGH_TEMPERATURE_CHECKUP):
+            dataType = 'high temperature'
+            info = temperature
+            notification(dataType, info)
+            logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, temperature)
+
         time.sleep(args.time)
 
     except (KeyboardInterrupt, SystemExit):
