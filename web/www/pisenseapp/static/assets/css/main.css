@@ -262,14 +262,16 @@ footer #creditsMobile p { margin: .5em 0; }
 
 /* Chart.JS responsive */
 @media screen and (max-width: 1000px) {
-.graph {
-  width: 600px;
-  max-width: 700px;
-  height: 300px;
-}
-@media screen and (max-width: 600px) {
-.graph {
-  width: 475px;
-  max-width: 600px;
-  height: 250px;
+  .graph {
+    width: 600px;
+    max-width: 700px;
+    height: 300px;
+  }
+  @media screen and (max-width: 600px) {
+    .graph {
+      width: 475px;
+      max-width: 600px;
+      height: 250px;
+    }
+  }
 }
