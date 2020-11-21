@@ -2,7 +2,7 @@ function getDataEnvironment() {
   fetch("assets/environment.json").then(response => {
     response.json().then(data => {
       //console.log(data);
-      updateHtmlEnvironment(data[data.length-1]);
+      updateHtmlEnvironment(data[data.length - 1]);
     })
   }).catch(err => {
     console.log(err);
@@ -19,16 +19,15 @@ function updateHtmlEnvironment(data) {
   //update HTML
   document.getElementById("envTime").innerHTML = datetime;
   document.getElementById("temperature").innerHTML = temperature + " °C";
-  document.getElementById("temperatureLabel").innerHTML = "en Fahrenheit : " + cToF(temperature) + " °F";
+  document.getElementById("temperatureLabel").innerHTML = "Fahrenheit : " + cToF(temperature) + " °F";
   document.getElementById("humidity").innerHTML = humidity + " %";
   document.getElementById("humidityLabel").innerHTML = "RH";
   document.getElementById("pressure").innerHTML = pressure;
   document.getElementById("pressureLabel").innerHTML = "hPa";
-  if(gas == null) {
+  if (gas == null) {
     document.getElementById("gas").innerHTML = "Gaz : Veuillez patienter la prochaine prise de mesure, le capteur doit être chaud...";
     document.getElementById("gas").style.color = "#d32f2f";
-  }
-  else {
+  } else {
     document.getElementById("gas").innerHTML = "Gaz : " + gas + " Ohms";
     document.getElementById("gas").style.color = "#676767";
   }
@@ -45,7 +44,7 @@ function updateHtmlEnvironment(data) {
   function cToF(celsius) {
     const cTemp = celsius;
     const cToFahr = cTemp * 9 / 5 + 32;
-    return cToFahr;
+    return +(Math.round(cToFahr + "e+2")  + "e-2");
     //const message = `${cTemp}\xB0C is ${cToFahr} \xB0F.`;
     //console.log(message);
   }
