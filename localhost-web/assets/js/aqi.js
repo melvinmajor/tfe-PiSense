@@ -21,12 +21,15 @@ function updateHtmlAqi(data) {
   document.getElementById("pm10").innerHTML = "(PM10: " + data.PM10 + " µg/m³)";
 
   //set colors
-  colorsPm25 = getColorAqi(aqiPm25);
-  colorsPm10 = getColorAqi(aqiPm10);
+  let colorsPm25 = getColorAqi(aqiPm25);
+  let colorsPm10 = getColorAqi(aqiPm10);
+  let aqiInfo =getAqiInfo(aqiPm25, aqiPm10);
   document.getElementById("containerPm25").style.background = colorsPm25.bg;
   document.getElementById("containerPm25").style.color = colorsPm25.text
   document.getElementById("containerPm10").style.background = colorsPm10.bg;
   document.getElementById("containerPm10").style.color = colorsPm10.text;
+  document.getElementById("aqiInfo").innerHTML = aqiInfo.text;
+  document.getElementById("aqiInfo").style.color = aqiInfo.color;
 }
 
 function getColorAqi(aqi) {
@@ -56,6 +59,39 @@ function getColorAqi(aqi) {
       textColor = "black";
   }
   return {bg: bgImageColor, text: textColor};
+}
+
+function getAqiInfo(aqiPm25, aqiPm10) {
+  switch (true) {
+    case ((aqiPm25 >= 300) || (aqiPm10 >= 300)):
+      description = "<strong>Condition d'urgence !</strong>" +
+        "<br>Exposition à des niveaux extrêmement élevés de pollution particulaire !";
+      textColor = "#78350f";
+      break;
+    case ((aqiPm25 >= 200 && aqiPm25 < 300) || (aqiPm10 >= 200 && aqiPm10 < 300)):
+      description = "<strong>Alerte !</strong> Effets graves sur votre santé !";
+      textColor = "#7e22ce";
+      break;
+    case ((aqiPm25 >= 150 && aqiPm25 < 200) || (aqiPm10 >= 150 && aqiPm10 < 200)):
+      description = "<strong>Effets néfastes sur la santé !</strong>" +
+        "<br>Attention plus particulièrement aux personnes du groupe sensible pouvant ressentir des effets plus graves."
+      textColor = "#b91c1c";
+      break;
+    case ((aqiPm25 >= 100 && aqiPm25 < 150) || (aqiPm10 >= 100 && aqiPm10 < 150)):
+      description = "Les groupes sensibles courent un plus grand risque d'exposition à l'ozone." +
+        "<br>Ils sont plus à risque en raison de la présence de particules dans l'air.";
+      textColor = "#fd9014";
+      break;
+    case ((aqiPm25 >= 50 && aqiPm25 < 100) || (aqiPm10 >= 50 && aqiPm10 < 100)):
+      description = "<strong>Pensez à ouvrir la fenêtre...</strong>";
+      textColor = "#fd9014";
+      break;
+    default:
+      description = "D'après les mesures de l'indice de qualité de l'air, il n'y a rien à signaler.";
+      textColor = "inherit";
+
+  }
+  return {text: description, color: textColor};
 }
 
 function calcAQIpm25(pm25) {

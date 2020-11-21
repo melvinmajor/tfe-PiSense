@@ -84,8 +84,8 @@ footer #credits {
 
 .container {
   border-radius: 10px;
-  border: 5px solid #d2d2d2;
-  background-color: rgba(246, 246, 246, 0.85); /* 85% opaque white */
+  border: 5px solid rgba(210, 210, 210, 0.85); /* 85% opaque #d2d2d2 */
+  background-color: rgba(246, 246, 246, 0.7); /* 70% opaque white */
   /* background: rgb(246,246,246); */
   background: -moz-radial-gradient(circle, rgba(246, 246, 246, 0.85) 0%, rgba(230, 230, 230, 0.85) 75%, rgba(220, 220, 220, 0.85) 100%);
   background: -webkit-radial-gradient(circle, rgba(246, 246, 246, 0.85) 0%, rgba(230, 230, 230, 0.85) 75%, rgba(220, 220, 220, 0.85) 100%);
@@ -115,7 +115,7 @@ footer #credits {
 /* Clear floats after the columns */
 .row:after {
   content: "";
-  display: table;
+  display: block;
   clear: both;
 }
 
@@ -131,14 +131,17 @@ footer #credits {
 .threeColumn { flex-basis: 30%; }
 
 .aqi-container, .env-container {
-  border: 3px solid rgba(0, 0, 0, .2);
+  /* border: 3px solid rgba(0, 0, 0, .2); */
   border-radius: 10px;
   width: 180px;
   float: left;
   margin: 10px;
   text-align: center;
   padding: 10px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+  transition: all 350ms;
 }
+.aqi-container:hover, .env-container:hover { box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }
 
 .aqi, .env {
   font-size: min(max(2em, 4vw), 3.5em);
@@ -165,4 +168,3 @@ footer #credits {
   font-style: italic;
   font-size: .8em;
 }
-.waqi { display: block; }
