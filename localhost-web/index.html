@@ -46,16 +46,37 @@
       </div>
       <p id="gas"></p>
       <blockquote>Légende de la température (en °C) :
-        <div class="flex-row-container temperature-legend" id="temperatureLegend">
-          <br>
-          <div class="foo fa black"></div>-10 et -, trés froid
-          <div class="foo fa blue"></div>-10 à 0, gel
-          <div class="foo fa lightblue"></div>0 à 15, frais/doux
-          <div class="foo fa green"></div>15 à 20, bon
-          <div class="foo fa lime"></div>20 à 25, chaud
-          <div class="foo fa yellow"></div>25 à 30, très chaud
-          <div class="foo fa orange"></div>30 à 35, trop chaud
-          <div class="foo fa red"></div>35 et +, danger !
+        <div class='flex-row-container'>
+          <div class="threeColumn">
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa black"></div>-10 et -, extrême négatif
+            </div>
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa blue"></div>-10 à 0, gel
+            </div>
+          </div>
+          <div class="threeColumn">
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa lightblue"></div>0 à 15, frais/doux
+            </div>
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa green"></div>15 à 20, bon
+            </div>
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa lime"></div>20 à 25, chaud
+            </div>
+          </div>
+          <div class="threeColumn">
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa yellow"></div>25 à 30, très chaud
+            </div>
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa orange"></div>30 à 35, attention
+            </div>
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa red"></div>35 et +, extrême positif
+            </div>
+          </div>
         </div>
       </blockquote>
     </div>
@@ -83,14 +104,31 @@
         </div>
       </div>
       <blockquote>Légende de la qualité de l'air :
-        <div class="flex-row-container aqi-legend" id="aqiLegend">
-          <br>
-          <div class="foo fa lime"></div>0 à 50, bon
-          <div class="foo fa yellow"></div>51 à 100, moyen
-          <div class="foo fa orange"></div>101 à 150, mauvais pour les groupes sensibles
-          <div class="foo fa red"></div>151 à 200, mauvais
-          <div class="foo fa purple"></div>201 à 300, très mauvais
-          <div class="foo fa brown"></div>301 à 500, danger !
+        <div class='flex-row-container'>
+          <div class="threeColumn">
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa lime"></div>0 à 50, indice bon
+            </div>
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa yellow"></div>51 à 100, moyen
+            </div>
+          </div>
+          <div class="threeColumn">
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa orange"></div>101 à 150, groupe sensible
+            </div>
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa red"></div>151 à 200, indice mauvais
+            </div>
+          </div>
+          <div class="threeColumn">
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa purple"></div>201 à 300, très mauvais
+            </div>
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa brown"></div>301 à 500, danger !
+            </div>
+          </div>
         </div>
       </blockquote>
     </div>

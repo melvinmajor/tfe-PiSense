@@ -10,11 +10,14 @@ function getDataAqi() {
 }
 
 function updateHtmlAqi(data) {
+  let datetime = new Date(data.datetime);
   let aqiPm25 = calcAQIpm25(data.PM2);
   let aqiPm10 = calcAQIpm10(data.PM10);
 
   //update HTML
-  document.getElementById("aqiTime").innerHTML = data.datetime;
+  document.getElementById("aqiTime").innerHTML = datetime.toLocaleString("fr-FR",
+    {year: "numeric", month: "long", day: "2-digit", hour: "2-digit",
+      minute: "2-digit", second: "2-digit", timeZoneName: "short"});
   document.getElementById("aqiPm25").innerHTML = aqiPm25;
   document.getElementById("aqiPm10").innerHTML = aqiPm10;
   document.getElementById("pm25").innerHTML = "(PM2.5: " + data.PM2 + " µg/m³)";

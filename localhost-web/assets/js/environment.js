@@ -10,14 +10,16 @@ function getDataEnvironment() {
 }
 
 function updateHtmlEnvironment(data) {
-  let datetime = data.datetime;
+  let datetime = new Date(data.datetime);
   let temperature = data.temperature;
   let gas = data.gas;
   let humidity = data.humidity;
   let pressure = data.pressure;
 
   //update HTML
-  document.getElementById("envTime").innerHTML = datetime;
+  document.getElementById("envTime").innerHTML = datetime.toLocaleString("fr-FR",
+    {year: "numeric", month: "long", day: "2-digit", hour: "2-digit",
+      minute: "2-digit", second: "2-digit", timeZoneName: "short"});
   document.getElementById("temperature").innerHTML = temperature + " °C";
   document.getElementById("temperatureLabel").innerHTML = "Fahrenheit : " + cToF(temperature) + " °F";
   document.getElementById("humidity").innerHTML = humidity + " %";
