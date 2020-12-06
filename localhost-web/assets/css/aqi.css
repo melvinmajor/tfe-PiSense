@@ -1,32 +1,22 @@
-.aqi-container {
-  border: 3px solid rgba(0, 0, 0, .2);
+.lime, .yellow, .orange, .red, .purple, .brown {
+  border-radius: 50%;
+  color: transparent;
+}
+.lime { background-image: linear-gradient(to right bottom, #a3e635, #4ae278, #00d7ab, #00c8cc, #06b6d4); }
+.yellow { background-image: linear-gradient(to right bottom, #fef08a, #fce872, #fbdf59, #fad63d, #facc15); }
+.orange { background-image: linear-gradient(to right bottom, #fde047, #ffc630, #ffac1d, #fd9014, #f97316); }
+.red { background-image: linear-gradient(to right bottom, #fb923c, #ec7831, #dc5d28, #cb4021, #b91c1c); }
+.purple { background-image: linear-gradient(to right bottom, #c084fc, #b06ef1, #a057e5, #8f3fda, #7e22ce); }
+.brown { background-image: linear-gradient(to right bottom, #a16207, #98560b, #8e4b0d, #83400e, #78350f); }
+
+.aqi-container-info {
+  border: 1px solid rgba(0, 0, 0, .2);
+  color: #676767;
   border-radius: 10px;
   margin: 10px;
+  width: 100%;
   text-align: center;
-  padding: 10px;
+  padding: 6px;
 }
-.aqi-label { font-weight: bold; }
-.aqi {
-  font-size: min(max(2em, 4vw), 3.5em);
-  font-weight: bold;
-}
-.pm-label { font-style: italic; }
-.time-label { text-align: center; }
-.time { font-weight: lighter; }
-
-.aqi-legend {
-  font-style: italic;
-  font-size: .8em;
-}
-.foo {
-  float: left;
-  margin: 5px;
-}
-.lime { color: lime; }
-.yellow { color: yellow; }
-.orange { color: orange; }
-.red { color: red; }
-.purple { color: purple; }
-.brown { color: brown; }
 
 #aqiLegend { clear: both; }

@@ -12,15 +12,21 @@
     <link rel="shortcut icon" type="image/png" href="assets/images/favicon.webp"/>
     <script src="assets/js/environment.js"></script>
     <script src="assets/js/aqi.js"></script>
-    <script src='assets/js/fontawesome.js'></script>
-    <link rel='stylesheet' href='assets/css/style.css'>
-    <link rel='stylesheet' href='assets/css/environment.css'>
-    <link rel='stylesheet' href='assets/css/aqi.css'>
-    <link rel='stylesheet' href='assets/css/bootstrap.min.css'>
+    <script src="assets/js/fontawesome.js"></script>
+    <script src="assets/js/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/environment.css">
+    <link rel="stylesheet" href="assets/css/aqi.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   </head>
   <body>
     <div class="intro">
-      <img src="assets/images/PiSense_logo.webp" alt="PiSense logo" class="intro-logo">
+      <noscript>
+        <div class="noscript-alert" role="alert">
+          <span class="badge badge-warning">Alerte</span> : Ce projet fonctionne mieux avec JavaScript activé &#128522;
+        </div>
+      </noscript>
+      <a href="index.html" id="logoButton"><img src="assets/images/PiSense_logo.webp" alt="PiSense logo" class="intro-logo"></a>
       <h1>PiSense</h1>
       <p>Système de prise d'informations environnementales via Raspberry Pi</p>
     </div>
@@ -36,6 +42,7 @@
         <div class='env-container threeColumn' id="containerHumidity">
           <div class='env-label'>Humidité</div>
           <div class='env' id="humidity"></div>
+          <div class='humidity-label' id="humidityLabel"></div>
         </div>
         <div class='env-container threeColumn' id="containerPressure">
           <div class='env-label'>Pression atmosphérique</div>
@@ -45,16 +52,37 @@
       </div>
       <p id="gas"></p>
       <blockquote>Légende de la température (en °C) :
-        <div class="flex-row-container temperature-legend" id="temperatureLegend">
-          <br>
-          <div class="foo fa fa-circle black"></div>-10 et -, trés froid
-          <div class="foo fa fa-circle blue"></div>-10 à 0, gel
-          <div class="foo fa fa-circle lightblue"></div>0 à 15, frais/doux
-          <div class="foo fa fa-circle green"></div>15 à 20, bon
-          <div class="foo fa fa-circle lime"></div>20 à 25, chaud
-          <div class="foo fa fa-circle yellow"></div>25 à 30, très chaud
-          <div class="foo fa fa-circle orange"></div>30 à 35, trop chaud
-          <div class="foo fa fa-circle red"></div>35 et +, danger !
+        <div class='flex-row-container'>
+          <div class="threeColumn">
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa black"></div>-10 et -, extrême négatif
+            </div>
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa blue"></div>-10 à 0, gel
+            </div>
+          </div>
+          <div class="threeColumn">
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa lightblue"></div>0 à 15, frais/doux
+            </div>
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa green"></div>15 à 20, bon
+            </div>
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa lime"></div>20 à 25, chaud
+            </div>
+          </div>
+          <div class="threeColumn">
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa yellow"></div>25 à 30, très chaud
+            </div>
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa orange"></div>30 à 35, attention
+            </div>
+            <div class="flex-row-container temperature-legend" id="temperatureLegend">
+              <div class="foo fa red"></div>35 et +, extrême positif
+            </div>
+          </div>
         </div>
       </blockquote>
     </div>
@@ -72,21 +100,41 @@
           <div class='aqi' id="aqiPm10"></div>
           <div class='pm-label' id="pm10"></div>
         </div>
-        <p><em>Vous souhaitez voir l'indice de qualité de l'air dans le monde en temps réel ?</em>
-          <br>
-          <a href="https://waqi.info/" target="_blank" class="btn btn-info btn-sm">World's Air Pollution: Real-time Air Quality Index</a>
-        </p>
+        <div class='aqi-container-info' id="containerAqiInfo">
+          <div class='aqi-label' id='aqiInfoLabel'>Info/conseil :</div>
+          <div class='aqi-info' id='aqiInfo'>D'après les mesures de l'indice de qualité de l'air, il n'y a rien à signaler.</div>
+        </div>
+        <div>
+          <p><em>Vous souhaitez voir l'indice de qualité de l'air dans le monde en temps réel ?</em></p>
+          <p><a href="https://waqi.info/" target="_blank" class="btn btn-secondary btn">World's Air Pollution: Real-time Air Quality Index</a></p>
+        </div>
       </div>
-      <!-- <img src="assets/images/air-quality-index.webp" id="airQualityTable"> -->
       <blockquote>Légende de la qualité de l'air :
-        <div class="flex-row-container aqi-legend" id="aqiLegend">
-          <br>
-          <div class="foo fa fa-circle lime"></div>0 à 50, bon
-          <div class="foo fa fa-circle yellow"></div>51 à 100, moyen
-          <div class="foo fa fa-circle orange"></div>101 à 150, mauvais pour les groupes sensibles
-          <div class="foo fa fa-circle red"></div>151 à 200, mauvais
-          <div class="foo fa fa-circle purple"></div>201 à 300, très mauvais
-          <div class="foo fa fa-circle brown"></div>301 à 500, danger !
+        <div class='flex-row-container'>
+          <div class="threeColumn">
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa lime"></div>0 à 50, indice bon
+            </div>
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa yellow"></div>51 à 100, moyen
+            </div>
+          </div>
+          <div class="threeColumn">
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa orange"></div>101 à 150, groupe sensible
+            </div>
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa red"></div>151 à 200, indice mauvais
+            </div>
+          </div>
+          <div class="threeColumn">
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa purple"></div>201 à 300, très mauvais
+            </div>
+            <div class="flex-row-container aqi-legend" id="aqiLegend">
+              <div class="foo fa brown"></div>301 à 500, danger !
+            </div>
+          </div>
         </div>
       </blockquote>
     </div>

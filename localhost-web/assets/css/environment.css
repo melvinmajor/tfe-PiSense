@@ -1,35 +1,15 @@
-.env-container {
-    border: 3px solid rgba(0, 0, 0, .2);
-    border-radius: 10px;
-    margin: 10px;
-    text-align: center;
-    padding: 10px;
+.black, .blue, .lightblue, .green, .lime, .yellow, .orange, .red {
+    border-radius: 50%;
+    color: transparent;
 }
-.env-label { font-weight: bold; }
-.env {
-    font-size: min(max(2em, 4vw), 3.5em);
-    font-weight: bold;
-}
-.temperature-label, .pressure-label { font-style: italic; }
-.time-label { text-align: center; }
-.time { font-weight: lighter; }
-
-.temperature-legend {
-    font-style: italic;
-    font-size: .8em;
-}
-.foo {
-    float: left;
-    margin: 5px;
-}
-.black { color: black; }
-.blue { color: blue; }
-.lightblue { color: lightblue; }
-.green { color: green; }
-.lime { color: lime; }
-.yellow { color: yellow; }
-.orange { color: orange; }
-.red { color: red; }
+.black { background-image: linear-gradient(to right bottom, #4b5563, #47434e, #3d3338, #2d2525, #1c1917); }
+.blue { background-image: linear-gradient(to right bottom, #3b82f6, #3875f4, #3c67f1, #4457ec, #4f46e5); }
+.lightblue { background-image: linear-gradient(to right bottom, #bae6fd, #9dd7fd, #83c7fd, #6eb7fc, #60a5fa); }
+.green { background-image: linear-gradient(to right bottom, #4ade80, #00c9a1, #00b1ae, #3d97a6, #607d8b); }
+.lime { background-image: linear-gradient(to right bottom, #a3e635, #4ae278, #00d7ab, #00c8cc, #06b6d4); }
+.yellow { background-image: linear-gradient(to right bottom, #fef08a, #fce872, #fbdf59, #fad63d, #facc15); }
+.orange { background-image: linear-gradient(to right bottom, #fde047, #ffc630, #ffac1d, #fd9014, #f97316); }
+.red { background-image: linear-gradient(to right bottom, #fb923c, #ec7831, #dc5d28, #cb4021, #b91c1c); }
 
 #gas {
     font-weight: bold;
