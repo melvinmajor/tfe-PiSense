@@ -27,10 +27,10 @@ function updateHtmlEnvironment(data) {
   document.getElementById("pressure").innerHTML = pressure;
   document.getElementById("pressureLabel").innerHTML = "hPa";
   if (gas == null) {
-    document.getElementById("gas").innerHTML = "Gaz : Veuillez patienter la prochaine prise de mesure, le capteur doit être chaud...";
+    document.getElementById("gas").innerHTML = "Résistance (gaz) : Veuillez patienter la prochaine prise de mesure, le capteur doit être chaud...";
     document.getElementById("gas").style.color = "#d32f2f";
   } else {
-    document.getElementById("gas").innerHTML = "Gaz : " + gas + " Ohms";
+    document.getElementById("gas").innerHTML = "Résistance (gaz) : " + gas + " Ohms";
     document.getElementById("gas").style.color = "#676767";
   }
 
