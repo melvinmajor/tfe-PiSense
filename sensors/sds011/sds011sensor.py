@@ -353,22 +353,22 @@ if __name__ == "__main__":
                 logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
 
             if(pm10 >= PM10_SENSITIVE_CHECKUP and pm10 < PM10_UNHEALTHY_CHECKUP):
-                dataType = "AQI PM2.5"
+                dataType = "AQI PM10"
                 info = "unhealthy for sensitive groups"
                 notification(dataType, info)
                 logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
             elif(pm10 >= PM10_UNHEALTHY_CHECKUP and pm10 < PM10_VERYUNHEALTHY_CHECKUP):
-                dataType = "AQI PM2.5"
+                dataType = "AQI PM10"
                 info = "unhealthy"
                 notification(dataType, info)
                 logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
             elif(pm10 >= PM10_VERYUNHEALTHY_CHECKUP and pm10 < PM10_HAZARDOUS_CHECKUP):
-                dataType = "AQI PM2.5"
+                dataType = "AQI PM10"
                 info = "very unhealthy"
                 notification(dataType, info)
                 logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
             elif(pm10 >= PM10_HAZARDOUS_CHECKUP):
-                dataType = "AQI PM2.5"
+                dataType = "AQI PM10"
                 info = "hazardous/severely polluted"
                 notification(dataType, info)
                 logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
