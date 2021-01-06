@@ -69,7 +69,7 @@ feature = argparse.ArgumentParser(prog='PiSense SDS011', add_help=True, prefix_c
 feature.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
 feature.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
 feature.add_argument('-a', '--api', help='Sets API usage in activated state. Use this if you want to use API version (localhost will still run)', action='store_true', default=api_usage, required=False)
-feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.9.1')
+feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.9.2')
 args = feature.parse_args()
 
 ''' Log configuration '''
@@ -331,45 +331,45 @@ if __name__ == "__main__":
             pm25 = values[0] # PM2.5 in µg/m3
             pm10 = values[1] # PM10 in µg/m3
 
-            if(pm25 >= PM25_SENSITIVE_CHECKUP and pm25 < PM25_UNHEALTHY_CHECKUP):
+            if pm25 >= PM25_HAZARDOUS_CHECKUP:
                 dataType = "AQI PM2.5"
-                info = "unhealthy for sensitive groups"
+                info = "hazardous/severely polluted"
                 notification(dataType, info)
                 logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
-            elif(pm25 >= PM25_UNHEALTHY_CHECKUP and pm25 < PM25_VERYUNHEALTHY_CHECKUP):
+            elif pm25 >= PM25_VERYUNHEALTHY_CHECKUP and pm25 < PM25_HAZARDOUS_CHECKUP:
+                dataType = "AQI PM2.5"
+                info = "very unhealthy"
+                notification(dataType, info)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+            elif pm25 >= PM25_UNHEALTHY_CHECKUP and pm25 < PM25_VERYUNHEALTHY_CHECKUP:
                 dataType = "AQI PM2.5"
                 info = "unhealthy!"
                 notification(dataType, info)
                 logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
-            elif(pm25 >= PM25_VERYUNHEALTHY_CHECKUP and pm25 < PM25_HAZARDOUS_CHECKUP):
+            elif pm25 >= PM25_SENSITIVE_CHECKUP and pm25 < PM25_UNHEALTHY_CHECKUP:
                 dataType = "AQI PM2.5"
-                info = "very unhealthy"
-                notification(dataType, info)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
-            elif(pm25 >= PM25_HAZARDOUS_CHECKUP):
-                dataType = "AQI PM2.5"
-                info = "hazardous/severely polluted"
-                notification(dataType, info)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
-
-            if(pm10 >= PM10_SENSITIVE_CHECKUP and pm10 < PM10_UNHEALTHY_CHECKUP):
-                dataType = "AQI PM10"
                 info = "unhealthy for sensitive groups"
                 notification(dataType, info)
                 logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
-            elif(pm10 >= PM10_UNHEALTHY_CHECKUP and pm10 < PM10_VERYUNHEALTHY_CHECKUP):
+
+            if pm10 >= PM10_HAZARDOUS_CHECKUP:
+                dataType = "AQI PM10"
+                info = "hazardous/severely polluted"
+                notification(dataType, info)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+            elif pm10 >= PM10_VERYUNHEALTHY_CHECKUP and pm10 < PM10_HAZARDOUS_CHECKUP:
+                dataType = "AQI PM10"
+                info = "very unhealthy"
+                notification(dataType, info)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+            elif pm10 >= PM10_UNHEALTHY_CHECKUP and pm10 < PM10_VERYUNHEALTHY_CHECKUP:
                 dataType = "AQI PM10"
                 info = "unhealthy"
                 notification(dataType, info)
                 logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
-            elif(pm10 >= PM10_VERYUNHEALTHY_CHECKUP and pm10 < PM10_HAZARDOUS_CHECKUP):
+            elif pm10 >= PM10_SENSITIVE_CHECKUP and pm10 < PM10_UNHEALTHY_CHECKUP:
                 dataType = "AQI PM10"
-                info = "very unhealthy"
-                notification(dataType, info)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
-            elif(pm10 >= PM10_HAZARDOUS_CHECKUP):
-                dataType = "AQI PM10"
-                info = "hazardous/severely polluted"
+                info = "unhealthy for sensitive groups"
                 notification(dataType, info)
                 logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
 
