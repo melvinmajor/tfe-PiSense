@@ -69,7 +69,7 @@ feature = argparse.ArgumentParser(prog='PiSense SDS011', add_help=True, prefix_c
 feature.add_argument('-u', '--url', help='URL of the API', type=str, default=default_api_url, required=False)
 feature.add_argument('-t', '--time', help='Time, in seconds, between each record taken', type=int, default=default_time, required=False)
 feature.add_argument('-a', '--api', help='Sets API usage in activated state. Use this if you want to use API version (localhost will still run)', action='store_true', default=api_usage, required=False)
-feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.9.2')
+feature.add_argument('-v', '--version', help='%(prog)s program version', action='version', version='%(prog)s v0.9.3')
 args = feature.parse_args()
 
 ''' Log configuration '''
@@ -296,16 +296,50 @@ def local_data(datas):
             outfile.write(dave)
             logger.info('Data recorded successfully')
         if MQTT_HOST != '':
-            pub_mqtt(jsonrow)
+            pub_mqtt(dave)
     except IOError as e:
         fail('IOError while trying to open and write JSON file')
 
 
-def notification(dataType, info):
+def notification(data_type, info):
     base_url = 'https://maker.ifttt.com/trigger/{}/with/key/{}'
     url = base_url.format(EVENT_NAME, KEY)
-    report = {"value1": dataType, "value2": str(info), "value3": PISENSE_ALERT_NOTIFICATION}
+    report = {"value1": data_type, "value2": str(info), "value3": PISENSE_ALERT_NOTIFICATION}
     requests.post(url, data=report)
+
+
+def notification_checkup(data_pm25, data_pm10):
+    data_type_pm25 = "AQI PM2.5"
+    data_type_pm10 = "AQI PM10"
+    info_hazardous = "hazardous/severely polluted!"
+    info_very_unhealthy = "very unhealthy!"
+    info_unhealthy = "unhealthy!"
+    info_sensitive = "unhealthy for sensitive groups"
+    if data_pm25 >= PM25_HAZARDOUS_CHECKUP:
+        notification(data_type_pm25, info_hazardous)
+        logger.info('Rich notification sent to IFTTT, %s reached %s', data_type_pm25, info_hazardous)
+    elif PM25_VERYUNHEALTHY_CHECKUP <= data_pm25 < PM25_HAZARDOUS_CHECKUP:
+        notification(data_type_pm25, info_very_unhealthy)
+        logger.info('Rich notification sent to IFTTT, %s reached %s', data_type_pm25, info_very_unhealthy)
+    elif PM25_UNHEALTHY_CHECKUP <= data_pm25 < PM25_VERYUNHEALTHY_CHECKUP:
+        notification(data_type_pm25, info_unhealthy)
+        logger.info('Rich notification sent to IFTTT, %s reached %s', data_type_pm25, info_unhealthy)
+    elif PM25_SENSITIVE_CHECKUP <= data_pm25 < PM25_UNHEALTHY_CHECKUP:
+        notification(data_type_pm25, info_sensitive)
+        logger.info('Rich notification sent to IFTTT, %s reached %s', data_type_pm25, info_sensitive)
+
+    if data_pm10 >= PM10_HAZARDOUS_CHECKUP:
+        notification(data_type_pm10, info_hazardous)
+        logger.info('Rich notification sent to IFTTT, %s reached %s', data_type_pm10, info_hazardous)
+    elif PM10_VERYUNHEALTHY_CHECKUP <= data_pm10 < PM10_HAZARDOUS_CHECKUP:
+        notification(data_type_pm10, info_very_unhealthy)
+        logger.info('Rich notification sent to IFTTT, %s reached %s', data_type_pm10, info_very_unhealthy)
+    elif PM10_UNHEALTHY_CHECKUP <= data_pm10 < PM10_VERYUNHEALTHY_CHECKUP:
+        notification(data_type_pm10, info_unhealthy)
+        logger.info('Rich notification sent to IFTTT, %s reached %s', data_type_pm10, info_unhealthy)
+    elif PM10_SENSITIVE_CHECKUP <= data_pm10 < PM10_UNHEALTHY_CHECKUP:
+        notification(data_type_pm10, info_sensitive)
+        logger.info('Rich notification sent to IFTTT, %s reached %s', data_type_pm10, info_sensitive)
 
 
 if __name__ == "__main__":
@@ -346,38 +380,7 @@ if __name__ == "__main__":
 
             pm25 = values[0]  # PM2.5 in µg/m3
             pm10 = values[1]  # PM10 in µg/m3
-
-            dataTypePM25 = "AQI PM2.5"
-            dataTypePM10 = "AQI PM10"
-            infoHazardous = "hazardous/severely polluted!"
-            infoVeryUnhealthy = "very unhealthy!"
-            infoUnhealthy = "unhealthy!"
-            infoSensitive = "unhealthy for sensitive groups"
-            if pm25 >= PM25_HAZARDOUS_CHECKUP:
-                notification(dataTypePM25, infoHazardous)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM25, infoHazardous)
-            elif PM25_VERYUNHEALTHY_CHECKUP <= pm25 < PM25_HAZARDOUS_CHECKUP:
-                notification(dataTypePM25, infoVeryUnhealthy)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM25, infoVeryUnhealthy)
-            elif PM25_UNHEALTHY_CHECKUP <= pm25 < PM25_VERYUNHEALTHY_CHECKUP:
-                notification(dataTypePM25, infoUnhealthy)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM25, infoUnhealthy)
-            elif PM25_SENSITIVE_CHECKUP <= pm25 < PM25_UNHEALTHY_CHECKUP:
-                notification(dataTypePM25, infoSensitive)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM25, infoSensitive)
-
-            if pm10 >= PM10_HAZARDOUS_CHECKUP:
-                notification(dataTypePM10, infoHazardous)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM10, infoHazardous)
-            elif PM10_VERYUNHEALTHY_CHECKUP <= pm10 < PM10_HAZARDOUS_CHECKUP:
-                notification(dataTypePM10, infoVeryUnhealthy)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM10, infoVeryUnhealthy)
-            elif PM10_UNHEALTHY_CHECKUP <= pm10 < PM10_VERYUNHEALTHY_CHECKUP:
-                notification(dataTypePM10, infoUnhealthy)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM10, infoUnhealthy)
-            elif PM10_SENSITIVE_CHECKUP <= pm10 < PM10_UNHEALTHY_CHECKUP:
-                notification(dataTypePM10, infoSensitive)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM10, infoSensitive)
+            notification_checkup(pm25, pm10)
 
             time.sleep(args.time)
 
