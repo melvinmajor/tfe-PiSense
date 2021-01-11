@@ -347,47 +347,37 @@ if __name__ == "__main__":
             pm25 = values[0]  # PM2.5 in µg/m3
             pm10 = values[1]  # PM10 in µg/m3
 
+            dataTypePM25 = "AQI PM2.5"
+            dataTypePM10 = "AQI PM10"
+            infoHazardous = "hazardous/severely polluted!"
+            infoVeryUnhealthy = "very unhealthy!"
+            infoUnhealthy = "unhealthy!"
+            infoSensitive = "unhealthy for sensitive groups"
             if pm25 >= PM25_HAZARDOUS_CHECKUP:
-                dataType = "AQI PM2.5"
-                info = "hazardous/severely polluted"
-                notification(dataType, info)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+                notification(dataTypePM25, infoHazardous)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM25, infoHazardous)
             elif PM25_VERYUNHEALTHY_CHECKUP <= pm25 < PM25_HAZARDOUS_CHECKUP:
-                dataType = "AQI PM2.5"
-                info = "very unhealthy"
-                notification(dataType, info)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+                notification(dataTypePM25, infoVeryUnhealthy)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM25, infoVeryUnhealthy)
             elif PM25_UNHEALTHY_CHECKUP <= pm25 < PM25_VERYUNHEALTHY_CHECKUP:
-                dataType = "AQI PM2.5"
-                info = "unhealthy!"
-                notification(dataType, info)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+                notification(dataTypePM25, infoUnhealthy)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM25, infoUnhealthy)
             elif PM25_SENSITIVE_CHECKUP <= pm25 < PM25_UNHEALTHY_CHECKUP:
-                dataType = "AQI PM2.5"
-                info = "unhealthy for sensitive groups"
-                notification(dataType, info)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+                notification(dataTypePM25, infoSensitive)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM25, infoSensitive)
 
             if pm10 >= PM10_HAZARDOUS_CHECKUP:
-                dataType = "AQI PM10"
-                info = "hazardous/severely polluted"
-                notification(dataType, info)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+                notification(dataTypePM10, infoHazardous)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM10, infoHazardous)
             elif PM10_VERYUNHEALTHY_CHECKUP <= pm10 < PM10_HAZARDOUS_CHECKUP:
-                dataType = "AQI PM10"
-                info = "very unhealthy"
-                notification(dataType, info)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+                notification(dataTypePM10, infoVeryUnhealthy)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM10, infoVeryUnhealthy)
             elif PM10_UNHEALTHY_CHECKUP <= pm10 < PM10_VERYUNHEALTHY_CHECKUP:
-                dataType = "AQI PM10"
-                info = "unhealthy"
-                notification(dataType, info)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+                notification(dataTypePM10, infoUnhealthy)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM10, infoUnhealthy)
             elif PM10_SENSITIVE_CHECKUP <= pm10 < PM10_UNHEALTHY_CHECKUP:
-                dataType = "AQI PM10"
-                info = "unhealthy for sensitive groups"
-                notification(dataType, info)
-                logger.info('Rich notification sent to IFTTT, %s reached %s', dataType, info)
+                notification(dataTypePM10, infoSensitive)
+                logger.info('Rich notification sent to IFTTT, %s reached %s', dataTypePM10, infoSensitive)
 
             time.sleep(args.time)
 
