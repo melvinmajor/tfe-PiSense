@@ -31,6 +31,18 @@
       <p>Système de prise d'informations environnementales via Raspberry Pi</p>
     </div>
     <div class="container">
+      <h2>Météo locale</h2>
+      <!-- https://weatherwidget.io/ module -->
+      <a class="weatherwidget-io" href="https://forecast7.com/fr/50d674d61/louvain-la-neuve/" data-label_1="Louvain-la-Neuve" data-label_2="Belgique" data-font="Roboto" data-icons="Climacons Animated" data-shadow="rgba(0, 0, 0, 0.2)" data-textcolor="#454545" data-highcolor="#cb4021" data-lowcolor="#60a5fa" data-suncolor="#ffac1d" data-cloudcolor="rgba(0, 0, 0, 0.5)" data-cloudfill="#ffffff" data-raincolor="#0078d7" >Louvain-la-Neuve Belgique</a>
+      <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+      </script>
+      <!-- <a class="weatherwidget-io" href="https://forecast7.com/fr/49d745d34/chiny/" data-label_1="Chiny" data-label_2="Belgique" data-font="Roboto" data-icons="Climacons Animated" data-shadow="rgba(0, 0, 0, 0.15)" data-textcolor="#454545" data-highcolor="#cb4021" data-lowcolor="#60a5fa" data-suncolor="#ffac1d" data-cloudcolor="rgba(0, 0, 0, 0.5)" data-cloudfill="#ffffff" data-raincolor="#0078d7" >Chiny Belgique</a>
+      <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+      </script> -->
+    </div>
+    <div class="container">
       <h2>Environnement</h2>
       <p class='time' id="envTime"></p>
       <div class='flex-row-container'>
