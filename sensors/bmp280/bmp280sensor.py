@@ -123,8 +123,9 @@ def get_date_time():
 ## {"datetime": "2019-11-14T10:11:59.378308+01:00", "temperature": 22.6, "pressure": 986.74}
 def sensor_to_json():
     # dict which will be used by JSON
+    # - 1°C hardcoded because digital calibration has 1°C higher value than reality
     dan = {'datetime': get_date_time(), # date T time in ISO8601
-            'temperature': float(f'{bmp280.temperature:.1f}'), # in Celsius
+            'temperature': float(f'{bmp280.temperature:.1f}') - 1, # in Celsius
             'pressure': float(f'{bmp280.pressure:.2f}')} # in hectopascal
     # This part is for debug mode only because when used, it stop the sending of JSON to API
     # data_json = json.dumps(dan)

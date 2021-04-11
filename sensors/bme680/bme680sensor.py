@@ -140,10 +140,11 @@ def get_date_time():
 ## {"datetime": "2019-11-14T10:11:59.378308+01:00", "temperature": 32.3, "gas": 11671, "humidity": 43.9, "pressure": 1017.28}
 def sensor_to_json():
     # dict which will be used by JSON
+    # - 1°C hardcoded because digital calibration has 1°C higher value than reality
     if sensor.get_sensor_data():
         if sensor.data.heat_stable:
             charlie = {'datetime': get_date_time(), # date T time in ISO8601
-                'temperature': float(f'{sensor.data.temperature:.1f}'), # in Celsius
+                'temperature': float(f'{sensor.data.temperature:.1f}') - 1, # in Celsius
                 'gas': float(f'{sensor.data.gas_resistance:.2f}'), # in ohm
                 'humidity': float(f'{sensor.data.humidity:.1f}'), # in percentage (%RH)
                 'pressure': float(f'{sensor.data.pressure:.2f}')} # in hectopascal
@@ -153,7 +154,7 @@ def sensor_to_json():
             return charlie
     else:
         charlie = {'datetime': get_date_time(), # date T time in ISO8601
-                'temperature': float(f'{sensor.data.temperature:.1f}'), # in Celsius
+                'temperature': float(f'{sensor.data.temperature:.1f}') - 1, # in Celsius
             'gas': None,
             'humidity': float(f'{sensor.data.humidity:.1f}'), # in percentage (%RH)
             'pressure': float(f'{sensor.data.pressure:.2f}')} # in hectopascal
