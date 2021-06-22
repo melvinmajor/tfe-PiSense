@@ -11,7 +11,8 @@ toc-title: Manual - how to manually start sensors onto Raspberry Pi devices
 Once the Raspberry Pi has started and you're connected via *VNC Viewer* or *TeamViewer*, launch **Konsole** to access Linux/Raspbian terminal.
 
 * Go to the right folder: `cd Git/tfe-PiSense/sensors/`,
-* Launch BME680/BME280/BMP280 code according to the sensor connected on PiSense: `sudo python3 bme680/bme680sensor.py`
+* Launch BME680/BME280/BMP280 code according to the sensor connected on PiSense.
+  Here's with the BME680 sensor: `sudo python3 bme680/bme680sensor.py`
 * Open a new tab in Konsole: <kbd>New Tab (Ctrl+Shift+T)</kbd> > <kbd>Fish (F)</kbd>,
 * Launch SDS011 code if the sensor is connected on PiSense: `sudo python sds011/sds011sensor.py`.
 
@@ -21,6 +22,6 @@ That's it!
 
 If you want to automatically launch both BME680 and SDS011 sensor, a small script is available and runnable inside root folder.
 
-BME680 + SDS011 launcher: `pi_bme680-sds011launcher.sh`
-
-Other launchers (BME280 and BMP280 coupled with SDS011) will shortly be made available.
+* BME680 + SDS011 launcher: `pi_bme680-sds011launcher.sh`
+* BME280 + SDS011 launcher: `pi_bme280-sds011launcher.sh`
+* BMP280 + SDS011 launcher: `pi_bmp280-sds011launcher.sh`
