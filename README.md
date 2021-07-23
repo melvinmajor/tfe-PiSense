@@ -33,9 +33,12 @@ In the case of the teacher's return, it would be a matter of warning of a possib
 
 ## License
 
-This project is currently not licensed but is subject to change during the development process.
+This project is by now on protected under GNU General Public License v3.0 (see [LICENSE file](LICENSE)).
 It's made available on GitHub for "documentation" purpose.
-If you want to distribute it and/or use it commercially, please reach me.
+
+Anyway, if you want to distribute it and/or use it commercially, please reach me before doing anything.
+This condition is here since the very start of this repository project and is not meant to block the usage of my code.
+It is only to be sure rights, patents and distribution are well respected based on me, the author.
 
 ## Built With and For
 
