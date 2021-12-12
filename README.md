@@ -1,8 +1,8 @@
 > # PiSense
 >
-> Originally: graduation work, 3rd Bachelor at EPHEC Louvain-la-Neuve
+> *Originally: graduation work, 3rd Bachelor at EPHEC Louvain-la-Neuve*
 >
-> Development pursued after the defense (project was well seen by the jury). 
+> *Development pursued after the defense (project was well seen by the jury).*
 
 <img src="doc/PiSense-logo/PiSense_logo.svg" alt="PiSense logo" width="150px" style="display: block; margin: 0 auto;">
 
@@ -12,6 +12,11 @@ As part of a business request by Dreamnet SRL, an IoT system that tracks tempera
 
 Based on first feedback with Professor A. Dewulf (EPHEC), there is also interest in detecting Silicon Oxide from a client with a career.
 This will allow the customer to prevent any risk related to the presence of Silicon Oxide at a rate too high.
+
+> *The project is now functional under a [localhost web](localhost-web/) version with further options available on each sensors made compatible.*
+>
+> *If you want to use an external [web](web/) environment, please create your own API/database server with an online web environment.*
+> *The Raspberry Pi code has a flag to fluently send collected data to an external environment.*
 
 ### Goal
 
@@ -31,9 +36,31 @@ An article correlate the facilitated spread of COVID-19 in this type of environm
 
 In the case of the teacher's return, it would be a matter of warning of a possible danger in a risky work environment.
 
+### Further research (after graduation defense)
+
+After my graduation defense, I decided to pursue this project during my free time.
+That's why I still make some commits 😉
+
+By making further research, I learned that a desirable temperature is between 19 and 24°C (Canadian CSA Z412-17 Office Ergonomics suggest between 20 and 26°C).
+The average humidity level is usually between 50 and 60% indoors even though between 40 and 70% there may not be high concerns.
+Some articles and research published online explain this:
+
+* <https://www.ccohs.ca/oshanswers/phys_agents/thermal_comfort.html>
+* <http://ijesi.org/papers/Vol(4)3/Version-1/B043107014.pdf>
+* <https://www.rubson.com/fr/a-propos-d-humidite/causes/niveau-parfait-humidite.html>
+
+It seems that a bad humidity level can be linked to building and health aggravations.
+For example:
+
+* Humidity level below 20% can cause discomfort through dried eyes, mucous membranes and skin, skin and throat irritation.
+It also causes static electricity build-up and negatively affect the operations of some office equipment such as printers and computers.
+Apparently, it also has an impact on an easier drop in temperature which facilitates drying out the surrounding air.
+* Humidity level above 70% may develop condensation on surfaces and within the interior of some equipment and building structures. If threatened, these areas can develop mould and fungi but also makes the area feel stuffy.
+People with allergies may see their allergic reactions possibly worsening.
+
 ## License
 
-This project is by now on protected under GNU General Public License v3.0 (see [LICENSE file](LICENSE)).
+This project is, by now on, protected under GNU General Public License v3.0 (see [LICENSE file](LICENSE)).
 It's made available on GitHub for "documentation" purpose.
 
 Anyway, if you want to distribute it and/or use it commercially, please reach me before doing anything.

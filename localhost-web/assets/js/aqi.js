@@ -23,10 +23,12 @@ function updateHtmlAqi(data) {
   document.getElementById("pm25").innerHTML = "(PM2.5: " + data.PM2 + " µg/m³)";
   document.getElementById("pm10").innerHTML = "(PM10: " + data.PM10 + " µg/m³)";
 
+  //set info section
+  let aqiInfo =getAqiInfo(aqiPm25, aqiPm10);
+
   //set colors
   let colorsPm25 = getColorAqi(aqiPm25);
   let colorsPm10 = getColorAqi(aqiPm10);
-  let aqiInfo =getAqiInfo(aqiPm25, aqiPm10);
   document.getElementById("containerPm25").style.background = colorsPm25.bg;
   document.getElementById("containerPm25").style.color = colorsPm25.text
   document.getElementById("containerPm10").style.background = colorsPm10.bg;
@@ -36,6 +38,8 @@ function updateHtmlAqi(data) {
 }
 
 function getColorAqi(aqi) {
+  let bgImageColor, textColor;
+
   switch (true) {
     case (aqi >= 50 && aqi < 100):
       bgImageColor = "linear-gradient(to right bottom, #fef08a, #fce872, #fbdf59, #fad63d, #facc15)";
@@ -65,6 +69,8 @@ function getColorAqi(aqi) {
 }
 
 function getAqiInfo(aqiPm25, aqiPm10) {
+  let description, textColor;
+
   switch (true) {
     case ((aqiPm25 >= 300) || (aqiPm10 >= 300)):
       description = "<strong>Condition d'urgence !</strong>" +

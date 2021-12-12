@@ -34,12 +34,18 @@ function updateHtmlEnvironment(data) {
     document.getElementById("gas").style.color = "#676767";
   }
 
+  //set info section
+  let humidityInfo =getHumidityInfo(humidity);
+  document.getElementById("humidityInfo").innerHTML = humidityInfo.text;
+  document.getElementById("humidityInfo").style.color = humidityInfo.color;
+
   //set colors
   let colorsTemperature = getColorTemperature(temperature);
+  let colorsHumidity = getColorHumidity(humidity);
   document.getElementById("containerTemperature").style.background = colorsTemperature.bg;
   document.getElementById("containerTemperature").style.color = colorsTemperature.text;
-  document.getElementById("containerHumidity").style.background = "linear-gradient(to right bottom, #bdbdbd, #aaabb1, #949ba6, #7b8b99, #607d8b)";
-  document.getElementById("containerHumidity").style.color = "white";
+  document.getElementById("containerHumidity").style.background = colorsHumidity.bg;
+  document.getElementById("containerHumidity").style.color = colorsHumidity.text;
   document.getElementById("containerPressure").style.background = "linear-gradient(to right bottom, #bdbdbd, #aaabb1, #949ba6, #7b8b99, #607d8b)";
   document.getElementById("containerPressure").style.color = "white";
 
@@ -53,7 +59,8 @@ function updateHtmlEnvironment(data) {
 }
 
 function getColorTemperature(value) {
-  let bgImageColor;
+  let bgImageColor, textColor;
+
   switch (true) {
     case (value >= -10 && value < 0):
       bgImageColor = "linear-gradient(to right bottom, #3b82f6, #3875f4, #3c67f1, #4457ec, #4f46e5)";
@@ -88,4 +95,56 @@ function getColorTemperature(value) {
       textColor = "white";
   }
   return {bg: bgImageColor, text: textColor};
+}
+
+function getColorHumidity(value) {
+  let bgImageColor, textColor;
+
+  /* 40% or lower (and 70% or higher) can have an impact on thermal comfort.
+   * RH level below 20% or above 70% causes health discomfort and impact the office + office equipment.
+   */
+  switch (true) {
+    case (value < 40):
+      bgImageColor = "linear-gradient(to right bottom, #bae6fd, #9dd7fd, #83c7fd, #6eb7fc, #60a5fa)";
+      textColor = "black";
+      break;
+    case (value > 65):
+      bgImageColor = "linear-gradient(to right bottom, #051937, #361e4f, #6c1254, #9c0042, #b91c1c)";
+      textColor = "white";
+      break;
+    default:
+      bgImageColor = "linear-gradient(to right bottom, #051937, #002560, #1f2d88, #4b2eae, #7e22ce)";
+      textColor = "white";
+  }
+  return {bg: bgImageColor, text: textColor};
+}
+
+function getHumidityInfo(humidity) {
+  let description, textColor;
+
+  /* 40% or lower (and 70% or higher) can have an impact on thermal comfort.
+   * RH level below 20% or above 70% causes health discomfort and impact the office + office equipment.
+   */
+  switch (true) {
+    case ((humidity < 40)):
+      description = "<strong>Niveau d'humidité faible...</strong>" +
+        "<br>Risque de températures plus fraîches et assèchement de l'air de votre habitation." +
+        "<br>Risque d'accumulation d'électricité statique affectant les équipements de bureau électronique." +
+        "<br><strong>Solution :</strong> Utilisez un humidificateur peut aider à obtenir le niveau d'humidité adéquat si <em>dessèchement des yeux, muqueuses et/ou peau, irritation de la peau et gorge</em>.";
+      textColor = "#7e22ce";
+      break;
+    case ((humidity > 65)):
+      description = "<strong>Niveau d'humidité élevée...</strong>" +
+        "<br>Risque de dégradation à long terme des structures de bâtiments et développement de condensation (surfaces et intérieur d'équipements électronique)." +
+        "<br>Risque de développement de moisissures et champignons." +
+        "<br>Les personnes souffrant d'allergies peuvent voir leurs réactions allergiques s'aggraver dû à un milieu plus facilement étouffant !" +
+        "<br><strong>Solution :</strong> Utilisez un absorbeur d'humidité si le </em>niveau d'humidité fréquemment ou constamment trop élevé</em>."
+      textColor = "#b91c1c";
+      break;
+    default:
+      description = "D'après les mesures de l'humidité, il n'y a rien à signaler.";
+      textColor = "inherit";
+
+  }
+  return {text: description, color: textColor};
 }

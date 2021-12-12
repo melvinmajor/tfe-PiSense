@@ -162,7 +162,7 @@ footer #credits {
   font-weight: bold;
 }
 
-.env-label, .aqi-label { font-weight: bold; }
+.env-label, .humInfo-label, .aqi-label { font-weight: bold; }
 .pm-label, .temperature-label, .humidity-label, .pressure-label { font-style: italic; }
 
 .time {

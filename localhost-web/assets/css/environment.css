@@ -11,6 +11,16 @@
 .orange { background-image: linear-gradient(to right bottom, #fde047, #ffc630, #ffac1d, #fd9014, #f97316); }
 .red { background-image: linear-gradient(to right bottom, #fb923c, #ec7831, #dc5d28, #cb4021, #b91c1c); }
 
+.humidity-container-info {
+    border: 1px solid rgba(0, 0, 0, .2);
+    color: #676767;
+    border-radius: 10px;
+    margin: 10px;
+    width: 100%;
+    text-align: center;
+    padding: 6px;
+}
+
 #gas {
     font-weight: bold;
     font-style: italic;
