@@ -7,4 +7,4 @@ sudo apt upgrade -y
 sudo apt install python python3 python-pip python3-pip -y
 
 cd /
-git clone https://github.com/melvinmajor/https://github.com/melvinmajor/tfe-PiSense.git PiSense
+git clone https://github.com/melvinmajor/tfe-PiSense.git PiSense

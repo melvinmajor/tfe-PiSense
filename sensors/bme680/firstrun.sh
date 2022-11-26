@@ -13,4 +13,4 @@ sudo python setup.py install
 sudo pip install bme680
 
 cd /
-git clone https://github.com/melvinmajor/https://github.com/melvinmajor/tfe-PiSense.git PiSense
+git clone https://github.com/melvinmajor/tfe-PiSense.git PiSense
