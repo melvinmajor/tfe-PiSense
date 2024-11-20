@@ -25,6 +25,33 @@ Adapting the code for another microcontroller is possible (like an Arduino for e
 * An established communication between the microcontroller and Home Assistant via MQTT protocol,
 * The integration of the sensors in a Home Assistant dashboard.
 
+## Installation
+
+For early adopters, feel free to follow this tutorial to connect your Raspberry Pi Pico to Arduino: <https://randomnerdtutorials.com/programming-raspberry-pi-pico-w-arduino-ide/>
+
+In Arduino IDE, go into Preferences and enter the following URL into the "Additional Boards Manager URLs" field: <https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json>
+
+You will also need to install couple modules in Arduino:
+
+* Raspberry Pi Pico/RP2040
+* WiFiManager
+* PubSubClient
+
+You will find in the Arduino file a bunch of variables at the beginning, feel free to adapt it to your needs:
+
+```
+// Replace with your WiFi credentials
+const char* ssid = "YourSSID";
+const char* password = "YourPassword";
+
+// MQTT Broker
+const char* mqtt_devicename = "PicoBME680"; // Name of the device in MQTT
+const char* mqtt_server = "192.168.xxx.xxx"; // IP of the MQTT broker (Home Assistant)
+const int mqtt_port = 1883; // Default port of Mosquitto MQTT is 1883. The secure one with SSL/TLS is 8883.
+const char* mqtt_user = "mqttUserName";
+const char* mqtt_password = "mqttPassword";
+```
+
 ## License
 
 This project is, by now on, protected under GNU General Public License v3.0 (see [LICENSE file](../LICENSE)).
@@ -36,4 +63,4 @@ It is only to be sure rights, patents and distribution are well respected based 
 
 ## Built With and For
 
-![Raspberry Pi devices](https://img.shields.io/badge/Raspberry-Pi_Pico-informational?style=for-the-badge&color=c51a4a&logo=raspberry-pi&logoColor=white) ![Python Version](https://img.shields.io/badge/Python-3.12+-informational?style=for-the-badge&color=78909c&logo=python&logoColor=white) ![Home Assistant](https://img.shields.io/badge/Home_Assistant-informational?style=for-the-badge&color=03a9f4&logo=home-assistant&logoColor=white)
+![Raspberry Pi devices](https://img.shields.io/badge/Raspberry-Pi_Pico-informational?style=for-the-badge&color=c51a4a&logo=raspberry-pi&logoColor=white) ![Arduino](https://img.shields.io/badge/Arduino-informational?style=for-the-badge&color=00878F&logo=arduino&logoColor=white) ![Home Assistant](https://img.shields.io/badge/Home_Assistant-informational?style=for-the-badge&color=03a9f4&logo=home-assistant&logoColor=white)
