@@ -16,11 +16,6 @@
 
 #define SEALEVELPRESSURE_HPA (1013.25)
 
-unsigned long lastMeasurementTime = 0;
-const unsigned long measurementInterval = 600000; // 10 minutes
-unsigned long startAttemptTime = 0; // for the reconnection chrono
-const unsigned long connectionTimeout = 60000; // timeout for the reconnection tentative
-
 // Replace with your WiFi credentials
 const char* ssid = "YourSSID";
 const char* password = "YourPassword";
@@ -32,13 +27,44 @@ const int mqtt_port = 1883; // Default port of Mosquitto MQTT is 1883. The secur
 const char* mqtt_user = "mqttUserName";
 const char* mqtt_password = "mqttPassword";
 
+
+unsigned long lastMeasurementTime = 0;
+const unsigned long measurementInterval = 600000; // 10 minutes
+unsigned long startAttemptTime = 0; // for the reconnection chrono
+const unsigned long connectionTimeout = 60000; // timeout for the reconnection tentative
+unsigned long previousBlinkTime = 0; // Store time of last blink
+int blinkCount = 0;  // Count the blink
+int blinkState = LOW;  // Actual state of the LED (on or off)
+unsigned long previousWiFiAttemptTime = 0;
+bool wifiLedState = LOW;
+unsigned long previousReconnectTime = 0;
+unsigned long previousBlinkTimeReconnect = 0;
+unsigned long previousBlinkTimeMeasurement = 0;
+bool blinkMeasurementState = LOW;
+
 Adafruit_BME680 bme; // I2C (default pins for Raspberry Pi Pico: GPIO 4 (SDA), GPIO 5(SCL)
 WiFiClient espClient;
 PubSubClient client(espClient);
 WiFiClientSecure secureClient; // Secured client for SSL/TLS
 
+
+void blinkError(int times) {
+  unsigned long currentMillis = millis();
+  
+  if (blinkCount < times) {
+    if (currentMillis - previousBlinkTime >= 300) {  // If 300ms passed since last blink
+      previousBlinkTime = currentMillis;
+      blinkState = !blinkState;  // Change state of LED (on/off)
+      digitalWrite(LED_BUILTIN, blinkState);
+      
+      if (blinkState == LOW) {
+        blinkCount++;  // Increment count once LED is off
+      }
+    }
+  }
+}
+
 void setup_wifi() {
-  delay(10);
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -46,10 +72,13 @@ void setup_wifi() {
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(100);
-    digitalWrite(LED_BUILTIN, LOW);
-    delay(1000);
+    unsigned long currentMillis = millis();
+
+    if (currentMillis - previousWiFiAttemptTime >= 100) {
+      previousWiFiAttemptTime = currentMillis;
+      digitalWrite(LED_BUILTIN, wifiLedState);
+      wifiLedState = !wifiLedState;  // Change state of the LED every 100ms
+    }
     Serial.print(".");
   }
 
@@ -71,7 +100,6 @@ void checkWiFi() {
   }
 }
 
-
 void reconnect() {
   startAttemptTime = millis(); // init the chrono
   Serial.println("Starting MQTT reconnection process...");
@@ -80,10 +108,11 @@ void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
 
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(100);
-    digitalWrite(LED_BUILTIN, LOW);
-    delay(100);
+    unsigned long currentMillis = millis();
+    if (currentMillis - previousBlinkTimeReconnect >= 100) {
+      previousBlinkTimeReconnect = currentMillis;
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));  // Change state of LED
+    }
     
     // Attempt to connect
     if (client.connect(mqtt_devicename, mqtt_user, mqtt_password)) {
@@ -104,12 +133,38 @@ void reconnect() {
   }
 }
 
+void callback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Message from topic: ");
+  Serial.println(topic);
+  
+  // Convert payload to varchar
+  char message[length + 1];  // Add 1 for the end chararcter '\0'
+  for (unsigned int i = 0; i < length; i++) {
+    message[i] = (char)payload[i];
+  }
+  message[length] = '\0';  // End chain
+  
+  // Check message and execute related action
+  if (strcmp(message, "ON") == 0) {
+    digitalWrite(LED_BUILTIN, HIGH);  // Turn on LED
+    Serial.println("LED ON");
+  } else if (strcmp(message, "OFF") == 0) {
+    digitalWrite(LED_BUILTIN, LOW);  // Turn off LED
+    Serial.println("LED OFF");
+  } else {
+    Serial.println("Unrecognized command from broker...");
+  }
+}
+
+
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
 
   setup_wifi();
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
 
   Serial.begin(115200);
   while (!Serial);
@@ -158,10 +213,11 @@ void loop() {
     // Blink during process
     unsigned long startTime = millis();
     while (millis() < endTime) {
-      digitalWrite(LED_BUILTIN, HIGH);
-      delay(100);
-      digitalWrite(LED_BUILTIN, LOW);
-      delay(100);
+      if (millis() - previousBlinkTimeMeasurement >= 100) {
+        previousBlinkTimeMeasurement = millis();
+        blinkMeasurementState = !blinkMeasurementState;
+        digitalWrite(LED_BUILTIN, blinkMeasurementState);
+      }
     }
 
     // Obtain measurement results from BME680
@@ -172,18 +228,19 @@ void loop() {
       return;
     }
 
+    // Indicate success with a quick LED blink
     digitalWrite(LED_BUILTIN, HIGH);
-    delay(500); // LED lights up briefly to indicate success
+    delay(100);
     digitalWrite(LED_BUILTIN, LOW);
 
     // Push sensor data to MQTT
     String payload = "{";
     payload += "\"temperature\":";
     payload += bme.temperature;
-    payload += ",\"pressure\":";
-    payload += bme.pressure / 100.0;
     payload += ",\"humidity\":";
     payload += bme.humidity;
+    payload += ",\"pressure\":";
+    payload += bme.pressure / 100.0;
     payload += ",\"gas\":";
     payload += bme.gas_resistance / 1000.0;
     payload += "}";
@@ -193,17 +250,17 @@ void loop() {
     Serial.println(payload);
 
     // Print data via serial port just in case
-    Serial.print(F("Temperature = "));
+    Serial.print(F("Temp = "));
     Serial.print(bme.temperature);
-    Serial.println(F(" *C"));
-
-    Serial.print(F("Pressure = "));
-    Serial.print(bme.pressure / 100.0);
-    Serial.println(F(" hPa"));
+    Serial.print(F(" *C - "));
 
     Serial.print(F("Humidity = "));
     Serial.print(bme.humidity);
-    Serial.println(F(" %"));
+    Serial.print(F(" % - "));
+
+    Serial.print(F("Pressure = "));
+    Serial.print(bme.pressure / 100.0);
+    Serial.print(F(" hPa - "));
 
     Serial.print(F("Gas = "));
     Serial.print(bme.gas_resistance / 1000.0);
@@ -215,14 +272,5 @@ void loop() {
 
     Serial.println();
     digitalWrite(LED_BUILTIN, LOW); // turn the LED off by making the voltage LOW
-  }
-}
-
-void blinkError(int times) {
-  for (int i = 0; i < times; i++) {
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(300);
-    digitalWrite(LED_BUILTIN, LOW); // turn the LED off by making the voltage LOW
-    delay(300);
   }
 }
