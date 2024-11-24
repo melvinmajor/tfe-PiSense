@@ -26,11 +26,17 @@ const char* mqtt_server = "192.168.xxx.xxx"; // IP of the MQTT broker (Home Assi
 const int mqtt_port = 1883; // Default port of Mosquitto MQTT is 1883. The secure one with SSL/TLS is 8883.
 const char* mqtt_user = "mqttUserName";
 const char* mqtt_password = "mqttPassword";
+const char* availabilityTopic = "home/pisense/status";
 
 
+const unsigned long measurementInterval = 300000; // 5 minutes
 unsigned long lastMeasurementTime = 0;
-const unsigned long measurementInterval = 600000; // 10 minutes
+bool firstRunOrReconnect = true;
+unsigned long lastStatusUpdateTime = 0;
+const unsigned long statusUpdateInterval = 60000; // 1 minute
 unsigned long startAttemptTime = 0; // for the reconnection chrono
+unsigned long reconnectDelay = 1000; // Start with 1 second
+const unsigned long maxReconnectDelay = 10000; // Maximum delay is 10 seconds
 const unsigned long connectionTimeout = 60000; // timeout for the reconnection tentative
 unsigned long previousBlinkTime = 0; // Store time of last blink
 int blinkCount = 0;  // Count the blink
@@ -47,6 +53,14 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 WiFiClientSecure secureClient; // Secured client for SSL/TLS
 
+
+void blinkLED(unsigned long interval) {
+    if (millis() - previousBlinkTime >= interval) {
+        previousBlinkTime = millis();
+        blinkState = !blinkState;
+        digitalWrite(LED_BUILTIN, blinkState);
+    }
+}
 
 void blinkError(int times) {
   unsigned long currentMillis = millis();
@@ -97,6 +111,7 @@ void checkWiFi() {
       Serial.print(".");
     }
     Serial.println("WiFi reconnected!");
+    firstRunOrReconnect = true;
   }
 }
 
@@ -106,7 +121,7 @@ void reconnect() {
 
   // Loop until we're reconnected or timeout reached
   while (!client.connected()) {
-    Serial.print("Attempting MQTT connection...");
+    Serial.print("Attempting MQTT connection... ");
 
     unsigned long currentMillis = millis();
     if (currentMillis - previousBlinkTimeReconnect >= 100) {
@@ -114,15 +129,22 @@ void reconnect() {
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));  // Change state of LED
     }
     
-    // Attempt to connect
-    if (client.connect(mqtt_devicename, mqtt_user, mqtt_password)) {
+    // Attempt to connect and define disponibility message (birth) + LWT
+    if (client.connect(mqtt_devicename, mqtt_user, mqtt_password, availabilityTopic, 1, true, "offline")) {
       Serial.println("Connected!");
-      client.subscribe("home/pico/command"); // Resubscribe to topic
+      client.publish(availabilityTopic, "online", true);
+      client.subscribe("home/pisense/command"); // Resubscribe to topic
     } else {
       Serial.print("Failed to connect, state ");
       Serial.println(client.state());
       blinkError(3); // Blink 3 times to show there is an error
-      delay(10000); // 10 seconds wait before retrying
+
+      if (!client.connected()) {
+        reconnectDelay = (reconnectDelay * 2 > maxReconnectDelay) ? maxReconnectDelay : reconnectDelay * 2;
+        delay(reconnectDelay);
+      } else {
+        reconnectDelay = 1000; // Reset delay on successful connection
+      }
 
       // Timeout after 60 seconds
       if (millis() - startAttemptTime > connectionTimeout) {
@@ -156,24 +178,113 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
 }
 
+void sendDiscoveryPayloads() {
+  String tempPayload = R"({
+    "name": "PiSense Temperature",
+    "state_topic": "home/pisense/bme680",
+    "unit_of_measurement": "°C",
+    "value_template": "{{ value_json.temperature }}",
+    "device_class": "temperature",
+    "unique_id": "bme680_temperature",
+    "availability_topic": "home/pisense/status",
+    "device": {
+      "identifiers": ["bme680"],
+      "name": "PiSense",
+      "model": "BME680",
+      "manufacturer": "Bosch"
+  })";
+  client.publish("homeassistant/sensor/pisense_temperature/config", tempPayload.c_str(), true);
+
+  String humPayload = R"({
+    "name": "PiSense Humidity",
+    "state_topic": "home/pisense/bme680",
+    "unit_of_measurement": "%",
+    "value_template": "{{ value_json.humidity }}",
+    "device_class": "humidity",
+    "unique_id": "bme680_humidity",
+    "availability_topic": "home/pisense/status",
+    "device": {
+      "identifiers": ["bme680"],
+      "name": "PiSense",
+      "model": "BME680",
+      "manufacturer": "Bosch"
+  })";
+  client.publish("homeassistant/sensor/pisense_humidity/config", humPayload.c_str(), true);
+
+  String pressPayload = R"({
+    "name": "PiSense Pressure",
+    "state_topic": "home/pisense/bme680",
+    "unit_of_measurement": "hPa",
+    "value_template": "{{ value_json.pressure }}",
+    "device_class": "pressure",
+    "unique_id": "bme680_pressure",
+    "availability_topic": "home/pisense/status",
+    "device": {
+      "identifiers": ["bme680"],
+      "name": "PiSense",
+      "model": "BME680",
+      "manufacturer": "Bosch"
+  })";
+  client.publish("homeassistant/sensor/pisense_pressure/config", pressPayload.c_str(), true);
+
+  String gasPayload = R"({
+    "name": "PiSense Gas Resistance",
+    "state_topic": "home/pisense/bme680",
+    "unit_of_measurement": "kOhms",
+    "value_template": "{{ value_json.gas }}",
+    "unique_id": "bme680_gas_resistance",
+    "availability_topic": "home/pisense/status",
+    "device": {
+      "identifiers": ["bme680"],
+      "name": "PiSense",
+      "model": "BME680",
+      "manufacturer": "Bosch"
+  })";
+  client.publish("homeassistant/sensor/pisense_gas_resistance/config", gasPayload.c_str(), true);
+}
+
+// Send real sensor data
+void sendSensorData() {
+  String payload = "{";
+  payload += "\"temperature\":";
+  payload += bme.temperature;
+  payload += ",\"humidity\":";
+  payload += bme.humidity;
+  payload += ",\"pressure\":";
+  payload += bme.pressure / 100.0;
+  payload += ",\"gas\":";
+  payload += bme.gas_resistance / 1000.0;
+  payload += "}";
+
+  client.publish("home/pisense/bme680", payload.c_str(), true);
+  Serial.println("Published data to MQTT: ");
+  Serial.println(payload);
+}
+
 
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
 
+  Serial.begin(115200);
+  while (!Serial);
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 
-  Serial.begin(115200);
-  while (!Serial);
   Serial.println(F("BME680 async test"));
 
   if (!bme.begin(0x76)) { // If 0x77 does not work, try 0x76
     Serial.println(F("Could not find a valid BME680 sensor, check wiring!"));
     blinkError(3); // Blink 3 times to show there is an error
     while (1);
+  }
+
+  // Once connected, send MQTT discovery payload
+  if (client.connected()) {
+    sendDiscoveryPayloads();
+    client.publish("home/pisense/status", "online", true);
   }
 
   Serial.println("BME680 detected!");
@@ -197,7 +308,16 @@ void loop() {
 
   // Chrono to perform new measure
   unsigned long currentTime = millis();
-  if (currentTime - lastMeasurementTime >= measurementInterval) {
+  if (currentTime - lastStatusUpdateTime >= statusUpdateInterval) {
+    lastStatusUpdateTime = currentTime;
+    client.publish("home/pisense/status", "online", true);
+  }
+  if (firstRunOrReconnect || currentTime - lastMeasurementTime >= measurementInterval) {
+    if(firstRunOrReconnect){
+      firstRunOrReconnect = false; // Deactivate special condition
+      Serial.print("First run or recently reconnected - ");
+    }
+    Serial.println("Starting measurement...");
     lastMeasurementTime = currentTime; // Reinit the chrono
 
     digitalWrite(LED_BUILTIN, HIGH);
@@ -205,7 +325,7 @@ void loop() {
     // Begin BME680 measurement
     unsigned long endTime = bme.beginReading();
     if (endTime == 0) {
-      Serial.println(F("Failed to begin reading..."));
+      Serial.println(F("Failed to begin reading... Check sensor connection."));
       blinkError(3); // Blink 3 times to show there is an error
       return;
     }
@@ -223,31 +343,18 @@ void loop() {
     // Obtain measurement results from BME680
     // Note that this operation isn't instantaneous even if milli() >= endTime due to I2C/SPI latency.
     if (!bme.endReading()) {
-      Serial.println(F("Failed to perform the reading..."));
+      Serial.println(F("Failed to fetch results from sensor..."));
       blinkError(3); // Blink 3 times to show there is an error
       return;
     }
 
     // Indicate success with a quick LED blink
+    Serial.println("Measurement successful. Preparing to publish data...");
     digitalWrite(LED_BUILTIN, HIGH);
     delay(100);
     digitalWrite(LED_BUILTIN, LOW);
 
-    // Push sensor data to MQTT
-    String payload = "{";
-    payload += "\"temperature\":";
-    payload += bme.temperature;
-    payload += ",\"humidity\":";
-    payload += bme.humidity;
-    payload += ",\"pressure\":";
-    payload += bme.pressure / 100.0;
-    payload += ",\"gas\":";
-    payload += bme.gas_resistance / 1000.0;
-    payload += "}";
-
-    client.publish("home/pico/bme680", payload.c_str());
-    Serial.println("Published data to MQTT: ");
-    Serial.println(payload);
+    sendSensorData();
 
     // Print data via serial port just in case
     Serial.print(F("Temp = "));

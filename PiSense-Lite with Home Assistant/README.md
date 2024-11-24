@@ -51,6 +51,22 @@ const int mqtt_port = 1883; // Default port of Mosquitto MQTT is 1883. The secur
 const char* mqtt_user = "mqttUserName";
 const char* mqtt_password = "mqttPassword";
 ```
+**Be sure you have MQTT installed on your Home Assistant as well as Mosquitto broker.**
+
+In your Home Assistant, open the file editor and edit `configuration.yaml` to include the following:
+
+```
+mqtt:
+  sensor:
+    - name: "PiSense Temperature"
+      state_topic: "home/pisense/bme680"
+    - name: "PiSense Humidity"
+      state_topic: "home/pisense/bme680"
+    - name: "PiSense Pressure"
+      state_topic: "home/pisense/bme680"
+    - name: "PiSense Gas Resistance"
+      state_topic: "home/pisense/bme680"
+```
 
 ## License
 
