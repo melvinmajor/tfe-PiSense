@@ -58,12 +58,21 @@ Apparently, it also has an impact on an easier drop in temperature which facilit
 * Humidity level above 70% may develop condensation on surfaces and within the interior of some equipment and building structures. If threatened, these areas can develop mould and fungi but also makes the area feel stuffy.
 People with allergies may see their allergic reactions possibly worsening.
 
+### Revival of the project (PiSense Lite, starting Q4 2024)
+
+After taking a break from the project, I decided to work back on it with a lighter version, designed to be used in combination with a Home Assistant system.
+
+If you are not aware, Home Assistant is an open source home automation system that puts local control and privacy first.
+The project, from the Open Home Foundation, is stored on [GitHub](https://github.com/home-assistant) and their own [website](https://www.home-assistant.io/).
+
+This revival, is stored under [PiSense-Lite with Home Assistant](PiSense-Lite%20with%20Home%20Assistant/) folder.
+
 ## License
 
 This project is, by now on, protected under GNU General Public License v3.0 (see [LICENSE file](LICENSE)).
 It's made available on GitHub for "documentation" purpose.
 
-Anyway, if you want to distribute it and/or use it commercially, please reach me before doing anything.
+If you want to distribute it and/or use it commercially, please reach me before doing anything.
 This condition is here since the very start of this repository project and is not meant to block the usage of my code.
 It is only to be sure rights, patents and distribution are well respected based on me, the author.
 
